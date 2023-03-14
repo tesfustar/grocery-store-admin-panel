@@ -1,13 +1,9 @@
-import React from 'react'
-import NoAuthRoute from './routes/NoAuthRoute'
-import AuthRoutes from './routes/AuthRoutes'
+import React from "react";
+import NoAuthRoute from "./routes/NoAuthRoute";
+import AuthRoutes from "./routes/AuthRoutes";
 const App = () => {
-  return (
-   <>
-   
-   </>
+  const user = null;
+  return <></>;
+};
 
-  )
-}
-
-export default App
+export default App;
