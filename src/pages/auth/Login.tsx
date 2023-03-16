@@ -7,7 +7,6 @@ import { GiGamepadCross } from "react-icons/gi";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useValidPhone from "../hooks/useValidphone";
-
 const Login = () => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
