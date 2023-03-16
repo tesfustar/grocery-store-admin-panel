@@ -1,7 +1,7 @@
 import React from 'react'
 import NoAuthRoute from './routes/NoAuthRoute'
 import AuthRoutes from './routes/AuthRoutes'
-import Category from './pages/categry/Category'
+import Category from './pages/category/Category'
 const App = () => {
   return (
    <>
