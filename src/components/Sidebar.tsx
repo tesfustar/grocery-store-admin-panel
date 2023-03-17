@@ -6,11 +6,11 @@ import { useHome } from "../context/HomeContext";
 
 const Sidebar: React.FC = () => {
   const { sideBarLinks, logout } = useAuth();
-  const { isOpen, isSideBarOpen } = useHome()
+  const { isOpen, isSideBarOpen } = useHome();
   const activeLink = `flex items-center ${
     !isSideBarOpen && "justify-center"
   } bg-main-bg 
-       gap-3 text-white font-light p-2 rounded-sm ${isSideBarOpen && "m-2"}`;
+       gap-3 text-white font-light p-2 rounded-md ${isSideBarOpen && "m-2"}`;
 
   const normalLink = `flex items-center  duration-500 gap-3 ${
     isSideBarOpen ? "pl-2 " : "justify-center my-5"

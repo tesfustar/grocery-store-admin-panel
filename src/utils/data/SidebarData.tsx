@@ -8,7 +8,7 @@ import {
 import { AiTwotoneShop, AiFillSetting } from "react-icons/ai";
 import { SiLogstash } from "react-icons/si";
 import { BiCategory } from "react-icons/bi";
-import { MdHomeWork, MdRealEstateAgent, MdNotifications } from "react-icons/md";
+import {MdLocalGroceryStore, MdHomeWork, MdRealEstateAgent, MdNotifications } from "react-icons/md";
 import { RiAdvertisementFill, RiHome8Fill, RiHome7Fill } from "react-icons/ri";
 import { GiVerticalBanner } from "react-icons/gi";
 import { ImOffice } from "react-icons/im";
@@ -33,7 +33,7 @@ export const AdminSideBar = [
       },
       {
         name: "categories",
-        link: "category",
+        link: "categories",
         icon: <BiCategory size={19} className=" text-[#bdcadf]" />,
       },
       {
@@ -46,7 +46,11 @@ export const AdminSideBar = [
         link: "deliveries",
         icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
       },
-
+      {
+        name: "orders",
+        link: "orders",
+        icon: <MdLocalGroceryStore size={18} className=" text-[#bdcadf]" />,
+      },
       {
         name: "banks",
         link: "banks",

@@ -5,7 +5,7 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useHome } from "../context/HomeContext";
 import SmallSidebar from "../components/SmallSidebar";
 import Category from "../pages/category/Category";
-import AdminRoutes from "./AdminRoutes";
+import { AdminRoute } from "./routes";
 const AuthRoutes = () => {
   const { sideBar, role } = useAuth();
   const {
@@ -60,7 +60,7 @@ const AuthRoutes = () => {
       >
         <NavBar />
         
-        <AdminRoutes />
+        <AdminRoute />
       </div>
     </div>
   );
