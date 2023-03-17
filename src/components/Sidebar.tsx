@@ -2,12 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { ImOffice } from "react-icons/im";
 import { useAuth } from "../context/AuthContext";
-interface Props {
-  isOpen?: boolean;
-  isSideBarOpen?: boolean;
-}
-const Sidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
+import { useHome } from "../context/HomeContext";
+
+const Sidebar: React.FC = () => {
   const { sideBarLinks, logout } = useAuth();
+  const { isOpen, isSideBarOpen } = useHome()
   const activeLink = `flex items-center ${
     !isSideBarOpen && "justify-center"
   } bg-main-bg 

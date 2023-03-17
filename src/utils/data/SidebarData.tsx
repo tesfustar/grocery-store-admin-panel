@@ -27,8 +27,8 @@ export const AdminSideBar = [
     title: "Lists",
     links: [
       {
-        name: "listings",
-        link: "listings",
+        name: "products",
+        link: "products",
         icon: <MdRealEstateAgent size={18} className=" text-[#bdcadf]" />,
       },
       {
@@ -37,20 +37,16 @@ export const AdminSideBar = [
         icon: <BiCategory size={19} className=" text-[#bdcadf]" />,
       },
       {
-        name: "subCategory",
-        link: "subCategory",
-        icon: <BiCategory size={19} className=" text-[#bdcadf]" />,
-      },
-      {
-        name: "users",
-        link: "users",
+        name: "customers",
+        link: "customers",
         icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
       },
       {
-        name: "featured listings",
-        link: "featured",
-        icon: <FaBuysellads size={18} className=" text-[#bdcadf]" />,
+        name: "deliveries",
+        link: "deliveries",
+        icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
       },
+
       {
         name: "banks",
         link: "banks",

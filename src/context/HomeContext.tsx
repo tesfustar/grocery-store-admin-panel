@@ -50,7 +50,9 @@ export default function HomeProvider({
         setIsOpen,
         isOpen,
         isSmallScreen,
-        activeMenu
+        activeMenu,
+        setActiveMenu,
+        screenSize,
       }}
     >
       {children}
