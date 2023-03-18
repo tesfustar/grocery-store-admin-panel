@@ -7,12 +7,14 @@ interface Props {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setEditCategoryId: React.Dispatch<React.SetStateAction<string | null>>;
   editCategoryId: string | null;
+  setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const AddCategoryModal = ({
   setIsModalOpen,
   isModalOpen,
   editCategoryId,
   setEditCategoryId,
+  setStateChange,
 }: Props) => {
   return (
     <>
@@ -50,7 +52,9 @@ const AddCategoryModal = ({
                     <FaTimes
                       onClick={() => {
                         setIsModalOpen(false);
-                        setEditCategoryId(null);
+                        setTimeout(() => {
+                          setEditCategoryId(null);
+                        }, 1000);
                       }}
                       className="w-fit text-lg text-gray-700 cursor-pointer"
                     />
@@ -60,6 +64,7 @@ const AddCategoryModal = ({
                     isModalOpen={isModalOpen}
                     setEditCategoryId={setEditCategoryId}
                     editCategoryId={editCategoryId}
+                    setStateChange={setStateChange}
                   />
                 </Dialog.Panel>
               </Transition.Child>

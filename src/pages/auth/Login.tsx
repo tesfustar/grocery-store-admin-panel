@@ -7,13 +7,15 @@ import { GiGamepadCross } from "react-icons/gi";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useValidPhone from "../hooks/useValidphone";
+import { useAuth } from "../../context/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [phone, setPhone] = useValidPhone();
-  //   const { login } = useAuth();
+  const { login, token, user } = useAuth();
+  console.log(user, token);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -27,9 +29,13 @@ const Login = () => {
   //POST REQUEST
   const loginMutation = useMutation(
     async (newData: any) =>
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}login`, newData, {
-        headers,
-      }),
+      await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in`,
+        newData,
+        {
+          headers,
+        }
+      ),
     {
       retry: false,
     }
@@ -39,15 +45,17 @@ const Login = () => {
     try {
       loginMutation.mutate(
         {
-          phone: "251".concat(phone as string),
+          phone: Number("251".concat(phone as string)),
           password: passwordRef.current?.value,
         },
         {
           onSuccess: (responseData: any) => {
-            // login(
-            //   responseData?.data?.data?.token,
-            //   responseData?.data?.data?.user
-            // );
+            console.log(responseData?.data);
+            login(
+              responseData?.data?.token,
+              responseData?.data?.user?.role,
+              responseData?.data?.user
+            );
           },
           onError: (err: any) => {
             setError("Incorrect phone or Password");
