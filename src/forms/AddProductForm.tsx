@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -9,44 +9,210 @@ import {
 } from "firebase/storage";
 import app from "../utils/data/firebase";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Select, { StylesConfig } from "react-select";
+import Dropzone from "react-dropzone";
+import { MdDelete } from "react-icons/md";
+import upload from "../assets/upload.jpg";
 interface ProductFormProps {
+  category: string;
   name: string;
   nameAm: string;
   description: string;
-  image: Array<string>;
+  descriptionAm: string;
+  image: Array<any>;
   price: string;
 }
 const AddProductForm = () => {
+  const { token } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState<ProductFormProps>();
+  const [category, setCategory] = useState<Array<any>>([]);
+  const [imageUrls, setImageUrls] = useState<Array<string>>([]);
+  const [images, setImages] = useState<Array<any>>([]);
   const productValidationSchema = Yup.object().shape({
+    category: Yup.string().required("category name is required!"),
     name: Yup.string().required("product name is required!"),
     nameAm: Yup.string().required("product amharic name is required!"),
-    description: Yup.string().required("product description is required!"),
+    description: Yup.string().required("product  description is required!"),
+    descriptionAm: Yup.string().required(
+      "product amharic description is required!"
+    ),
     image: Yup.array().min(1).required("at least one image is required."),
     price: Yup.number().required("product name is required!"),
   });
 
   const initialValues: ProductFormProps = {
+    category: "",
     name: "",
     nameAm: "",
     description: "",
+    descriptionAm: "",
     image: [],
     price: "",
   };
 
+  //fetch categories
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  //fetch categories
+  const categoryData = useQuery(
+    ["categoryData"],
+    async () =>
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}category`, {
+        headers,
+      }),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!token,
+      onSuccess: (res) => {
+        setCategory(res?.data?.data);
+      },
+    }
+  );
+
+  const customStyles: StylesConfig = {
+    control: (base, state) => ({
+      ...base,
+      background: "#fff",
+      borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
+      borderColor: state.isFocused ? "#d1d5db" : "#d1d5db",
+      color: "#1f2937",
+      padding: 2,
+      fontWeight: "500",
+    }),
+    menu: (base) => ({
+      ...base,
+      color: "#1f2937",
+      fontWeight: "500",
+    }),
+    menuList: (base, state) => ({
+      ...base,
+      background: "#fff",
+      color: "#1f2937",
+      fontWeight: "500",
+    }),
+    option: (base, state) => ({
+      ...base,
+      background: "white",
+      color: "#1f2937",
+      fontWeight: "500",
+    }),
+    singleValue: (base, state) => ({
+      ...base,
+      color: "#1f2937",
+    }),
+    input: (base, state) => ({
+      ...base,
+      border: "none",
+      outline: "none",
+      fontWeight: "500",
+    }),
+  };
+
+  const createProduct = (values: ProductFormProps) => {
+    setIsLoading(true);
+    const promises: any = [];
+    values?.image.map((file) => {
+      const storage = getStorage(app);
+      const storageRef = ref(storage, `files/${file.name}`);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          console.log(prog);
+        },
+        (error) => console.log(error),
+        async () => {
+          await getDownloadURL(uploadTask.snapshot.ref).then((downloadURLs) => {
+            setImageUrls((prevState) => [...prevState, downloadURLs]);
+            console.log("File available at", downloadURLs);
+          });
+        }
+      );
+    });
+    Promise.all(promises)
+      .then(() => {
+        // setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    if (imageUrls.length > 0 && imageUrls.length === images?.length) {
+      createProductMutationHandler();
+    }
+  }, [imageUrls]);
+
+  const createProductMutation = useMutation(
+    async ({
+      name,
+      nameAm,
+      description,
+      discriptionAm,
+      price,
+      category,
+      image,
+    }: any) =>
+      await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}product/create`,
+        { name, nameAm, image },
+        {
+          headers,
+        }
+      ),
+    {
+      retry: false,
+    }
+  );
+  const createProductMutationHandler = async () => {
+    try {
+      createProductMutation.mutate(
+        {
+          category: formValues?.category,
+          name: formValues!.name,
+          nameAm: formValues!.nameAm,
+          image: imageUrls,
+          description: formValues?.description,
+          descriptionAm: formValues?.descriptionAm,
+          wholeSalePrice: formValues?.price,
+          availableQuantity: 10,
+        },
+        {
+          onSuccess: (res: any) => {
+            console.log(res);
+          },
+          onError: (err) => {},
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="py-5">
       <Formik
         initialValues={initialValues}
-        onSubmit={(val) => console.log(val)}
+        onSubmit={(val) => {
+          createProduct(val);
+          setFormValues(val);
+        }}
         validationSchema={productValidationSchema}
       >
-        {({ values, setFieldValue, touched, errors }) => (
-          <Form className="flex flex-col items-start space-y-1 w-full ">
+        {({ values, setFieldValue, touched, errors, handleChange }) => (
+          <Form className="flex flex-col items-start space-y-2 w-full ">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
               <div className="w-full">
                 <Field
@@ -80,15 +246,177 @@ const AddProductForm = () => {
                 ) : null}
               </div>
             </div>
+            {/* price and category */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+              <div className="w-full">
+                <Field
+                  type={"number"}
+                  as={"input"}
+                  name="price"
+                  placeholder="Product Price"
+                  className={`rounded-sm w-full  focus:outline-none  p-2 text-dark-gray  ${
+                    errors.price && touched.price
+                      ? "border border-red-600"
+                      : "border border-gray-300  "
+                  }`}
+                />
+                {errors.price && touched.price ? (
+                  <p className="text-[13px] text-red-500">{errors.price}</p>
+                ) : null}
+              </div>
+              {/* category */}
+              <div className="w-full">
+                <Select
+                  isSearchable={false}
+                  styles={customStyles}
+                  placeholder={"select bathroom"}
+                  // value={values.bathroom}
+                  onChange={(selectedOption: any) => {
+                    handleChange("category")(selectedOption._id);
+                  }}
+                  getOptionLabel={(categories: any) => categories.name}
+                  getOptionValue={(categories: any) => categories._id}
+                  className="w-full font-semibold"
+                  options={category}
+                  name="category"
+                  isLoading={false}
+                  noOptionsMessage={() => "category appears here"}
+                />
+                {errors.category && touched.category ? (
+                  <p className="text-[13px] text-red-500">{errors.category}</p>
+                ) : null}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+              {/* description */}
+              <div className="w-full">
+                <Field
+                  as={"textarea"}
+                  name="description"
+                  placeholder="Product Description"
+                  className={`rounded-sm w-full h-28 focus:outline-none  p-2 text-dark-gray  ${
+                    errors.description && touched.description
+                      ? "border border-red-600"
+                      : "border border-gray-300  "
+                  }`}
+                />
+                {errors.description && touched.description ? (
+                  <p className="text-[13px] text-red-500">
+                    {errors.description}
+                  </p>
+                ) : null}
+              </div>
+              {/* discription amh */}
+              <div className="w-full">
+                <Field
+                  as={"textarea"}
+                  name="descriptionAm"
+                  placeholder="Amharic Product Description"
+                  className={`rounded-sm w-full h-28 focus:outline-none  p-2 text-dark-gray  ${
+                    errors.descriptionAm && touched.descriptionAm
+                      ? "border border-red-600"
+                      : "border border-gray-300  "
+                  }`}
+                />
+                {errors.descriptionAm && touched.descriptionAm ? (
+                  <p className="text-[13px] text-red-500">
+                    {errors.descriptionAm}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+            <div className="w-full">
+              {/* product image */}
+              <Dropzone
+                // style={dropzoneStyle}
+                // accept="image/*"
+                onDrop={(acceptedFiles) => {
+                  // do nothing if no files
+                  if (acceptedFiles.length === 0) {
+                    return;
+                  }
 
+                  // on drop we add to the existing files
+                  setFieldValue("image", values.image.concat(acceptedFiles));
+                  const imageArray = acceptedFiles.map((item) =>
+                    URL.createObjectURL(item)
+                  );
+                  setImages((prevImages) => prevImages.concat(imageArray));
+                }}
+              >
+                {({
+                  isDragActive,
+                  isDragReject,
+                  acceptedFiles,
+                  getRootProps,
+                  getInputProps,
+                }) => (
+                  <section className="w-full flex flex-col items-start space-y-2">
+                    <div
+                      {...getRootProps()}
+                      className={`border-2 ${
+                        errors.image && touched.image
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }  border-dashed rounded-md cursor-pointer
+                      w-full p-12 flex flex-col md:flex-row items-center space-x-3 justify-center bg-white`}
+                    >
+                      <input {...getInputProps()} />
+                      <img src={upload} alt="" className="h-36" />
+                      <div>
+                        <h2 className="font-semibold text-xl text-dark-gray dark:text-gray-300">
+                          Drop or Select Product Images
+                        </h2>
+                        <p className="font-bold text-sm text-dark-gray dark:text-gray-400">
+                          Drag 'n' drop some Images here, or click to select
+                          Images
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center flex-wrap ">
+                      {images?.map((img, i) => (
+                        <div key={i} className="relative pl-1 pb-1">
+                          <img
+                            src={img}
+                            alt=""
+                            className="h-24 w-28 object-cover rounded-md "
+                          />
+                          <button
+                            className="bg-white rounded-l-lg p-1 text-sm text-white
+                             absolute top-3 right-0"
+                            onClick={() => {
+                              setImages(images.filter((e) => e !== img));
+                              setFieldValue(
+                                "image",
+                                images.filter((e) => e !== img)
+                              );
+                            }}
+                          >
+                            <MdDelete size={20} className="text-red-500" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+              {errors.image && touched.image ? (
+                <p className="text-[13px] text-red-500">
+                  {typeof errors.image === "string" && errors.image}
+                </p>
+              ) : null}
+            </div>
             <div className="flex items-end justify-end w-full">
-            <button
-              type="submit"
-              className=" bg-main-bg rounded-sm hover:bg-main-bg/70 flex items-center justify-center 
+              <button
+                disabled={createProductMutation.isLoading || isLoading}
+                type="submit"
+                className=" bg-main-bg rounded-sm hover:bg-main-bg/70 flex items-center justify-center 
               text-white font-medium p-3 px-10"
-            >
-              Create
-            </button>
+              >
+                {createProductMutation.isLoading || isLoading
+                  ? "Loading"
+                  : "Create"}
+              </button>
             </div>
           </Form>
         )}

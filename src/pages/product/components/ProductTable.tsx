@@ -15,23 +15,19 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 interface Props {
-  categories: Array<object>;
+  products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditCategoryId: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const CategoryTable = ({
-  categories,
+const ProductTable = ({
+  products,
   setStateChange,
-  setEditCategoryId,
-  setIsModalOpen,
 }: Props) => {
   const columns: GridColDef[] = [
-    { field: "index", headerName: "ID", width: 110 },
+    { field: "index", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Name",
-      width: 170,
+      width: 120,
       sortable: false,
       filterable: false,
       headerClassName: "super-app-theme--header",
@@ -41,19 +37,35 @@ const CategoryTable = ({
       headerName: "amharic name",
       sortable: false,
       filterable: false,
-      width: 170,
+      width: 140,
       headerClassName: "super-app-theme--header",
     },
+    {
+        field: "wholeSalePrice",
+        headerName: "wholeSalePrice",
+        sortable: false,
+        filterable: false,
+        width: 170,
+        headerClassName: "super-app-theme--header",
+      },
+      {
+        field: "availableQuantity",
+        headerName: "availableQuantity",
+        sortable: false,
+        filterable: false,
+        width: 170,
+        headerClassName: "super-app-theme--header",
+      },
     {
       field: "image",
       headerName: "Image",
       sortable: false,
       filterable: false,
-      width: 200,
+      width: 130,
       renderCell: (params: GridCellParams) => {
         return (
           <img
-            src={params.row.image}
+            src={params.row.image[0]}
             alt=""
             className="h-11 w-11 rounded-sm object-cover"
           />
@@ -65,7 +77,7 @@ const CategoryTable = ({
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 300,
+      width: 180,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
@@ -77,10 +89,7 @@ const CategoryTable = ({
               Delete
             </button>
             <button
-              onClick={() => {
-                setEditCategoryId(params.row._id);
-                setIsModalOpen(true);
-              }}
+              onClick={() => {}}
               className="bg-main-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
@@ -141,22 +150,24 @@ const CategoryTable = ({
       console.log(err);
     }
   };
+
   return (
     <div style={{ height: 530 }}>
       <DataGrid
-        rows={categories}
+        rows={products}
         columns={columns}
         getRowId={(row) => row._id}
         pagination
-        pageSize={10}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
+        disableRowSelectionOnClick
+        pageSizeOptions={[5, 10, 25]}
         components={{
           Pagination: CustomPagination,
         }}
+        disableColumnMenu={true}
+        disableColumnSelector
       />
     </div>
   );
 };
 
-export default CategoryTable;
+export default ProductTable;

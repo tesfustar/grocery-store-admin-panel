@@ -4,7 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategoryTable from "./components/CategoryTable";
 import ReactLoading from "react-loading";
+import { useAuth } from "../../context/AuthContext";
+import { buttonStyle } from "../../styles/Style";
 const Category: React.FC = () => {
+  const {token} = useAuth();
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [categories, setCategories] = useState<Array<object>>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -12,7 +15,7 @@ const Category: React.FC = () => {
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
-    // Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${token}`,
   };
   //fetch categories
   const categoryData = useQuery(
@@ -25,7 +28,7 @@ const Category: React.FC = () => {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: false,
-      // enabled: !!token,
+      enabled: !!token,
       onSuccess: (res) => {
         setCategories(
           res?.data?.data?.map((data: object, index: number) => ({
@@ -42,7 +45,7 @@ const Category: React.FC = () => {
         <h1 className="font-semibold text-dark-gray">Categories</h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-main-bg p-2 px-5 rounded-sm text-white text-sm font-medium hover:bg-main-bg/90"
+          className={buttonStyle}
         >
           Add Category
         </button>
