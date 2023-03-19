@@ -13,6 +13,7 @@ export const AdminRoute=()=>{
     <Route path="/categories" element={<Category />} />
     <Route path="/products" element={<Product />} />
     <Route path="/add-product" element={<AddProduct />} />
+    <Route path="/add-product/:id" element={<AddProduct />} />
   </Routes>
    )
 }

@@ -19,10 +19,8 @@ const Navbar = () => {
   const toggleActiveMenu = () => {
     setActiveMenu((prevActiveMenu: boolean) => !prevActiveMenu);
   };
-  console.log(activeMenu)
   return (
-    <div>
-      Navbar
+    <div className="bg-red-800 p-3 flex items-center justify-between">
       {isSmallScreen && !isOpen && (
         <FaBars
           size={18}

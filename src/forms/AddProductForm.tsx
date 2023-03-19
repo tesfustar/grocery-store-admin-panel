@@ -17,6 +17,7 @@ import Select, { StylesConfig } from "react-select";
 import Dropzone from "react-dropzone";
 import { MdDelete } from "react-icons/md";
 import upload from "../assets/upload.jpg";
+import { useNavigate } from "react-router-dom";
 interface ProductFormProps {
   category: string;
   name: string;
@@ -27,6 +28,7 @@ interface ProductFormProps {
   price: string;
 }
 const AddProductForm = () => {
+  const navigate = useNavigate()
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<ProductFormProps>();
@@ -157,18 +159,10 @@ const AddProductForm = () => {
   }, [imageUrls]);
 
   const createProductMutation = useMutation(
-    async ({
-      name,
-      nameAm,
-      description,
-      discriptionAm,
-      price,
-      category,
-      image,
-    }: any) =>
+    async (data: any) =>
       await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}product/create`,
-        { name, nameAm, image },
+        data,
         {
           headers,
         }
@@ -178,20 +172,22 @@ const AddProductForm = () => {
     }
   );
   const createProductMutationHandler = async () => {
+    console.log({formValues})
     try {
       createProductMutation.mutate(
         {
-          category: formValues?.category,
+          category: formValues!.category,
           name: formValues!.name,
           nameAm: formValues!.nameAm,
           image: imageUrls,
-          description: formValues?.description,
-          descriptionAm: formValues?.descriptionAm,
-          wholeSalePrice: formValues?.price,
+          description: formValues!.description,
+          descriptionAm: formValues!.descriptionAm,
+          wholeSalePrice: formValues!.price,
           availableQuantity: 10,
         },
         {
           onSuccess: (res: any) => {
+            navigate('/products')
             console.log(res);
           },
           onError: (err) => {},

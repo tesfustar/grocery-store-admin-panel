@@ -148,12 +148,13 @@ const CategoryTable = ({
         columns={columns}
         getRowId={(row) => row._id}
         pagination
-        pageSize={10}
-        rowsPerPageOptions={[5]}
-        disableSelectionOnClick
+        disableRowSelectionOnClick
+        pageSizeOptions={[5, 10, 25]}
         components={{
           Pagination: CustomPagination,
         }}
+        disableColumnMenu={true}
+        disableColumnSelector
       />
     </div>
   );

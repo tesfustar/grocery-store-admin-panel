@@ -26,7 +26,7 @@ const Product = () => {
       }),
     {
       keepPreviousData: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       retry: false,
       enabled: !!token,
       onSuccess: (res) => {
