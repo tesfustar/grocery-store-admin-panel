@@ -8,7 +8,9 @@ import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import useValidPhone from "../hooks/useValidphone";
 import { useAuth } from "../../context/AuthContext";
+import { useHome } from "../../context/HomeContext";
 const Login = () => {
+  const { setMessageType } = useHome();
   const navigate = useNavigate();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -50,15 +52,18 @@ const Login = () => {
         },
         {
           onSuccess: (responseData: any) => {
-            console.log(responseData?.data);
             login(
               responseData?.data?.token,
               responseData?.data?.user?.role,
               responseData?.data?.user
             );
+            setMessageType({ message: "Login Successful!", type: "SUCCESS" });
           },
           onError: (err: any) => {
-            setError("Incorrect phone or Password");
+            setMessageType({
+              message: err?.response?.data?.message,
+              type: "ERROR",
+            });
           },
         }
       );

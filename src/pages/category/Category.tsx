@@ -6,8 +6,10 @@ import CategoryTable from "./components/CategoryTable";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../context/AuthContext";
 import { buttonStyle } from "../../styles/Style";
+import { useHome } from "../../context/HomeContext";
 const Category: React.FC = () => {
   const {token} = useAuth();
+  const {setMessageType} = useHome()
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [categories, setCategories] = useState<Array<object>>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -37,6 +39,9 @@ const Category: React.FC = () => {
           }))
         );
       },
+      onError:(err)=>{
+         console.log(err)
+      }
     }
   );
   return (
