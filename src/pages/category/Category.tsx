@@ -6,10 +6,11 @@ import CategoryTable from "./components/CategoryTable";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../context/AuthContext";
 import { buttonStyle } from "../../styles/Style";
+import { ICategory } from "../../types/Category";
 const Category: React.FC = () => {
   const {token} = useAuth();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Array<object>>([]);
+  const [categories, setCategories] = useState<Array<ICategory>>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editCategoryId, setEditCategoryId] = useState<string | null>(null);
   const headers = {

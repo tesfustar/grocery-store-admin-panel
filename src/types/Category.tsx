@@ -1,5 +1,6 @@
-export interface Category{
-    name:string;
-    nameAm:string;
-    
+export interface ICategory {
+  _id: string;
+  name: string;
+  nameAm: string;
+  image: string;
 }

@@ -1,7 +1,7 @@
-import { Category } from "./Category";
+import { ICategory } from "./Category";
 
 export interface IProduct {
-  category: Category;
+  category: ICategory;
   name: string;
   nameAm: string;
   description: string;
