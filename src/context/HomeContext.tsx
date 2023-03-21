@@ -5,6 +5,7 @@ import {
   useCallback,
   useEffect,
 } from "react";
+import { IToast } from "../types/Toast";
 
 const HomeContext = createContext<any>(undefined);
 
@@ -22,15 +23,16 @@ export default function HomeProvider({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [screenSize, setScreenSize] = useState<number | undefined>(undefined);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+  //for toast notification
+  const [messageType, setMessageType] = useState<IToast | null>(null);
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (screenSize && screenSize <= 900) {
@@ -53,6 +55,8 @@ export default function HomeProvider({
         activeMenu,
         setActiveMenu,
         screenSize,
+        messageType,
+        setMessageType,
       }}
     >
       {children}

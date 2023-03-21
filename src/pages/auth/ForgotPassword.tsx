@@ -159,6 +159,12 @@ const ForgotPassword: React.FC = () => {
             {forgotMutation.isLoading ? <PulseLoader color="#fff" /> : "Send"}
           </button>
         </form>
+        <p
+            onClick={() => navigate("/login")}
+            className="font-medium text-center text-sm w-full cursor-pointer hover:text-main-color"
+          >
+            Back to Login
+          </p>
       </div>
     );
   };

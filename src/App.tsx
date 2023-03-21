@@ -1,8 +1,9 @@
 import React, { Suspense } from "react";
 import NoAuthRoute from "./routes/NoAuthRoute";
 import AuthRoutes from "./routes/AuthRoutes";
-import Category from "./pages/category/Category";
+import ReactLoading from "react-loading";
 import { useAuth } from "./context/AuthContext";
+import ToastContainer from "./containers/ToastContainer";
 const App = () => {
   const { user, role, token, checked } = useAuth();
 
@@ -13,6 +14,24 @@ const App = () => {
       return <NoAuthRoute />;
     }
   }
-  return <>{checked ? <DetermineRoute /> : <h2>Loading...</h2>}</>;
+  return (
+    <>
+      {checked ? (
+        <div className="h-full w-full">
+          <ToastContainer />
+          <DetermineRoute />
+        </div>
+      ) : (
+        <div className="flex items-center justify-center min-h-screen">
+        <ReactLoading
+          type={"spinningBubbles"}
+          color={"#34d399"}
+          height={"60px"}
+          width={"60px"}
+        />
+      </div>
+      )}
+    </>
+  );
 };
 export default App;
