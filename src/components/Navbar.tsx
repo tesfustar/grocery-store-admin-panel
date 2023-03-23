@@ -4,6 +4,9 @@ import { FaBars } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { useHome } from "../context/HomeContext";
 import { IoMdNotifications } from "react-icons/io";
+import { FaUserAlt } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+import {BsFillPatchCheckFill} from 'react-icons/bs'
 const Navbar = () => {
   const { logout, user } = useAuth();
   const {
@@ -13,6 +16,8 @@ const Navbar = () => {
     isOpen,
     setIsOpen,
     isSmallScreen,
+    isAmh,
+    setIsAmh,
   } = useHome();
   const handleNav = () => {
     setIsOpen(!isOpen);
@@ -26,14 +31,14 @@ const Navbar = () => {
       <div className="flex items-end justify-end z-50">
         <Menu as="div" className="relative inline-block text-left z-50">
           <div>
-            <Menu.Button
-              className="inline-flex w-full justify-center "
-            >
+            <Menu.Button className="inline-flex w-full justify-center ">
               <div className="flex items-center space-x-1">
-                <img src={user.profile} alt="" className="h-14 rounded-full"/>
+                <img src={user.profile} alt="" className="h-14 rounded-full" />
                 <div>
-                    <h4 className="text-dark-color text-sm font-medium">{user.firstName + user.lastName}</h4>
-                    <p className="text-dark-color text-sm">{user.phone}</p>
+                  <h4 className="text-dark-color text-sm font-medium">
+                    {user.firstName + user.lastName}
+                  </h4>
+                  <p className="text-dark-color text-sm">{user.phone}</p>
                 </div>
               </div>
             </Menu.Button>
@@ -47,10 +52,58 @@ const Navbar = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute z-50 right-0 mt-2 p-2 w-56 origin-top-right  rounded-md bg-white dark:bg-secondary-dark-bg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <Menu.Item>
-                <span className={`capitalize font-medium `}>hrhfdghfh</span>
-              </Menu.Item>
+            <Menu.Items
+              className="absolute z-50 right-0 mt-2 py-2 w-56 origin-top-right flex flex-col items-start
+             rounded-md bg-white dark:bg-secondary-dark-bg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            >
+              <span className="capitalize font-medium text-sm p-2">
+                {isAmh ? "ቋንቋ" : "Language"}
+              </span>
+              <div className="p-3 grid grid-cols-2 gap-2 w-full">
+                <Menu.Item>
+                  <span
+                    onClick={() => setIsAmh(false)}
+                    className={`capitalize font-medium w-full ${isAmh ? "" : "text-main-color"}  cursor-pointer`}
+                  >
+                    English
+                  </span>
+                </Menu.Item>
+                <Menu.Item>
+                  <span
+                    onClick={() => setIsAmh(true)}
+                    className={`capitalize font-medium w-full ${isAmh ? "text-main-color" : ""}  cursor-pointer`}
+                  >
+                    አማርኛ
+                  </span>
+                </Menu.Item>
+              </div>
+              <span className="capitalize font-medium text-sm p-2">
+                {isAmh ? "መገለጫ" : "Profile"}
+              </span>
+              <div className="pt-1 flex flex-col items-start space-y-1 w-full">
+                <Menu.Item>
+                  <div className="flex items-center space-x-2 p-2 pl-3 w-full hover:bg-main-bg/10  cursor-pointer">
+                    <FaUserAlt className="text-main-color" />
+                    <span
+                      className={`capitalize font-medium text-sm`}
+                      onClick={logout}
+                    >
+                      {isAmh ? "መገለጫ" : "Profile"}
+                    </span>
+                  </div>
+                </Menu.Item>
+                <Menu.Item>
+                  <div className="flex items-center space-x-2 p-2 pl-3 w-full hover:bg-main-bg/10  cursor-pointer">
+                    <FiLogOut className="text-main-color" />
+                    <span
+                      className={`capitalize font-medium text-sm`}
+                      onClick={logout}
+                    >
+                      {isAmh ? "ውጣ" :'Log Out'}
+                    </span>
+                  </div>
+                </Menu.Item>
+              </div>
             </Menu.Items>
           </Transition>
         </Menu>
@@ -70,9 +123,6 @@ const Navbar = () => {
       </div>
       <div className="flex items-center space-x-2">
         <DropDown />
-        <button onClick={logout} className="bg-main-bg p-2">
-          logout
-        </button>
       </div>
     </div>
   );

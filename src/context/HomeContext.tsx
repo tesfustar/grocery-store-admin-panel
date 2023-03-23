@@ -25,6 +25,9 @@ export default function HomeProvider({
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
   //for toast notification
   const [messageType, setMessageType] = useState<IToast | null>(null);
+
+  //language
+  const [isAmh, setIsAmh] = useState<boolean>(false);
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -32,7 +35,7 @@ export default function HomeProvider({
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (screenSize && screenSize <= 900) {
@@ -57,6 +60,8 @@ export default function HomeProvider({
         screenSize,
         messageType,
         setMessageType,
+        isAmh,
+        setIsAmh,
       }}
     >
       {children}

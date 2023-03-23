@@ -39,8 +39,8 @@ export default function AuthProvider({
     if (!role) return;
     if (role == "ADMIN") {
       setSideBarLinks(AdminSideBar);
-    } else if (role == "STORE_MANAGER") {
-      setSideBarLinks(StoreManagerSideBar);
+    } else if (role == "USER") {
+      setSideBarLinks(AdminSideBar);
     }
     setToken(token);
     setUser(user);

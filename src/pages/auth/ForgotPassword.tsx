@@ -5,7 +5,7 @@ import axios from "axios";
 import { GiGamepadCross } from "react-icons/gi";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import useValidPhone from "../hooks/useValidphone";
+import useValidPhone from "../../hooks/useValidphone";
 import PinInput from "react-pin-input";
 import { toast, ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -160,11 +160,11 @@ const ForgotPassword: React.FC = () => {
           </button>
         </form>
         <p
-            onClick={() => navigate("/login")}
-            className="font-medium text-center text-sm w-full cursor-pointer hover:text-main-color"
-          >
-            Back to Login
-          </p>
+          onClick={() => navigate("/login")}
+          className="font-medium text-center text-sm w-full cursor-pointer hover:text-main-color"
+        >
+          Back to Login
+        </p>
       </div>
     );
   };

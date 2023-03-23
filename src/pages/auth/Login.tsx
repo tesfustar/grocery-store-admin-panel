@@ -6,7 +6,7 @@ import { GiGamepadCross } from "react-icons/gi";
 // import { useAuth } from "../context/Auth";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import useValidPhone from "../hooks/useValidphone";
+import useValidPhone from "../../hooks/useValidphone";
 import { useAuth } from "../../context/AuthContext";
 import { useHome } from "../../context/HomeContext";
 const Login = () => {
