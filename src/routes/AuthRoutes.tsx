@@ -6,6 +6,7 @@ import { useHome } from "../context/HomeContext";
 import SmallSidebar from "../components/SmallSidebar";
 import Category from "../pages/category/Category";
 import { AdminRoute } from "./routes";
+import Logo from "../assets/Logo.png";
 const AuthRoutes = () => {
   const { sideBar, role } = useAuth();
   const {
@@ -18,7 +19,7 @@ const AuthRoutes = () => {
   } = useHome();
   return (
     <div className="flex relative min-h-screen w-full">
-     {!isSmallScreen ? (
+      {!isSmallScreen ? (
         <div
           className={`bg-stone-900  h-screen pt-5 duration-300
     ${isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"} p-5 fixed `}
@@ -37,16 +38,14 @@ const AuthRoutes = () => {
               </h1>
             )}
           </div>
-          {!isSmallScreen && (
-            <Sidebar  />
-          )}
+          {!isSmallScreen && <Sidebar />}
         </div>
       ) : (
         <div
           className={`overflow-y-scroll scrollbar-hide  ${
             activeMenu
               ? "transition ease-out max-w-[260px] z-50"
-              : "transition ease-out max-w-0" 
+              : "transition ease-out max-w-0"
           } w-full  h-screen bg-stone-900 fixed`}
         >
           <SmallSidebar />
@@ -59,7 +58,7 @@ const AuthRoutes = () => {
         }  w-full  p-3  `}
       >
         <NavBar />
-        
+
         <AdminRoute />
       </div>
     </div>
