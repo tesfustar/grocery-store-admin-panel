@@ -6,7 +6,7 @@ import { useHome } from "../context/HomeContext";
 
 const Sidebar: React.FC = () => {
   const { sideBarLinks, logout } = useAuth();
-  const { isOpen, isSideBarOpen } = useHome();
+  const { isOpen, isSideBarOpen,isAmh } = useHome();
   const activeLink = `flex items-center ${
     !isSideBarOpen && "justify-center"
   } bg-main-bg 
@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
                     isSideBarOpen ? "flex" : "hidden"
                   } capitalize font-medium text-sm`}
                 >
-                  {link.name}
+                  {isAmh ? link.nameAm : link.name}
                 </span>
               </NavLink>
             ))}

@@ -15,9 +15,11 @@ import { ImOffice } from "react-icons/im";
 export const AdminSideBar = [
   {
     title: "Dashboard",
+    titleAm: "ዳሽቦርድ",
     links: [
       {
         name: "dashboard",
+        nameAm:'ዳሽቦርድ',
         link: "dashboard",
         icon: <MdDashboard size={22} className=" text-[#bdcadf]" />,
       },
@@ -25,29 +27,35 @@ export const AdminSideBar = [
   },
   {
     title: "Lists",
+    titleAm: "ዝርዝሮች",
     links: [
       {
         name: "products",
+        nameAm:'ምርቶች',
         link: "products",
         icon: <MdRealEstateAgent size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "categories",
+        nameAm:'ምድቦች',
         link: "categories",
         icon: <BiCategory size={19} className=" text-[#bdcadf]" />,
       },
       {
         name: "customers",
+        nameAm:'ደንበኞች',
         link: "customers",
         icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
       },
       {
         name: "deliveries",
+        nameAm:'መላኪያዎች',
         link: "deliveries",
         icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
       },
       {
         name: "orders",
+        nameAm:'ትዕዛዞች',
         link: "orders",
         icon: <MdLocalGroceryStore size={18} className=" text-[#bdcadf]" />,
       },
@@ -60,19 +68,11 @@ export const AdminSideBar = [
   },
   {
     title: "Requests",
+    titleAm: "Requests",
     links: [
       {
-        name: "listing request",
-        link: "listing-request",
-        icon: <MdRealEstateAgent size={20} className=" text-[#bdcadf]" />,
-      },
-      {
-        name: "Featured ads",
-        link: "featured-request",
-        icon: <RiAdvertisementFill size={20} className=" text-[#bdcadf]" />,
-      },
-      {
         link: "notification",
+        nameAm:'ማሳወቂያዎች',
         name: "notifications",
         icon: <MdNotifications size={20} className=" text-[#bdcadf]" />,
       },
@@ -80,9 +80,11 @@ export const AdminSideBar = [
   },
   {
     title: "User",
+    titleAm: "ተጠቃሚ",
     links: [
       {
         name: "profile",
+        nameAm:'መገለጫ',
         link: "profile",
         icon: <FaUserCog size={20} className=" text-[#bdcadf]" />,
       },
