@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
                 isSideBarOpen ? "flex" : "hidden"
               } dark:text-gray-300 text-sm`}
             >
-              {item.title}
+              {isAmh ? item.titleAm :item.title}
             </h1>
             {item.links.map((link: any) => (
               <NavLink
@@ -49,16 +49,6 @@ const Sidebar: React.FC = () => {
             ))}
           </div>
         ))}
-        <div onClick={logout} className={`${normalLink} cursor-pointer`}>
-          <ImOffice />
-          <span
-            className={`${
-              isSideBarOpen ? "flex" : "hidden"
-            } capitalize font-medium text-sm`}
-          >
-            Log Out
-          </span>
-        </div>
       </div>
     </div>
   );

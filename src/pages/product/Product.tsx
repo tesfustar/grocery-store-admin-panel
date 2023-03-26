@@ -7,8 +7,10 @@ import { buttonStyle } from "../../styles/Style";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "../../types/Product";
 import ProductTable from "./components/ProductTable";
+import { useHome } from "../../context/HomeContext";
 const Product = () => {
   const { token } = useAuth();
+  const { isAmh } = useHome();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -42,27 +44,26 @@ const Product = () => {
   return (
     <div className="p-3">
       <div className="flex items-center justify-between pb-4">
-        <h1 className="font-semibold text-dark-gray">Products</h1>
+        <h1 className="font-semibold text-dark-gray">
+          {isAmh ? "ምርቶች " : "Products"}
+        </h1>
         <button
-          onClick={() => navigate("/add-product")}
+          onClick={() => navigate("/products/add-product")}
           className={buttonStyle}
         >
-          Add Product
+          {isAmh ? "ፕሮዳክት ጨምር" : "Add Product"}
         </button>
       </div>
       {/*  */}
       {productData.isFetched && productData.isSuccess ? (
         <div>
-          <ProductTable
-            products={products}
-            setStateChange={setStateChange}
-          />
+          <ProductTable products={products} setStateChange={setStateChange} />
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={"#f05454"}
             height={"60px"}
             width={"60px"}
           />

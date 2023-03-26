@@ -7,7 +7,6 @@ import {
   gridPageSelector,
   useGridApiContext,
   useGridSelector,
-  DataGridProps,
 } from "@mui/x-data-grid";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
@@ -15,15 +14,15 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 interface Props {
-  categories: Array<object>;
+  banners: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditCategoryId: React.Dispatch<React.SetStateAction<string | null>>;
+  setEditBannerId: React.Dispatch<React.SetStateAction<string | null>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const CategoryTable = ({
-  categories,
+const BannerTable = ({
+  banners,
   setStateChange,
-  setEditCategoryId,
+  setEditBannerId,
   setIsModalOpen,
 }: Props) => {
   const columns: GridColDef[] = [
@@ -31,17 +30,9 @@ const CategoryTable = ({
     {
       field: "name",
       headerName: "Name",
-      width: 170,
+      width: 240,
       sortable: false,
       filterable: false,
-      headerClassName: "super-app-theme--header",
-    },
-    {
-      field: "nameAm",
-      headerName: "amharic name",
-      sortable: false,
-      filterable: false,
-      width: 170,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -58,6 +49,16 @@ const CategoryTable = ({
             className="h-11 w-11 rounded-sm object-cover"
           />
         );
+      },
+    },
+    {
+      field: "products",
+      headerName: "products",
+      sortable: false,
+      filterable: false,
+      width: 150,
+      renderCell: (params: GridCellParams) => {
+        return <h1>{params.row.products?.length}</h1>;
       },
     },
     {
@@ -78,7 +79,7 @@ const CategoryTable = ({
             </button>
             <button
               onClick={() => {
-                setEditCategoryId(params.row._id);
+                setEditBannerId(params.row._id);
                 setIsModalOpen(true);
               }}
               className="bg-red-bg rounded-sm hover:opacity-80
@@ -144,7 +145,7 @@ const CategoryTable = ({
   return (
     <div style={{ height: 530 }}>
       <DataGrid
-        rows={categories}
+        rows={banners}
         columns={columns}
         getRowId={(row) => row._id}
         pagination
@@ -160,4 +161,4 @@ const CategoryTable = ({
   );
 };
 
-export default CategoryTable;
+export default BannerTable;

@@ -1,31 +1,30 @@
-import React, { useState } from "react";
-import AddCategoryModal from "./components/AddCategoryModal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import CategoryTable from "./components/CategoryTable";
-import ReactLoading from "react-loading";
+import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { buttonStyle } from "../../styles/Style";
-import { ICategory } from "../../types/Category";
 import { useHome } from "../../context/HomeContext";
+import { buttonStyle } from "../../styles/Style";
+import { IBanner } from "../../types/Banner";
 import BreedCrumb from "../../utils/BreedCrumb";
-const Category: React.FC = () => {
-  const { token } = useAuth();
+import BannerTable from "./components/BannerTable";
+import ReactLoading from "react-loading";
+const Banner = () => {
   const { isAmh } = useHome();
+  const { token } = useAuth();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Array<ICategory>>([]);
+  const [banners, setBanners] = useState<Array<IBanner>>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [editCategoryId, setEditCategoryId] = useState<string | null>(null);
+  const [editBannerId, setEditBannerId] = useState<string | null>(null);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
   };
-  //fetch categories
-  const categoryData = useQuery(
-    ["categoryData", stateChange],
+  //fetch Banner
+  const bannerData = useQuery(
+    ["bannerDataApi", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}category`, {
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}banner`, {
         headers,
       }),
     {
@@ -34,7 +33,7 @@ const Category: React.FC = () => {
       retry: false,
       enabled: !!token,
       onSuccess: (res) => {
-        setCategories(
+        setBanners(
           res?.data?.data?.map((data: object, index: number) => ({
             ...data,
             index: index + 1,
@@ -51,18 +50,21 @@ const Category: React.FC = () => {
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-dark-gray">
-          {isAmh ? "ምድቦች" : "Categories"}
+          {isAmh ? "ባነሮች" : "Banners"}
         </h1>
-        <button onClick={() => setIsModalOpen(true)} className={buttonStyle}>
-          {isAmh ? "ምድብ ጨምር" : "Add Category"}
+        <button
+          // onClick={() => setIsModalOpen(true)}
+          className={buttonStyle}
+        >
+          {isAmh ? "ባነር ጨምር" : "Add Banner"}
         </button>
       </div>
-      {categoryData.isFetched && categoryData.isSuccess ? (
+      {bannerData.isFetched && bannerData.isSuccess ? (
         <div>
-          <CategoryTable
-            categories={categories}
+          <BannerTable
+            banners={banners}
             setStateChange={setStateChange}
-            setEditCategoryId={setEditCategoryId}
+            setEditBannerId={setEditBannerId}
             setIsModalOpen={setIsModalOpen}
           />
         </div>
@@ -76,15 +78,8 @@ const Category: React.FC = () => {
           />
         </div>
       )}
-      <AddCategoryModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        setEditCategoryId={setEditCategoryId}
-        editCategoryId={editCategoryId}
-        setStateChange={setStateChange}
-      />
     </div>
   );
 };
 
-export default Category;
+export default Banner;

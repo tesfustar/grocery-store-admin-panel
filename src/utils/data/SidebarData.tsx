@@ -1,4 +1,4 @@
-import { MdOutlineDashboardCustomize, MdDashboard } from "react-icons/md";
+import { MdOutlineDashboardCustomize, MdDashboard, MdDeliveryDining } from "react-icons/md";
 import {
   FaUserAlt,
   FaUserCog,
@@ -9,7 +9,7 @@ import { AiTwotoneShop, AiFillSetting } from "react-icons/ai";
 import { SiLogstash } from "react-icons/si";
 import { BiCategory } from "react-icons/bi";
 import {MdLocalGroceryStore, MdHomeWork, MdRealEstateAgent, MdNotifications } from "react-icons/md";
-import { RiAdvertisementFill, RiHome8Fill, RiHome7Fill } from "react-icons/ri";
+import { RiStoreFill, RiHome8Fill, RiHome7Fill, RiCoupon2Fill } from "react-icons/ri";
 import { GiVerticalBanner } from "react-icons/gi";
 import { ImOffice } from "react-icons/im";
 export const AdminSideBar = [
@@ -33,7 +33,7 @@ export const AdminSideBar = [
         name: "products",
         nameAm:'ምርቶች',
         link: "products",
-        icon: <MdRealEstateAgent size={18} className=" text-[#bdcadf]" />,
+        icon: <RiStoreFill size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "categories",
@@ -51,7 +51,7 @@ export const AdminSideBar = [
         name: "deliveries",
         nameAm:'መላኪያዎች',
         link: "deliveries",
-        icon: <FaUserAlt size={16} className=" text-[#bdcadf]" />,
+        icon: <MdDeliveryDining size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "orders",
@@ -60,9 +60,16 @@ export const AdminSideBar = [
         icon: <MdLocalGroceryStore size={18} className=" text-[#bdcadf]" />,
       },
       {
-        name: "banks",
-        link: "banks",
+        name: "banners",
+        nameAm:'ባነሮች',
+        link: "banners",
         icon: <FaBuysellads size={18} className=" text-[#bdcadf]" />,
+      },
+      {
+        name: "coupons",
+        nameAm:'ኩፖኖች',
+        link: "coupons",
+        icon: <RiCoupon2Fill size={18} className=" text-[#bdcadf]" />,
       },
     ],
   },
@@ -75,18 +82,6 @@ export const AdminSideBar = [
         nameAm:'ማሳወቂያዎች',
         name: "notifications",
         icon: <MdNotifications size={20} className=" text-[#bdcadf]" />,
-      },
-    ],
-  },
-  {
-    title: "User",
-    titleAm: "ተጠቃሚ",
-    links: [
-      {
-        name: "profile",
-        nameAm:'መገለጫ',
-        link: "profile",
-        icon: <FaUserCog size={20} className=" text-[#bdcadf]" />,
       },
     ],
   },

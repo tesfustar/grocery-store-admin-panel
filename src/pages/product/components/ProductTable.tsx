@@ -82,7 +82,7 @@ const ProductTable = ({
         return (
           <div className="flex items-center space-x-3">
             <button
-              className="bg-red-500 rounded-sm hover:opacity-80
+              className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
               onClick={() => handleDelete(params.row._id)}
             >
@@ -90,7 +90,7 @@ const ProductTable = ({
             </button>
             <button
               onClick={() => {}}
-              className="bg-main-bg rounded-sm hover:opacity-80
+              className="bg-red-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
               Edit

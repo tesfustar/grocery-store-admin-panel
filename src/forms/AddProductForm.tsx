@@ -265,8 +265,7 @@ const AddProductForm = () => {
                 <Select
                   isSearchable={false}
                   styles={customStyles}
-                  placeholder={"select bathroom"}
-                  // value={values.bathroom}
+                  placeholder={"select category"}
                   onChange={(selectedOption: any) => {
                     handleChange("category")(selectedOption._id);
                   }}

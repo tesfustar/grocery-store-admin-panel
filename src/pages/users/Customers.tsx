@@ -59,7 +59,7 @@ const Customers:FC = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={"#f05454"}
             height={"60px"}
             width={"60px"}
           />

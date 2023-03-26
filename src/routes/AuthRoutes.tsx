@@ -21,7 +21,7 @@ const AuthRoutes = () => {
     <div className="flex relative min-h-screen w-full">
       {!isSmallScreen ? (
         <div
-          className={`bg-stone-900  h-screen pt-5 duration-300
+          className={`bg-[#121212]  h-screen pt-5 duration-300
     ${isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"} p-5 fixed `}
         >
           <BsFillArrowLeftCircleFill

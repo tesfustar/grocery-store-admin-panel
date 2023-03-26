@@ -9,7 +9,7 @@ interface Props {
 }
 const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
   const { sideBarLinks, logout } = useAuth();
-  const { activeMenu, setActiveMenu, screenSize } = useHome();
+  const { activeMenu, setActiveMenu, screenSize,isAmh } = useHome();
 
   const handleCloseSideBar = () => {
     if (activeMenu == true && screenSize <= 900) {
@@ -30,7 +30,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
               {sideBarLinks.map((item: any) => (
                 <div key={item.title}>
                   <h1 className="font-medium text-[#96a0af] dark:text-gray-300 text-sm">
-                    {item.title}
+                  {isAmh ? item.titleAm :item.title}
                   </h1>
                   {item.links.map((link: any) => (
                     <NavLink
@@ -43,7 +43,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
                     >
                       {link.icon}
                       <span className="capitalize font-medium text-sm">
-                        {link.name}
+                      {isAmh ? link.nameAm : link.name}
                       </span>
                     </NavLink>
                   ))}

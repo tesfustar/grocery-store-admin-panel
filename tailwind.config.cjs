@@ -7,12 +7,16 @@ module.exports = {
       backgroundColor: {
         "dark-bg": "#161b22",
         "dark-gray": "#2C2C37",
-        "main-bg": "#34d399",
+        "main-bg": "#f05454",
+        "red-bg":"#34d399",
+        "blue-bg":"#30475e",
       },
       colors: {
-        "main-color": "#34d399",
+        "main-color": "#f05454",
         "dark-color": "#161b22",
         "dark-gray": "#1f2937",
+        "red-color":"#34d399",
+        "blue-color":"#30475e",
       },
     },
   },
