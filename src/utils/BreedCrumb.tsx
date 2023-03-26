@@ -27,7 +27,7 @@ const BreedCrumb: React.FC = () => {
                       clip-rule="evenodd"
                     ></path>
                   </svg>}
-                  <span className="font-medium text-gray-500  dark:text-gray-400">
+                  <span className="font-medium text-gray-500  dark:text-gray-400 capitalize">
                     {name}
                   </span>
                 </div>
@@ -49,7 +49,7 @@ const BreedCrumb: React.FC = () => {
                   </svg> */}
                   <Link
                     to={routeTo}
-                    className="ml-1  font-medium text-gray-700 hover:text-gray-900  dark:text-gray-400 dark:hover:text-white"
+                    className="capitalize font-medium text-gray-700 hover:text-gray-900  dark:text-gray-400 dark:hover:text-white"
                   >
                     {name}
                   </Link>

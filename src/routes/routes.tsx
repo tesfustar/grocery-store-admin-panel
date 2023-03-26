@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import ReactLoading from "react-loading";
 import { Route, Routes, Navigate } from "react-router-dom";
+import Coupon from "../pages/coupons/Coupon";
+import Delivery from "../pages/delivery/Delivery";
 // import Dashboard from "../pages/home/Dashboard";
 // import AddProduct from "../pages/product/AddProduct";
 // import Product from "../pages/product/Product";
@@ -20,9 +22,11 @@ export const AdminRoute = () => {
         <Route path="/categories" element={<Category />} />
         <Route path="/products" element={<Product />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/deliveries" element={<Delivery />} />
         <Route path="/products/add-product" element={<AddProduct />} />
         <Route path="/add-product/:id" element={<AddProduct />} />
         <Route path="/banners" element={<Banner />} />
+        <Route path="/coupons" element={<Coupon />} />
       </Routes>
     );
   }

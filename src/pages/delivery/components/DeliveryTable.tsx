@@ -16,10 +16,10 @@ import axios from "axios";
 import { IUser } from "../../../types/User";
 
 interface Props {
-  customers: IUser[];
+  deliveries: IUser[];
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const CustomerTable = ({ customers, setStateChange }: Props) => {
+const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -154,7 +154,7 @@ const CustomerTable = ({ customers, setStateChange }: Props) => {
   return (
     <div style={{ height: 530 }}>
       <DataGrid
-        rows={customers}
+        rows={deliveries}
         columns={columns}
         getRowId={(row) => row._id}
         pagination
@@ -170,4 +170,4 @@ const CustomerTable = ({ customers, setStateChange }: Props) => {
   );
 };
 
-export default CustomerTable;
+export default DeliveryTable;

@@ -1,5 +1,5 @@
 export interface IBanner{
-    products:string[],
+    products?:string[] | null,
     name:string;
     description:string;
     image:string;

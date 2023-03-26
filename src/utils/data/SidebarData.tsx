@@ -49,7 +49,7 @@ export const AdminSideBar = [
       },
       {
         name: "deliveries",
-        nameAm:'መላኪያዎች',
+        nameAm:'አድራሾች',
         link: "deliveries",
         icon: <MdDeliveryDining size={18} className=" text-[#bdcadf]" />,
       },

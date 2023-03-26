@@ -29,11 +29,11 @@ const Navbar = () => {
   function DropDown() {
     return (
       <div className="flex items-end justify-end z-50">
-        <Menu as="div" className="relative inline-block text-left z-50">
+        <Menu as="div" className="relative inline-block text-left z-40">
           <div>
             <Menu.Button className="inline-flex w-full justify-center ">
-              <div className="flex items-center space-x-1">
-                <img src={user.profile} alt="" className="h-14 rounded-full" />
+              <div className="flex items-center space-x-1 z-20">
+                <img src={user.profile} alt="" className="h-14 rounded-full " />
                 <div>
                   <h4 className="text-dark-color text-sm font-medium">
                     {user.firstName + user.lastName}

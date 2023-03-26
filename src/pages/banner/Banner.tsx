@@ -8,6 +8,7 @@ import { IBanner } from "../../types/Banner";
 import BreedCrumb from "../../utils/BreedCrumb";
 import BannerTable from "./components/BannerTable";
 import ReactLoading from "react-loading";
+import AddBannerModal from "./components/AddBannerModal";
 const Banner = () => {
   const { isAmh } = useHome();
   const { token } = useAuth();
@@ -52,10 +53,7 @@ const Banner = () => {
         <h1 className="font-semibold text-dark-gray">
           {isAmh ? "ባነሮች" : "Banners"}
         </h1>
-        <button
-          // onClick={() => setIsModalOpen(true)}
-          className={buttonStyle}
-        >
+        <button onClick={() => setIsModalOpen(true)} className={buttonStyle}>
           {isAmh ? "ባነር ጨምር" : "Add Banner"}
         </button>
       </div>
@@ -78,6 +76,14 @@ const Banner = () => {
           />
         </div>
       )}
+
+      <AddBannerModal
+        setEditBannerId={setEditBannerId}
+        isModalOpen={isModalOpen}
+        editBannerId={editBannerId}
+        setStateChange={setStateChange}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   );
 };

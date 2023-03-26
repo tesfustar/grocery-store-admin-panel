@@ -28,7 +28,7 @@ interface ProductFormProps {
   price: string;
 }
 const AddProductForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<ProductFormProps>();
@@ -172,7 +172,7 @@ const AddProductForm = () => {
     }
   );
   const createProductMutationHandler = async () => {
-    console.log({formValues})
+    console.log({ formValues });
     try {
       createProductMutation.mutate(
         {
@@ -187,7 +187,7 @@ const AddProductForm = () => {
         },
         {
           onSuccess: (res: any) => {
-            navigate('/products')
+            navigate("/products");
             console.log(res);
           },
           onError: (err) => {},
