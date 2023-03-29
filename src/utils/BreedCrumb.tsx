@@ -6,7 +6,7 @@ const BreedCrumb: React.FC = () => {
   const path = pathname.split("/").filter((x) => x);
   console.log(path);
   return (
-    <div className="py-3">
+    <div className="pb-3">
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1  ">
           {path.map((name, index) => {

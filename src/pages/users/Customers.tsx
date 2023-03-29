@@ -1,4 +1,4 @@
-import React, { useState ,FC} from "react";
+import React, { useState, FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { IUser } from "../../types/User";
 import CustomerTable from "./components/CustomerTable";
 import { useHome } from "../../context/HomeContext";
-const Customers:FC = () => {
-  const {isAmh} = useHome()
+import BreedCrumb from "../../utils/BreedCrumb";
+const Customers: FC = () => {
+  const { isAmh } = useHome();
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
@@ -23,9 +24,12 @@ const Customers:FC = () => {
   const customersData = useQuery(
     ["customersData", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/customers`, {
-        headers,
-      }),
+      await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/customers`,
+        {
+          headers,
+        }
+      ),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: true,
@@ -43,23 +47,31 @@ const Customers:FC = () => {
   );
   return (
     <div className="p-3">
+      <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
-        <h1 className="font-semibold text-dark-gray">{isAmh ?  "ደንበኞች":'Customers'}</h1>
-  
+        <h1 className="font-semibold text-dark-gray">
+          {isAmh ? "ደንበኞች" : "Customers"}
+        </h1>
       </div>
       {/*  */}
       {customersData.isFetched && customersData.isSuccess ? (
         <div>
-          <CustomerTable
-            customers={customers}
-            setStateChange={setStateChange}
-          />
+          {customersData?.data?.data?.data?.length > 0 ? (
+            <CustomerTable
+              customers={customers}
+              setStateChange={setStateChange}
+            />
+          ) : (
+            <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
+              {isAmh ? "" : "There are No customers !"}
+            </h1>
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />

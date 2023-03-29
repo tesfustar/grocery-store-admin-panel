@@ -74,11 +74,11 @@ export const AdminSideBar = [
     ],
   },
   {
-    title: "Requests",
-    titleAm: "Requests",
+    title: "Notifications",
+    titleAm: "ማሳወቂያዎች",
     links: [
       {
-        link: "notification",
+        link: "notifications",
         nameAm:'ማሳወቂያዎች',
         name: "notifications",
         icon: <MdNotifications size={20} className=" text-[#bdcadf]" />,

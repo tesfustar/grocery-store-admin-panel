@@ -14,12 +14,14 @@ import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { IUser } from "../../../types/User";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   customers: IUser[];
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const CustomerTable = ({ customers, setStateChange }: Props) => {
+  const navigate = useNavigate()
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -89,7 +91,7 @@ const CustomerTable = ({ customers, setStateChange }: Props) => {
         return (
           <div className="flex items-center space-x-3">
             <button
-              onClick={() => {}}
+              onClick={() => navigate(`/customers/${params.row._id}`)}
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-10 p-1 font-medium text-sm text-white"
             >

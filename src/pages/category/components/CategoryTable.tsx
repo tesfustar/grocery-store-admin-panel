@@ -31,7 +31,7 @@ const CategoryTable = ({
     {
       field: "name",
       headerName: "Name",
-      width: 170,
+      width: 200,
       sortable: false,
       filterable: false,
       headerClassName: "super-app-theme--header",
@@ -41,7 +41,7 @@ const CategoryTable = ({
       headerName: "amharic name",
       sortable: false,
       filterable: false,
-      width: 170,
+      width: 200,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -142,7 +142,7 @@ const CategoryTable = ({
     }
   };
   return (
-    <div style={{ height: 530 }}>
+    <div style={{ height: 530 }} className="w-full">
       <DataGrid
         rows={categories}
         columns={columns}

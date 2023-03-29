@@ -3,6 +3,8 @@ import ReactLoading from "react-loading";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Coupon from "../pages/coupons/Coupon";
 import Delivery from "../pages/delivery/Delivery";
+import Notification from "../pages/notifications/Notification";
+import CustomerDetail from "../pages/users/CustomerDetail";
 // import Dashboard from "../pages/home/Dashboard";
 // import AddProduct from "../pages/product/AddProduct";
 // import Product from "../pages/product/Product";
@@ -22,11 +24,15 @@ export const AdminRoute = () => {
         <Route path="/categories" element={<Category />} />
         <Route path="/products" element={<Product />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/customers/:id" element={<CustomerDetail />} />
         <Route path="/deliveries" element={<Delivery />} />
         <Route path="/products/add-product" element={<AddProduct />} />
         <Route path="/add-product/:id" element={<AddProduct />} />
         <Route path="/banners" element={<Banner />} />
         <Route path="/coupons" element={<Coupon />} />
+        <Route path="/notifications" element={<Notification />} />
+
+        
       </Routes>
     );
   }
@@ -36,7 +42,7 @@ export const AdminRoute = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />

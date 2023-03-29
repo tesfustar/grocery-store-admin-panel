@@ -63,7 +63,10 @@ const Dashboard = () => {
                 <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
                   {isAmh ? "ደንበኞች" : "Customers"}
                 </h1>
-                {dashboardCounts?.customers}
+
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.customers}
+                </h4>
               </div>
               <div className="h-24 w-24">
                 <FaUserAlt size={80} className="text-main-color" />
@@ -86,9 +89,11 @@ cursor-pointer bg-main-bg  p-1"
             <div className="flex items-center justify-between p-5 pb-10">
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "መላኪያ ሰው" : "Total Deliveries"}
+                  {isAmh ? "መላኪያ ሰው" : "Deliveries"}
                 </h1>
-                {dashboardCounts?.deliveries}
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.deliveries}
+                </h4>
               </div>
               <div className="h-24 w-24">
                 <MdDeliveryDining size={80} className="text-[#121212]" />
@@ -111,9 +116,11 @@ cursor-pointer bg-[#121212]  p-1"
             <div className="flex items-center justify-between p-5 pb-10">
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ጠቅላላ ምርቶች" : "Total Products"}
+                  {isAmh ? "ጠቅላላ ምርቶች" : "Products"}
                 </h1>
-                {dashboardCounts?.products}
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.products}
+                </h4>
               </div>
               <div className="h-24 w-24">
                 <RiStoreFill size={80} className="text-[#457eac]" />
@@ -136,9 +143,11 @@ cursor-pointer bg-[#457eac]  p-1"
             <div className="flex items-center justify-between p-5 pb-10">
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ምድቦች" : "Total Categories"}
+                  {isAmh ? "ምድቦች" : "Categories"}
                 </h1>
-                {dashboardCounts?.categories}
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.categories}
+                </h4>
               </div>
               <div className="h-24 w-24">
                 <BiCategory size={80} className="text-blue-color" />
@@ -161,9 +170,11 @@ cursor-pointer bg-blue-bg  p-1"
             <div className="flex items-center justify-between p-5 pb-10">
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ጠቅላላ ትዕዛዞች" : "Total Orders"}
+                  {isAmh ? "ጠቅላላ ትዕዛዞች" : "Orders"}
                 </h1>
-                {dashboardCounts?.orders}
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.orders}
+                </h4>
               </div>
               <div className="h-24 w-24">
                 <BsFillCartCheckFill size={80} className="text-red-color" />
@@ -186,16 +197,16 @@ cursor-pointer bg-red-bg  p-1"
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />
         </div>
       )}
       <div className="flex flex-col items-start space-y-2 w-full pt-4">
-      <h1 className="text-dark-color text-xl font-semibold capitalize dark:text-white ">
-                  {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
-                </h1>
+        <h1 className="text-blue-color text-xl font-semibold capitalize dark:text-white ">
+          {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
+        </h1>
         <Chart />
       </div>
     </div>

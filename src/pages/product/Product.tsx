@@ -57,13 +57,19 @@ const Product = () => {
       {/*  */}
       {productData.isFetched && productData.isSuccess ? (
         <div>
-          <ProductTable products={products} setStateChange={setStateChange} />
+          {productData?.data?.data?.data?.length > 0 ? (
+            <ProductTable products={products} setStateChange={setStateChange} />
+          ) : (
+            <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
+              {isAmh ? "" : "No products found !"}
+            </h1>
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />

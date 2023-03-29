@@ -43,7 +43,11 @@ const ToastContainer = () => {
               <div className="h-5/6 w-1 rounded-sm bg-red-500 mx-4"></div>
               <div className="flex flex-col">
                 <h1 className="text-sm  text-red-700">{messageType.type}</h1>
-                <p className="text-xs text-gray-500">{messageType.message}</p>
+                <p className="text-xs text-gray-500">
+                  {messageType.message
+                    ? messageType.message
+                    : "try again later!"}
+                </p>
               </div>
             </>
           )}

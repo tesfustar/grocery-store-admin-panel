@@ -59,18 +59,24 @@ const Banner = () => {
       </div>
       {bannerData.isFetched && bannerData.isSuccess ? (
         <div>
-          <BannerTable
-            banners={banners}
-            setStateChange={setStateChange}
-            setEditBannerId={setEditBannerId}
-            setIsModalOpen={setIsModalOpen}
-          />
+          {bannerData?.data?.data?.data?.length > 0 ? (
+            <BannerTable
+              banners={banners}
+              setStateChange={setStateChange}
+              setEditBannerId={setEditBannerId}
+              setIsModalOpen={setIsModalOpen}
+            />
+          ) : (
+            <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
+              {isAmh ? "" : "There is no ad banner !"}
+            </h1>
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />

@@ -58,19 +58,25 @@ const Category: React.FC = () => {
         </button>
       </div>
       {categoryData.isFetched && categoryData.isSuccess ? (
-        <div>
-          <CategoryTable
-            categories={categories}
-            setStateChange={setStateChange}
-            setEditCategoryId={setEditCategoryId}
-            setIsModalOpen={setIsModalOpen}
-          />
+        <div className="flex items-center justify-center w-full">
+          {categoryData?.data?.data?.data?.length > 0 ? (
+            <CategoryTable
+              categories={categories}
+              setStateChange={setStateChange}
+              setEditCategoryId={setEditCategoryId}
+              setIsModalOpen={setIsModalOpen}
+            />
+          ) : (
+            <h1 className="text-blue-color text-xl capitalize font-semibold">
+              {isAmh ? "" : "No Categories found !"}
+            </h1>
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#f05454"}
+            color={"#34d399"}
             height={"60px"}
             width={"60px"}
           />

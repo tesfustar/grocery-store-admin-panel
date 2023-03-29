@@ -103,12 +103,12 @@ const Chart = () => {
         >
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#f05454" stopOpacity={0.8} />
+              <stop offset="5%" stopColor="#34d399" stopOpacity={0.8} />
               <stop offset="95%" stopColor="rgba(241, 194, 46, 0)" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#f05454" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#f05454" stopOpacity={0} />
+              <stop offset="5%" stopColor="#34d399" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis dataKey="name" />
@@ -118,14 +118,14 @@ const Chart = () => {
           <Area
             type="monotone"
             dataKey="incomplete"
-            stroke="#f05454"
+            stroke="#34d399"
             fillOpacity={1}
             fill="url(#colorUv)"
           />
           <Area
             type="monotone"
             dataKey="complete"
-            stroke="#f05454"
+            stroke="#34d399"
             fillOpacity={1}
             fill="url(#colorPv)"
           />
