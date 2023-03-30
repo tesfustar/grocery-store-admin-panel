@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
             <h1
               className={`font-medium duration-300 text-gray-300 ${
                 isSideBarOpen ? "flex" : "hidden"
-              } dark:text-gray-300 text-sm`}
+              } dark:text-gray-300 text-xs`}
             >
               {isAmh ? item.titleAm :item.title}
             </h1>

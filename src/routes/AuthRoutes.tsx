@@ -21,12 +21,12 @@ const AuthRoutes = () => {
     <div className="flex relative min-h-screen w-full">
       {!isSmallScreen ? (
         <div
-          className={`bg-[#121212]  h-screen pt-5 duration-300
-    ${isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"} p-5 fixed `}
+          className={`bg-[#121212]  h-screen pt-5 duration-300 
+    ${isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"} p-5 fixed overflow-y-scroll scrollbar-hide overflow-x-hidden `}
         >
           <BsFillArrowLeftCircleFill
             onClick={() => setIsSideBarOpen(!isSideBarOpen)}
-            className={`text-main-color absolute duration-500 -right-3 top-9 text-3xl ${
+            className={`z-50 text-main-color absolute duration-500 -right-3 top-9 text-3xl ${
               !isSideBarOpen && "rotate-180"
             }`}
           />

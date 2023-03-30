@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import ReactLoading from "react-loading";
 import { Route, Routes, Navigate } from "react-router-dom";
+import Branch from "../pages/admin/branche/Branch";
 import Coupon from "../pages/coupons/Coupon";
 import Delivery from "../pages/delivery/Delivery";
 import Notification from "../pages/notifications/Notification";
@@ -30,6 +31,7 @@ export const AdminRoute = () => {
         <Route path="/add-product/:id" element={<AddProduct />} />
         <Route path="/banners" element={<Banner />} />
         <Route path="/coupons" element={<Coupon />} />
+        <Route path="/branches" element={<Branch />} />
         <Route path="/notifications" element={<Notification />} />
 
         
