@@ -22,7 +22,7 @@ const Sidebar: React.FC = () => {
         {sideBarLinks.map((item: any) => (
           <div key={item.title}>
             <h1
-              className={`font-medium duration-300 text-gray-300 ${
+              className={`font-normal duration-300 text-gray-300 ${
                 isSideBarOpen ? "flex" : "hidden"
               } dark:text-gray-300 text-xs`}
             >

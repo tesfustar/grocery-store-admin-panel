@@ -1,23 +1,35 @@
 import React, { Suspense } from "react";
 import ReactLoading from "react-loading";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Branch from "../pages/admin/branche/Branch";
-import Coupon from "../pages/coupons/Coupon";
-import Delivery from "../pages/delivery/Delivery";
-import Notification from "../pages/notifications/Notification";
-import CustomerDetail from "../pages/users/CustomerDetail";
-// import Dashboard from "../pages/home/Dashboard";
-// import AddProduct from "../pages/product/AddProduct";
-// import Product from "../pages/product/Product";
-// import Customers from "../pages/users/Customers";
-const Category = React.lazy(() => import("../pages/category/Category"));
-const Dashboard = React.lazy(() => import("../pages/home/Dashboard"));
-const AddProduct = React.lazy(() => import("../pages/product/AddProduct"));
-const Product = React.lazy(() => import("../pages/product/Product"));
-const Customers = React.lazy(() => import("../pages/users/Customers"));
-const Banner = React.lazy(() => import("../pages/banner/Banner"));
+import { useAuth } from "../context/AuthContext";
+//admin routes
+const Category = React.lazy(() => import("../pages/admin/category/Category"));
+const Dashboard = React.lazy(() => import("../pages/admin/home/Dashboard"));
+const AddProduct = React.lazy(
+  () => import("../pages/admin/product/AddProduct")
+);
+const Product = React.lazy(() => import("../pages/admin/product/Product"));
+const Customers = React.lazy(() => import("../pages/admin/users/Customers"));
+const BranchAdmin = React.lazy(() => import("../pages/admin/users/BranchAdmin"));
+const Delivery = React.lazy(() => import("../pages/admin/delivery/Delivery"));
+const CustomerDetail = React.lazy(
+  () => import("../pages/admin/users/CustomerDetail")
+);
+const Notification = React.lazy(
+  () => import("../pages/notifications/Notification")
+);
+const Banner = React.lazy(() => import("../pages/admin/banner/Banner"));
+const Branch = React.lazy(() => import("../pages/admin/branche/Branch"));
+const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
+
+
+//manager routes
+const Store_Dashboard = React.lazy(
+  () => import("../pages/manager/home/Dashboard")
+);
 export const AdminRoute = () => {
-  function RoutComp() {
+  const { user } = useAuth();
+  function AdminComp() {
     return (
       <Routes>
         <Route path="*" element={<Navigate to="/dashboard" />} />
@@ -25,6 +37,7 @@ export const AdminRoute = () => {
         <Route path="/categories" element={<Category />} />
         <Route path="/products" element={<Product />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/branch-admin" element={<BranchAdmin />} />
         <Route path="/customers/:id" element={<CustomerDetail />} />
         <Route path="/deliveries" element={<Delivery />} />
         <Route path="/products/add-product" element={<AddProduct />} />
@@ -33,8 +46,15 @@ export const AdminRoute = () => {
         <Route path="/coupons" element={<Coupon />} />
         <Route path="/branches" element={<Branch />} />
         <Route path="/notifications" element={<Notification />} />
+      </Routes>
+    );
+  }
 
-        
+  function StoreAdmin() {
+    return (
+      <Routes>
+        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={<Store_Dashboard />} />
       </Routes>
     );
   }
@@ -51,7 +71,13 @@ export const AdminRoute = () => {
         </div>
       }
     >
-      <RoutComp />
+      {user.role === "ADMIN" ? (
+        <AdminComp />
+      ) : user.role === "STORE_ADMIN" ? (
+        <StoreAdmin />
+      ) : (
+        <h1>You have No Role to use this system !</h1>
+      )}
     </Suspense>
   );
 };

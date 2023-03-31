@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
-import { useHome } from "../../context/HomeContext";
-import { buttonStyle } from "../../styles/Style";
-import { IBanner } from "../../types/Banner";
-import BreedCrumb from "../../utils/BreedCrumb";
+import { useAuth } from "../../../context/AuthContext";
+import { useHome } from "../../../context/HomeContext";
+import { buttonStyle } from "../../../styles/Style";
+import { IBanner } from "../../../types/Banner";
+import BreedCrumb from "../../../utils/BreedCrumb";
 import BannerTable from "./components/BannerTable";
 import ReactLoading from "react-loading";
 import AddBannerModal from "./components/AddBannerModal";

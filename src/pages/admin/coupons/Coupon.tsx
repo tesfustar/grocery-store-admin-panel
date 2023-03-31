@@ -2,12 +2,12 @@ import React, { useState, FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import { useAuth } from "../../context/AuthContext";
-import { buttonStyle } from "../../styles/Style";
+import { useAuth } from "../../../context/AuthContext";
+import { buttonStyle } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../../types/User";
-import { useHome } from "../../context/HomeContext";
-import BreedCrumb from "../../utils/BreedCrumb";
+import { IUser } from "../../../types/User";
+import { useHome } from "../../../context/HomeContext";
+import BreedCrumb from "../../../utils/BreedCrumb";
 import AddCouponModal from "./components/AddCouponModal";
 
 const Coupon = () => {

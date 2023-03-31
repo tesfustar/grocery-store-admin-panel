@@ -1,15 +1,19 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import AddDeliveryForm from "../../../forms/AddDeliveryForm";
+import AddCategoryForm from "../../../../forms/AddCategoryForm";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditCategoryId: React.Dispatch<React.SetStateAction<string | null>>;
+  editCategoryId: string | null;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AddDeliveryModal = ({
+const AddCategoryModal = ({
   setIsModalOpen,
   isModalOpen,
+  editCategoryId,
+  setEditCategoryId,
   setStateChange,
 }: Props) => {
   return (
@@ -48,13 +52,18 @@ const AddDeliveryModal = ({
                     <FaTimes
                       onClick={() => {
                         setIsModalOpen(false);
+                        setTimeout(() => {
+                          setEditCategoryId(null);
+                        }, 1000);
                       }}
                       className="w-fit text-lg text-gray-700 cursor-pointer"
                     />
                   </div>
-                  <AddDeliveryForm
+                  <AddCategoryForm
                     setIsModalOpen={setIsModalOpen}
                     isModalOpen={isModalOpen}
+                    setEditCategoryId={setEditCategoryId}
+                    editCategoryId={editCategoryId}
                     setStateChange={setStateChange}
                   />
                 </Dialog.Panel>
@@ -67,4 +76,4 @@ const AddDeliveryModal = ({
   );
 };
 
-export default AddDeliveryModal;
+export default AddCategoryModal;

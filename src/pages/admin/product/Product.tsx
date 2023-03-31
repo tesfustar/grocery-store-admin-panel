@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import { useAuth } from "../../context/AuthContext";
-import { buttonStyle } from "../../styles/Style";
+import { useAuth } from "../../../context/AuthContext";
+import { buttonStyle } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IProduct } from "../../types/Product";
+import { IProduct } from "../../../types/Product";
 import ProductTable from "./components/ProductTable";
-import { useHome } from "../../context/HomeContext";
+import { useHome } from "../../../context/HomeContext";
 const Product = () => {
   const { token } = useAuth();
   const { isAmh } = useHome();

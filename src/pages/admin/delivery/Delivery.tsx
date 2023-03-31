@@ -2,13 +2,13 @@ import React, { useState, FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import { useAuth } from "../../context/AuthContext";
-import { buttonStyle } from "../../styles/Style";
+import { useAuth } from "../../../context/AuthContext";
+import { buttonStyle } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../../types/User";
+import { IUser } from "../../../types/User";
 import DeliveryTable from "./components/DeliveryTable";
-import { useHome } from "../../context/HomeContext";
-import BreedCrumb from "../../utils/BreedCrumb";
+import { useHome } from "../../../context/HomeContext";
+import BreedCrumb from "../../../utils/BreedCrumb";
 import AddDeliveryModal from "./components/AddDeliveryModal";
 const Delivery: FC = () => {
   const { isAmh } = useHome();

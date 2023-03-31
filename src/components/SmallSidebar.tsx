@@ -29,7 +29,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
             <div className="">
               {sideBarLinks.map((item: any) => (
                 <div key={item.title}>
-                  <h1 className="font-medium text-[#96a0af] dark:text-gray-300 text-sm">
+                  <h1 className="font-normal text-[#96a0af] dark:text-gray-300 text-sm">
                   {isAmh ? item.titleAm :item.title}
                   </h1>
                   {item.links.map((link: any) => (

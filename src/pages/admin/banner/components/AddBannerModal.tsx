@@ -1,19 +1,19 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import AddCategoryForm from "../../../forms/AddCategoryForm";
+import AddBannerForm from "../../../../forms/AddBannerForm";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setEditCategoryId: React.Dispatch<React.SetStateAction<string | null>>;
-  editCategoryId: string | null;
+  setEditBannerId: React.Dispatch<React.SetStateAction<string | null>>;
+  editBannerId: string | null;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AddCategoryModal = ({
+const AddBannerModal = ({
   setIsModalOpen,
   isModalOpen,
-  editCategoryId,
-  setEditCategoryId,
+  editBannerId,
+  setEditBannerId,
   setStateChange,
 }: Props) => {
   return (
@@ -47,23 +47,23 @@ const AddCategoryModal = ({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-lg transition-all">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-lg transition-all">
                   <div className=" flex items-end justify-end self-end">
                     <FaTimes
                       onClick={() => {
                         setIsModalOpen(false);
                         setTimeout(() => {
-                          setEditCategoryId(null);
+                          setEditBannerId(null);
                         }, 1000);
                       }}
                       className="w-fit text-lg text-gray-700 cursor-pointer"
                     />
                   </div>
-                  <AddCategoryForm
+                  <AddBannerForm
                     setIsModalOpen={setIsModalOpen}
                     isModalOpen={isModalOpen}
-                    setEditCategoryId={setEditCategoryId}
-                    editCategoryId={editCategoryId}
+                    setEditBannerId={setEditBannerId}
+                    editBannerId={editBannerId}
                     setStateChange={setStateChange}
                   />
                 </Dialog.Panel>
@@ -76,4 +76,4 @@ const AddCategoryModal = ({
   );
 };
 
-export default AddCategoryModal;
+export default AddBannerModal;

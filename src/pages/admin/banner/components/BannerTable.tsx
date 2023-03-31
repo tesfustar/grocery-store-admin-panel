@@ -46,7 +46,7 @@ const BannerTable = ({
           <img
             src={params.row.image}
             alt=""
-            className="h-11 w-11 rounded-sm object-cover"
+            className="h-11 w-28 rounded-sm object-cover"
           />
         );
       },

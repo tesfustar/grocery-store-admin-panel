@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
-import { useHome } from "../../context/HomeContext";
-import { IDashboard } from "../../types/Dashboard";
+import { useHome } from "../../../context/HomeContext";
+import { IDashboard } from "../../../types/Dashboard";
 import { Link } from "react-router-dom";
 import {
   BsFillArrowRightSquareFill,
@@ -15,7 +15,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { MdDeliveryDining, MdProductionQuantityLimits } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { RiStoreFill } from "react-icons/ri";
-import BreedCrumb from "../../utils/BreedCrumb";
+import BreedCrumb from "../../../utils/BreedCrumb";
 import Chart from "./components/Chart";
 
 const Dashboard = () => {

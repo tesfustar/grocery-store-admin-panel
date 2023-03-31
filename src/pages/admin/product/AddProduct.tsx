@@ -1,6 +1,6 @@
 import React from "react";
-import AddProductForm from "../../forms/AddProductForm";
-import BreedCrumb from "../../utils/BreedCrumb";
+import AddProductForm from "../../../forms/AddProductForm";
+import BreedCrumb from "../../../utils/BreedCrumb";
 
 const AddProduct = () => {
   return (

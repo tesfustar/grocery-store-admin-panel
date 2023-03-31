@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategoryTable from "./components/CategoryTable";
 import ReactLoading from "react-loading";
-import { useAuth } from "../../context/AuthContext";
-import { buttonStyle } from "../../styles/Style";
-import { ICategory } from "../../types/Category";
-import { useHome } from "../../context/HomeContext";
-import BreedCrumb from "../../utils/BreedCrumb";
+import { useAuth } from "../../../context/AuthContext";
+import { buttonStyle } from "../../../styles/Style";
+import { ICategory } from "../../../types/Category";
+import { useHome } from "../../../context/HomeContext";
+import BreedCrumb from "../../../utils/BreedCrumb";
 const Category: React.FC = () => {
   const { token } = useAuth();
   const { isAmh } = useHome();
