@@ -2,23 +2,27 @@ import React, { useState } from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { IDeliveryMan } from "../types/Delivery";
 import { useHome } from "../context/HomeContext";
 import { PulseLoader } from "react-spinners";
+import Select from "react-select";
+import { IBranchAdmin } from "../types/Branch";
+import { customStyles } from "../styles/Style";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AddDeliveryForm: React.FC<Props> = ({
+const AddBranchAdminForm: React.FC<Props> = ({
   setIsModalOpen,
   setStateChange,
 }) => {
   const { isAmh, setMessageType } = useHome();
   const { token } = useAuth();
+  const [branches, setBranches] = useState<Array<any>>([]);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const headers = {
     "Content-Type": "application/json",
@@ -26,6 +30,23 @@ const AddDeliveryForm: React.FC<Props> = ({
     Authorization: `Bearer ${token}`,
   };
 
+  //fetch branches
+  const branchesData = useQuery(
+    ["branchesData"],
+    async () =>
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}product`, {
+        headers,
+      }),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: true,
+      retry: false,
+      enabled: !!token,
+      onSuccess: (res: any) => {
+        setBranches(res?.data?.data);
+      },
+    }
+  );
   const deliverySchema = Yup.object().shape({
     phone: Yup.number()
       .required("phone is required")
@@ -42,18 +63,22 @@ const AddDeliveryForm: React.FC<Props> = ({
     lastName: Yup.string().required("lastName is required"),
     email: Yup.string().email().required("email is required"),
     password: Yup.string().required("password is required"),
+    address: Yup.string().required("address is required"),
+    branch: Yup.string().required("branch is required"),
   });
 
-  const initialValues: IDeliveryMan = {
+  const initialValues: IBranchAdmin = {
     phone: null,
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    address: "",
+    branch: "",
   };
 
-  //create delivery post request
-  const createDeliveryMutation = useMutation(
+  //create Branch admin post request
+  const createBranchAdminMutation = useMutation(
     async (newData: any) =>
       await axios.post(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in`,
@@ -69,14 +94,14 @@ const AddDeliveryForm: React.FC<Props> = ({
 
   const loginMutationSubmitHandler = async () => {
     try {
-      createDeliveryMutation.mutate(
+      createBranchAdminMutation.mutate(
         {
           phone: "phone",
-          firstName:"",
-          lastName:"",
-          email:"",
+          firstName: "",
+          lastName: "",
+          email: "",
           password: "",
-          role:"DELIVERY"
+          role:"STORE_ADMIN"
         },
         {
           onSuccess: (responseData: any) => {
@@ -100,14 +125,14 @@ const AddDeliveryForm: React.FC<Props> = ({
   return (
     <div>
       <h1 className="font-semibold text-dark-gray text-center pb-2">
-        {isAmh ? "አዲስ አድራሽ ፍጠር" : "Add New Delivery"}
+        {isAmh ? "አዲስ አድራሽ ፍጠር" : "Add New Branch Admin"}
       </h1>
       <Formik
         initialValues={initialValues}
         validationSchema={deliverySchema}
         onSubmit={(val) => console.log(val)}
       >
-        {({ handleChange, values, errors, touched }) => (
+        {({ handleChange, values, errors, touched, setFieldValue }) => (
           <Form className="w-full flex flex-col items-center space-y-2">
             <div className="w-full">
               <div
@@ -123,6 +148,7 @@ const AddDeliveryForm: React.FC<Props> = ({
                 <Field
                   as="input"
                   type={"tel"}
+                  autoComplete="false"
                   name="phone"
                   placeholder="phone number"
                   className="focus:outline-none w-full h-full p-3 flex-grow"
@@ -171,6 +197,7 @@ const AddDeliveryForm: React.FC<Props> = ({
               <Field
                 as="input"
                 name="email"
+                autoComplete="false"
                 placeholder="Email"
                 className={`rounded-sm w-full  focus:outline-none  p-2 text-dark-gray  ${
                   errors.email && touched.email
@@ -195,6 +222,7 @@ const AddDeliveryForm: React.FC<Props> = ({
                   as="input"
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  autoComplete="false"
                   placeholder="Password"
                   className="focus:outline-none w-full h-full p-3 flex-grow"
                 />
@@ -213,13 +241,35 @@ const AddDeliveryForm: React.FC<Props> = ({
                 <p className="text-[13px] text-red-500">{errors.password}</p>
               ) : null}
             </div>
+            {/* branch */}
+            <div className="w-full">
+              <Select
+                isSearchable={false}
+                styles={customStyles}
+                placeholder={"select his branch"}
+                onChange={(selectedOption: any) => {
+                  // handleChange("products")(selectedOption._id);
+                  setFieldValue("branch", selectedOption);
+                }}
+                getOptionLabel={(categories: any) => categories.name}
+                getOptionValue={(categories: any) => categories._id}
+                className="w-full font-semibold"
+                options={branches}
+                name="branch"
+                isLoading={false}
+                noOptionsMessage={() => "branchs appears here"}
+              />
+              {errors.branch && touched.branch ? (
+                <p className="text-[13px] text-red-500">{errors.branch}</p>
+              ) : null}
+            </div>
             <button
-              disabled={createDeliveryMutation.isLoading}
+              disabled={createBranchAdminMutation.isLoading}
               type="submit"
               className=" rounded-sm  bg-main-bg p-3 text-[15px] text-white font-medium
                    hover:bg-main-bg/70 disabled:hover:bg-main-bg  w-full flex items-center justify-center"
             >
-              {createDeliveryMutation.isLoading ? (
+              {createBranchAdminMutation.isLoading ? (
                 <PulseLoader color="#fff" />
               ) : isAmh ? (
                 "ጨምር"
@@ -234,4 +284,4 @@ const AddDeliveryForm: React.FC<Props> = ({
   );
 };
 
-export default AddDeliveryForm;
+export default AddBranchAdminForm;

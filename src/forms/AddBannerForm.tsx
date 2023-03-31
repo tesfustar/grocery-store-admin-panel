@@ -51,7 +51,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
     image: null,
   };
 
-  //fettch products
+  //fetch products
   const productData = useQuery(
     ["productsData"],
     async () =>

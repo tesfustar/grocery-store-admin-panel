@@ -46,7 +46,7 @@ export default function AuthProvider({
     setUser(user);
     setRole(role);
     localStorage.setItem(
-      "Grocery Store_User",
+      "Grocery_Store_User",
       JSON.stringify({
         token,
         role,
@@ -59,14 +59,14 @@ export default function AuthProvider({
     setToken(null);
     setUser(null);
     setRole(null);
-    localStorage.removeItem("Grocery Store_User");
+    localStorage.removeItem("Grocery_Store_User");
   }, []);
 
   let loginData;
 
   useEffect(() => {
-    // const storedData = JSON.parse(localStorage.getItem("Grocery Store_User") || "") as any;
-    const storedData: any | null = localStorage.getItem("Grocery Store_User");
+    // const storedData = JSON.parse(localStorage.getItem("Grocery_Store_User") || "") as any;
+    const storedData: any | null = localStorage.getItem("Grocery_Store_User");
     const adminData: any = JSON.parse(storedData);
 
     if (adminData) {

@@ -10,12 +10,14 @@ import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import { IBranchAdmin } from "../../../types/BranchAdmin";
 import BranchAdminTable from "./components/BranchAdminTable";
+import AddBranchAdminModal from "./components/AddBranchAdminModal";
 const BranchAdmin: FC = () => {
   const { isAmh } = useHome();
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [branchAdmin, setBranchAdmins] = useState<IBranchAdmin[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -51,8 +53,11 @@ const BranchAdmin: FC = () => {
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-dark-gray">
-          {isAmh ? "ደንበኞች" : "Customers"}
+          {isAmh ? "አድራሾች" : "Branch Admins"}
         </h1>
+        <button onClick={() => setIsModalOpen(true)} className={buttonStyle}>
+          {isAmh ? "አድራሽ ጨምር" : "Add Branch Admin"}
+        </button>
       </div>
       {/*  */}
       {branchAdminData.isFetched && branchAdminData.isSuccess ? (
@@ -78,6 +83,11 @@ const BranchAdmin: FC = () => {
           />
         </div>
       )}
+        <AddBranchAdminModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        setStateChange={setStateChange}
+      />
     </div>
   );
 };
