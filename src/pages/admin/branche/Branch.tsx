@@ -8,14 +8,14 @@ import { useAuth } from "../../../context/AuthContext";
 import { buttonStyle } from "../../../styles/Style";
 import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
-import { IBranch } from "../../../types/Branch";
+import { IBranchAdmin } from "../../../types/Branch";
 import BranchTable from "./components/BranchTable";
 
 const Branch = () => {
   const { token } = useAuth();
   const { isAmh } = useHome();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [branches, setBranches] = useState<Array<IBranch>>([]);
+  const [branches, setBranches] = useState<Array<IBranchAdmin>>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editBranchId, setEditBranchId] = useState<string | null>(null);
   const headers = {

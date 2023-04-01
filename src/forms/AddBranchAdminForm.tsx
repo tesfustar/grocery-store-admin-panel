@@ -34,7 +34,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
   const branchesData = useQuery(
     ["branchesData"],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}product`, {
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}branch`, {
         headers,
       }),
     {
@@ -123,7 +123,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
     }
   };
   return (
-    <div>
+    <div className="">
       <h1 className="font-semibold text-dark-gray text-center pb-2">
         {isAmh ? "አዲስ አድራሽ ፍጠር" : "Add New Branch Admin"}
       </h1>
@@ -156,6 +156,28 @@ const AddBranchAdminForm: React.FC<Props> = ({
               </div>
               {errors.phone && touched.phone ? (
                 <p className="text-[13px] text-red-500">{errors.phone}</p>
+              ) : null}
+            </div>
+              {/* branch */}
+              <div className="w-full">
+              <Select
+                isSearchable={false}
+                styles={customStyles}
+                placeholder={"select his branch"}
+                onChange={(selectedOption: any) => {
+                  // handleChange("products")(selectedOption._id);
+                  setFieldValue("branch", selectedOption);
+                }}
+                getOptionLabel={(categories: any) => categories.name}
+                getOptionValue={(categories: any) => categories._id}
+                className="w-full font-semibold"
+                options={branches}
+                name="branch"
+                isLoading={false}
+                noOptionsMessage={() => "branchs appears here"}
+              />
+              {errors.branch && touched.branch ? (
+                <p className="text-[13px] text-red-500">{errors.branch}</p>
               ) : null}
             </div>
             {/*  */}
@@ -241,28 +263,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
                 <p className="text-[13px] text-red-500">{errors.password}</p>
               ) : null}
             </div>
-            {/* branch */}
-            <div className="w-full">
-              <Select
-                isSearchable={false}
-                styles={customStyles}
-                placeholder={"select his branch"}
-                onChange={(selectedOption: any) => {
-                  // handleChange("products")(selectedOption._id);
-                  setFieldValue("branch", selectedOption);
-                }}
-                getOptionLabel={(categories: any) => categories.name}
-                getOptionValue={(categories: any) => categories._id}
-                className="w-full font-semibold"
-                options={branches}
-                name="branch"
-                isLoading={false}
-                noOptionsMessage={() => "branchs appears here"}
-              />
-              {errors.branch && touched.branch ? (
-                <p className="text-[13px] text-red-500">{errors.branch}</p>
-              ) : null}
-            </div>
+          
             <button
               disabled={createBranchAdminMutation.isLoading}
               type="submit"
