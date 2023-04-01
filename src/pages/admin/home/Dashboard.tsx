@@ -238,6 +238,6 @@ cursor-pointer bg-red-bg  p-1"
       </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
