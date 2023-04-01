@@ -4,4 +4,5 @@ export interface IDashboard {
   products: string;
   categories: string;
   orders: string;
+  branches:string
 }

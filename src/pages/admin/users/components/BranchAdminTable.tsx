@@ -80,7 +80,18 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
       width: 170,
       headerClassName: "super-app-theme--header",
     },
-
+    {
+      field: "branch",
+      headerName: "Branch",
+      sortable: false,
+      filterable: false,
+      width: 130,
+      renderCell: (params: GridCellParams) => {
+        return (
+       <h1>{params.row.branch?.name ? params.row.branch?.name :  "Not Assigned"}</h1>
+        );
+      },
+    },
     {
       field: "action",
       headerName: "action",

@@ -28,7 +28,7 @@ const BranchAdmin: FC = () => {
     ["branchAdminData", stateChange],
     async () =>
       await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/customers`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/branch-admins`,
         {
           headers,
         }

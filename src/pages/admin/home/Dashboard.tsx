@@ -11,7 +11,7 @@ import {
   BsFillArrowRightSquareFill,
   BsFillCartCheckFill,
 } from "react-icons/bs";
-import { FaUserAlt } from "react-icons/fa";
+import { FaCodeBranch, FaUserAlt } from "react-icons/fa";
 import { MdDeliveryDining, MdProductionQuantityLimits } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { RiStoreFill } from "react-icons/ri";
@@ -74,7 +74,7 @@ const Dashboard = () => {
             </div>
 
             <Link
-              to="/listings"
+              to="/customers"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-main-bg  p-1"
             >
@@ -101,9 +101,36 @@ cursor-pointer bg-main-bg  p-1"
             </div>
 
             <Link
-              to="/listings"
+              to="/deliveries"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-[#121212]  p-1"
+            >
+              <span className="font-normal capitalize text-white">
+                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
+              </span>
+              <BsFillArrowRightSquareFill size={20} className="text-white" />
+            </Link>
+          </div>
+          {/* branches */}
+          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
+            <div className="flex items-center justify-between p-5 pb-10">
+              <div className="flex flex-col items-start space-y-2">
+                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
+                  {isAmh ? "ቅርንጫፎች" : "Branches"}
+                </h1>
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.branches}
+                </h4>
+              </div>
+              <div className="h-24 w-24">
+                <FaCodeBranch size={80} className="text-[#0891b2]" />
+              </div>
+            </div>
+
+            <Link
+              to="/branches"
+              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
+cursor-pointer bg-[#0891b2]  p-1"
             >
               <span className="font-normal capitalize text-white">
                 {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
@@ -128,7 +155,7 @@ cursor-pointer bg-[#121212]  p-1"
             </div>
 
             <Link
-              to="/listings"
+              to="/Products"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-[#457eac]  p-1"
             >
@@ -155,7 +182,7 @@ cursor-pointer bg-[#457eac]  p-1"
             </div>
 
             <Link
-              to="/listings"
+              to="/categories"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-blue-bg  p-1"
             >
@@ -182,7 +209,7 @@ cursor-pointer bg-blue-bg  p-1"
             </div>
 
             <Link
-              to="/listings"
+              to="/orders"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-red-bg  p-1"
             >
