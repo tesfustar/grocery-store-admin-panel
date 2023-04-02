@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import AddBannerForm from "../../../../forms/AddBannerForm";
+import AddBannerForm from "../../../../forms/adminForm/AddBannerForm";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

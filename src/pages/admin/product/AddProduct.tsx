@@ -1,5 +1,5 @@
 import React from "react";
-import AddProductForm from "../../../forms/AddProductForm";
+import AddProductForm from "../../../forms/adminForm/AddProductForm";
 import BreedCrumb from "../../../utils/BreedCrumb";
 
 const AddProduct = () => {

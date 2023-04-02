@@ -7,12 +7,12 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import app from "../utils/data/firebase";
+import app from "../../utils/data/firebase";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import Select from "react-select";
-import { customStyles } from "../styles/Style";
+import { customStyles } from "../../styles/Style";
 interface BannerFormProps {
   name: string;
   description: string;

@@ -32,7 +32,7 @@ const Login = () => {
   const loginMutation = useMutation(
     async (newData: any) =>
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in/dashboard`,
         newData,
         {
           headers,

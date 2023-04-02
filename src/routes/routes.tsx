@@ -27,6 +27,7 @@ const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
 const Store_Dashboard = React.lazy(
   () => import("../pages/manager/home/Dashboard")
 );
+const Store_Product = React.lazy(() => import("../pages/manager/product/Product"));
 export const AdminRoute = () => {
   const { user } = useAuth();
   function AdminComp() {
@@ -55,6 +56,7 @@ export const AdminRoute = () => {
       <Routes>
         <Route path="*" element={<Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={<Store_Dashboard />} />
+        <Route path="/products" element={<Store_Product />} />
       </Routes>
     );
   }

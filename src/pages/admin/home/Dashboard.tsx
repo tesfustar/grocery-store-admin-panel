@@ -14,7 +14,7 @@ import {
 import { FaCodeBranch, FaUserAlt } from "react-icons/fa";
 import { MdDeliveryDining, MdProductionQuantityLimits } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
-import { RiStoreFill } from "react-icons/ri";
+import { RiAdminFill, RiStoreFill } from "react-icons/ri";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import Chart from "./components/Chart";
 
@@ -104,6 +104,33 @@ cursor-pointer bg-main-bg  p-1"
               to="/deliveries"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-[#121212]  p-1"
+            >
+              <span className="font-normal capitalize text-white">
+                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
+              </span>
+              <BsFillArrowRightSquareFill size={20} className="text-white" />
+            </Link>
+          </div>
+          {/* branch admins */}
+          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
+            <div className="flex items-center justify-between p-5 pb-10">
+              <div className="flex flex-col items-start space-y-2">
+                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
+                  {isAmh ? "የቅርንጫፍ አስተዳዳሪዎች" : "Branch Admins"}
+                </h1>
+                <h4 className="text-xl text-blue-color font-semibold">
+                  {dashboardCounts?.branchAdmins}
+                </h4>
+              </div>
+              <div className="h-24 w-24">
+                <RiAdminFill size={80} className="text-blue-color" />
+              </div>
+            </div>
+
+            <Link
+              to="/deliveries"
+              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
+cursor-pointer bg-blue-bg  p-1"
             >
               <span className="font-normal capitalize text-white">
                 {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}

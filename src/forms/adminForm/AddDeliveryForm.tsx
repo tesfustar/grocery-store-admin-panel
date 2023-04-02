@@ -3,10 +3,10 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { IDeliveryMan } from "../types/Delivery";
-import { useHome } from "../context/HomeContext";
+import { IDeliveryMan } from "../../types/Delivery";
+import { useHome } from "../../context/HomeContext";
 import { PulseLoader } from "react-spinners";
 interface Props {
   isModalOpen: boolean;

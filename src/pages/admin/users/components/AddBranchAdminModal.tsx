@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import AddBranchAdminForm from "../../../../forms/AddBranchAdminForm";
+import AddBranchAdminForm from "../../../../forms/adminForm/AddBranchAdminForm";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import AddDeliveryForm from "../../../../forms/AddDeliveryForm";
+import AddDeliveryForm from "../../../../forms/adminForm/AddDeliveryForm";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

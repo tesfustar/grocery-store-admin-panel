@@ -17,60 +17,73 @@ import axios from "axios";
 interface Props {
   products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditProductId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 const ProductTable = ({
   products,
   setStateChange,
+  setIsModalOpen,
+  setEditProductId,
 }: Props) => {
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Name",
-      width: 120,
+      width: 170,
       sortable: false,
       filterable: false,
       headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.product.name}</h3>;
+      },
     },
     {
       field: "nameAm",
       headerName: "amharic name",
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 170,
       headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.product.nameAm}</h3>;
+      },
     },
     {
-        field: "wholeSalePrice",
-        headerName: "price",
-        sortable: false,
-        filterable: false,
-        width: 130,
-        headerClassName: "super-app-theme--header",
+      field: "wholeSalePrice",
+      headerName: "price",
+      sortable: false,
+      filterable: false,
+      width: 80,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.product.wholeSalePrice}</h3>;
       },
-      {
-        field: "category",
-        headerName: "category",
-        sortable: false,
-        filterable: false,
-        width: 170,
-        headerClassName: "super-app-theme--header",
-        renderCell: (params: GridCellParams) => {
-          return(
-            <h3>{params.row.category.name}</h3>
-          )
-        }
+    },
+    {
+      field: "availableQuantity",
+      headerName: "availableQuantity",
+      sortable: false,
+      filterable: false,
+      width: 150,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.availableQuantity}</h3>;
       },
+    },
     {
       field: "image",
       headerName: "Image",
       sortable: false,
       filterable: false,
+      align: "center",
+      headerAlign: "center",
       width: 130,
       renderCell: (params: GridCellParams) => {
         return (
           <img
-            src={params.row.image[0]}
+            src={params.row.product.image[0]}
             alt=""
             className="h-11 w-11 rounded-sm object-cover"
           />
@@ -94,7 +107,10 @@ const ProductTable = ({
               Delete
             </button>
             <button
-              onClick={() => {}}
+              onClick={() => {
+                setEditProductId(params.row._id);
+                setIsModalOpen(true);
+              }}
               className="bg-red-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >

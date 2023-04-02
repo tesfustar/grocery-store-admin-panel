@@ -7,31 +7,25 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import app from "../utils/data/firebase";
+import app from "../../utils/data/firebase";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select, { StylesConfig } from "react-select";
 import Dropzone from "react-dropzone";
 import { MdDelete } from "react-icons/md";
-import upload from "../assets/upload.jpg";
+import upload from "../../assets/upload.jpg";
 import { useNavigate } from "react-router-dom";
-interface ProductFormProps {
-  category: string;
-  name: string;
-  nameAm: string;
-  description: string;
-  descriptionAm: string;
-  image: Array<any>;
-  price: string;
-}
+import { customStyles } from "../../styles/Style";
+import { IProductFormProps } from "../../types/Product";
+
 const AddProductForm = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState<ProductFormProps>();
+  const [formValues, setFormValues] = useState<IProductFormProps>();
   const [category, setCategory] = useState<Array<any>>([]);
   const [imageUrls, setImageUrls] = useState<Array<string>>([]);
   const [images, setImages] = useState<Array<any>>([]);
@@ -45,9 +39,10 @@ const AddProductForm = () => {
     ),
     image: Yup.array().min(1).required("at least one image is required."),
     price: Yup.number().required("product name is required!"),
+    priceType: Yup.string().required("price type  is required!"),
   });
 
-  const initialValues: ProductFormProps = {
+  const initialValues: IProductFormProps = {
     category: "",
     name: "",
     nameAm: "",
@@ -55,8 +50,14 @@ const AddProductForm = () => {
     descriptionAm: "",
     image: [],
     price: "",
+    priceType:""
   };
 
+
+  const priceOptions = [
+    { value: "/piece", label: "per piece" },
+    { value: "/kg", label: "per kilogram" },
+  ];
   //fetch categories
   const headers = {
     "Content-Type": "application/json",
@@ -81,46 +82,8 @@ const AddProductForm = () => {
     }
   );
 
-  const customStyles: StylesConfig = {
-    control: (base, state) => ({
-      ...base,
-      background: "#fff",
-      borderRadius: state.isFocused ? "3px 3px 0 0" : 3,
-      borderColor: state.isFocused ? "#d1d5db" : "#d1d5db",
-      color: "#1f2937",
-      padding: 2,
-      fontWeight: "500",
-    }),
-    menu: (base) => ({
-      ...base,
-      color: "#1f2937",
-      fontWeight: "500",
-    }),
-    menuList: (base, state) => ({
-      ...base,
-      background: "#fff",
-      color: "#1f2937",
-      fontWeight: "500",
-    }),
-    option: (base, state) => ({
-      ...base,
-      background: "white",
-      color: "#1f2937",
-      fontWeight: "500",
-    }),
-    singleValue: (base, state) => ({
-      ...base,
-      color: "#1f2937",
-    }),
-    input: (base, state) => ({
-      ...base,
-      border: "none",
-      outline: "none",
-      fontWeight: "500",
-    }),
-  };
 
-  const createProduct = (values: ProductFormProps) => {
+  const createProduct = (values: IProductFormProps) => {
     setIsLoading(true);
     const promises: any = [];
     values?.image.map((file) => {
@@ -176,14 +139,13 @@ const AddProductForm = () => {
     try {
       createProductMutation.mutate(
         {
-          category: formValues!.category,
-          name: formValues!.name,
-          nameAm: formValues!.nameAm,
+          category: formValues?.category,
+          name: formValues?.name,
+          nameAm: formValues?.nameAm,
           image: imageUrls,
-          description: formValues!.description,
-          descriptionAm: formValues!.descriptionAm,
-          wholeSalePrice: formValues!.price,
-          availableQuantity: 10,
+          description: formValues?.description,
+          descriptionAm: formValues?.descriptionAm,
+          wholeSalePrice: formValues?.price?.toString().concat(formValues?.priceType),
         },
         {
           onSuccess: (res: any) => {
@@ -242,8 +204,8 @@ const AddProductForm = () => {
                 ) : null}
               </div>
             </div>
-            {/* price and category */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+            {/* price and category an type */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
               <div className="w-full">
                 <Field
                   type={"number"}
@@ -260,6 +222,29 @@ const AddProductForm = () => {
                   <p className="text-[13px] text-red-500">{errors.price}</p>
                 ) : null}
               </div>
+              {/* type */}
+              <div className="w-full flex flex-col items-start space-y-1">
+                    <Select
+                      options={priceOptions}
+                      isSearchable={false}
+                      placeholder={"select price type"}
+                      styles={customStyles}
+                      name="priceType"
+                      getOptionLabel={(priceOption:any) => priceOption.label}
+                      getOptionValue={(priceOption:any) => priceOption.value}
+                      onChange={(selectedOption:any) => {
+                        handleChange("priceType")(selectedOption.value);
+                      }}
+                      className="w-full font-semibold"
+                      isLoading={false}
+                      noOptionsMessage={() => "priceType appears here"}
+                    />
+                     {errors.priceType && touched.priceType ? (
+                <p className="text-[13px] font-medium capitalize text-red-500">
+                  {errors.priceType}
+                </p>
+              ) : null}
+                  </div>
               {/* category */}
               <div className="w-full">
                 <Select

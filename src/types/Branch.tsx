@@ -8,3 +8,11 @@ export interface IBranchAdmin {
   branch:string
   // location
 }
+
+
+export interface IBranch{
+  name:string;
+  location:number[];
+  lat:number | undefined;
+  lng:number | undefined
+}

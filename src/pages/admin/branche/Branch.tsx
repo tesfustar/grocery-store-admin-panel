@@ -10,6 +10,7 @@ import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import { IBranchAdmin } from "../../../types/Branch";
 import BranchTable from "./components/BranchTable";
+import AddBranchModal from "./components/AddBranchModal";
 
 const Branch = () => {
   const { token } = useAuth();
@@ -85,6 +86,11 @@ const Branch = () => {
           />
         </div>
       )}
+       <AddBranchModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        setStateChange={setStateChange}
+      />
     </div>
   );
 };

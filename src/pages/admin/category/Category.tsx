@@ -25,7 +25,7 @@ const Category: React.FC = () => {
   const categoryData = useQuery(
     ["categoryData", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}category`, {
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}category/admin`, {
         headers,
       }),
     {

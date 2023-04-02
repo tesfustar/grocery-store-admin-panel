@@ -5,25 +5,28 @@ import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
 import { buttonStyle } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IProduct } from "../../../types/Product";
 import ProductTable from "./components/ProductTable";
 import { useHome } from "../../../context/HomeContext";
+import { IBranchProduct } from "../../../types/Product";
+import AddProductModal from "./components/AddProductModal";
 const Product = () => {
-  const { token } = useAuth();
+  const { token,user } = useAuth();
   const { isAmh } = useHome();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IBranchProduct[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [editProductId, setEditProductId] = useState<string | null>(null);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
   };
   //fetch products
-  const productData = useQuery(
-    ["productsData", stateChange],
+  const branchProductData = useQuery(
+    ["BranchProductsData", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}product/admin`, {
+      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}branch-admin/products/${user.branch}`, {
         headers,
       }),
     {
@@ -48,17 +51,22 @@ const Product = () => {
           {isAmh ? "ምርቶች " : "Products"}
         </h1>
         <button
-          onClick={() => navigate("/products/add-product")}
+          onClick={() => setIsModalOpen(true)}
           className={buttonStyle}
         >
           {isAmh ? "ፕሮዳክት ጨምር" : "Add Product"}
         </button>
       </div>
       {/*  */}
-      {productData.isFetched && productData.isSuccess ? (
+      {branchProductData.isFetched && branchProductData.isSuccess ? (
         <div>
-          {productData?.data?.data?.data?.length > 0 ? (
-            <ProductTable products={products} setStateChange={setStateChange} />
+          {branchProductData?.data?.data?.data?.length > 0 ? (
+            <ProductTable 
+            products={products} 
+            setStateChange={setStateChange}
+            setEditProductId={setEditProductId}
+        setIsModalOpen={setIsModalOpen}
+            />
           ) : (
             <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
               {isAmh ? "" : "No products found !"}
@@ -75,6 +83,13 @@ const Product = () => {
           />
         </div>
       )}
+        <AddProductModal
+        setEditProductId={setEditProductId}
+        setIsModalOpen={setIsModalOpen}
+        editProductId={editProductId}
+        isModalOpen={isModalOpen}
+        setStateChange={setStateChange}
+      />
     </div>
   );
 };
