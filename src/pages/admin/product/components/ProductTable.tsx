@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -7,21 +7,21 @@ import {
   gridPageSelector,
   useGridApiContext,
   useGridSelector,
-  DataGridProps,
 } from "@mui/x-data-grid";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useHome } from "../../../../context/HomeContext";
+import ConfirmModal from "../../../../utils/ConfirmModal";
 
 interface Props {
   products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const ProductTable = ({
-  products,
-  setStateChange,
-}: Props) => {
+const ProductTable = ({ products, setStateChange }: Props) => {
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -41,26 +41,24 @@ const ProductTable = ({
       headerClassName: "super-app-theme--header",
     },
     {
-        field: "wholeSalePrice",
-        headerName: "price",
-        sortable: false,
-        filterable: false,
-        width: 130,
-        headerClassName: "super-app-theme--header",
+      field: "wholeSalePrice",
+      headerName: "price",
+      sortable: false,
+      filterable: false,
+      width: 130,
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "category",
+      headerName: "category",
+      sortable: false,
+      filterable: false,
+      width: 170,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.category.name}</h3>;
       },
-      {
-        field: "category",
-        headerName: "category",
-        sortable: false,
-        filterable: false,
-        width: 170,
-        headerClassName: "super-app-theme--header",
-        renderCell: (params: GridCellParams) => {
-          return(
-            <h3>{params.row.category.name}</h3>
-          )
-        }
-      },
+    },
     {
       field: "image",
       headerName: "Image",
@@ -89,11 +87,16 @@ const ProductTable = ({
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => {
+                setConfirmModalOpen(true);
+                setSelectedId(params.row._id);
+              }}
+              disabled={productDeleteMutation.isLoading}
             >
               Delete
             </button>
             <button
+              disabled={productDeleteMutation.isLoading}
               onClick={() => {}}
               className="bg-red-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
@@ -125,31 +128,37 @@ const ProductTable = ({
     );
   }
 
-  //delete confirmation
-  const handleDelete = (id: string) => {
-    if (window.confirm("are you sure")) {
-      deleteCategoryMutationHandler(id);
-    }
-    return;
-  };
-  const categoryDeleteMutation = useMutation(
+  const productDeleteMutation = useMutation(
     async (id) =>
       await axios.delete(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }category/find/remove/${id}`
+        }product/find/remove/${id}`
       ),
     {
       retry: false,
     }
   );
-  const deleteCategoryMutationHandler = async (id: any) => {
+  const deleteProductMutationHandler = async (id: any) => {
     try {
-      categoryDeleteMutation.mutate(id, {
+      productDeleteMutation.mutate(id, {
         onSuccess: (responseData) => {
           setStateChange((prev) => !prev);
+          setMessageType({
+            message: "Product Delete Successfully!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false)
+          setSelectedId(null)
         },
-        onError: (err) => {},
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false)
+          setSelectedId(null)
+        },
       });
     } catch (err) {
       console.log(err);
@@ -172,6 +181,34 @@ const ProductTable = ({
         disableColumnMenu={true}
         disableColumnSelector
       />
+
+      {/* //delete confirmation modal */}
+      <ConfirmModal>
+        <div className="flex flex-col items-center space-y-2">
+          <h1 className="font-medium text-dark-color capitalize py-4 text-lg">
+            {isAmh
+              ? "እርግጠኛ ነዎት ይህን ምርት መሰረዝ ይፈልጋሉ?"
+              : "are u sure you want to delete this product"}
+          </h1>
+          <div
+            onClick={() => deleteProductMutationHandler(selectedId)}
+            className="flex  items-center justify-center space-x-5"
+          >
+            <button className="hover:bg-red-bg/80 bg-red-bg p-2 px-12 rounded-sm text-white font-medium">
+              {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+            </button>
+            <button
+              onClick={() => {
+                setConfirmModalOpen(false);
+                setSelectedId(null);
+              }}
+              className="hover:bg-main-bg/80 bg-main-bg p-2 px-12 rounded-sm text-white font-medium"
+            >
+              {isAmh ? "አይ" : "No"}
+            </button>
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

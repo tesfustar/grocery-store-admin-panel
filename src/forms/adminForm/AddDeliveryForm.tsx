@@ -56,7 +56,7 @@ const AddDeliveryForm: React.FC<Props> = ({
   const createDeliveryMutation = useMutation(
     async (newData: any) =>
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/delivery/create`,
         newData,
         {
           headers,
@@ -67,15 +67,15 @@ const AddDeliveryForm: React.FC<Props> = ({
     }
   );
 
-  const loginMutationSubmitHandler = async () => {
+  const createDeliveryAccountMutationSubmitHandler = async (values:any) => {
     try {
       createDeliveryMutation.mutate(
         {
-          phone: "phone",
-          firstName:"",
-          lastName:"",
-          email:"",
-          password: "",
+          phone: Number("251".concat(values?.phone)),
+          firstName:values.firstName,
+          lastName:values.lastName,
+          email:values.email,
+          password: values.password,
           role:"DELIVERY"
         },
         {
@@ -105,7 +105,7 @@ const AddDeliveryForm: React.FC<Props> = ({
       <Formik
         initialValues={initialValues}
         validationSchema={deliverySchema}
-        onSubmit={(val) => console.log(val)}
+        onSubmit={createDeliveryAccountMutationSubmitHandler}
       >
         {({ handleChange, values, errors, touched }) => (
           <Form className="w-full flex flex-col items-center space-y-2">

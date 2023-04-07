@@ -32,12 +32,7 @@ const Product = () => {
       retry: false,
       enabled: !!token,
       onSuccess: (res) => {
-        setProducts(
-          res?.data?.data?.map((data: object, index: number) => ({
-            ...data,
-            index: index + 1,
-          }))
-        );
+        setProducts(res?.data?.data?.map((data: object, index: number) => ({...data,index: index + 1})));
       },
     }
   );

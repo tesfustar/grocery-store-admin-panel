@@ -23,6 +23,8 @@ export default function HomeProvider({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [screenSize, setScreenSize] = useState<number | undefined>(undefined);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState<boolean>(false);
   //for toast notification
   const [messageType, setMessageType] = useState<IToast | null>(null);
 
@@ -62,6 +64,8 @@ export default function HomeProvider({
         setMessageType,
         isAmh,
         setIsAmh,
+        confirmModalOpen,
+        setConfirmModalOpen,
       }}
     >
       {children}

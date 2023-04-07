@@ -13,6 +13,7 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   branches: Array<object>;
@@ -26,6 +27,7 @@ const BranchTable = ({
   setEditBranchId,
   setIsModalOpen,
 }: Props) => {
+  const navigate = useNavigate()
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 110 },
     {
@@ -41,7 +43,7 @@ const BranchTable = ({
       headerName: "address",
       sortable: false,
       filterable: false,
-      width: 250,
+      width: 300,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -56,9 +58,9 @@ const BranchTable = ({
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => navigate(`/branches/detail/${params.row._id}`)}
             >
-              Delete
+              Details
             </button>
             <button
               onClick={() => {

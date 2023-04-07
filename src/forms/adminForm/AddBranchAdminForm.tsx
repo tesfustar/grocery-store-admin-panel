@@ -47,7 +47,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
       },
     }
   );
-  const deliverySchema = Yup.object().shape({
+  const branchAdminSchema = Yup.object().shape({
     phone: Yup.number()
       .required("phone is required")
       .typeError("phone is required")
@@ -68,7 +68,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
   });
 
   const initialValues: IBranchAdmin = {
-    phone: null,
+    phone:null,
     firstName: "",
     lastName: "",
     email: "",
@@ -81,7 +81,9 @@ const AddBranchAdminForm: React.FC<Props> = ({
   const createBranchAdminMutation = useMutation(
     async (newData: any) =>
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}auth/sign-in`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_URL
+        }admin/branch-manager/create`,
         newData,
         {
           headers,
@@ -92,21 +94,23 @@ const AddBranchAdminForm: React.FC<Props> = ({
     }
   );
 
-  const loginMutationSubmitHandler = async () => {
+  const createBranchAdminSubmitHandler = async (values:any) => {
+    console.log(values)
     try {
       createBranchAdminMutation.mutate(
         {
-          phone: "phone",
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          role:"STORE_ADMIN"
+          phone: Number("251".concat(values.phone)),
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+          branch: values.branch,
+          role: "STORE_ADMIN",
         },
         {
           onSuccess: (responseData: any) => {
             setMessageType({
-              message: "Delivery Man added Successfully!",
+              message: "Branch Admin added Successfully!",
               type: "SUCCESS",
             });
           },
@@ -129,8 +133,8 @@ const AddBranchAdminForm: React.FC<Props> = ({
       </h1>
       <Formik
         initialValues={initialValues}
-        validationSchema={deliverySchema}
-        onSubmit={(val) => console.log(val)}
+        validationSchema={branchAdminSchema}
+        onSubmit={createBranchAdminSubmitHandler}
       >
         {({ handleChange, values, errors, touched, setFieldValue }) => (
           <Form className="w-full flex flex-col items-center space-y-2">
@@ -158,15 +162,15 @@ const AddBranchAdminForm: React.FC<Props> = ({
                 <p className="text-[13px] text-red-500">{errors.phone}</p>
               ) : null}
             </div>
-              {/* branch */}
-              <div className="w-full">
+            {/* branch */}
+            <div className="w-full">
               <Select
                 isSearchable={false}
                 styles={customStyles}
                 placeholder={"select his branch"}
                 onChange={(selectedOption: any) => {
                   // handleChange("products")(selectedOption._id);
-                  setFieldValue("branch", selectedOption);
+                  setFieldValue("branch", selectedOption._id);
                 }}
                 getOptionLabel={(categories: any) => categories.name}
                 getOptionValue={(categories: any) => categories._id}
@@ -263,7 +267,7 @@ const AddBranchAdminForm: React.FC<Props> = ({
                 <p className="text-[13px] text-red-500">{errors.password}</p>
               ) : null}
             </div>
-          
+
             <button
               disabled={createBranchAdminMutation.isLoading}
               type="submit"

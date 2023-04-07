@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useHome } from "../context/HomeContext";
 import SmallSidebar from "../components/SmallSidebar";
-import Category from "../pages/category/Category";
 import { AdminRoute } from "./routes";
 import Logo from "../assets/Logo.png";
 const AuthRoutes = () => {

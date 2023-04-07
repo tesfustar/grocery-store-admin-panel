@@ -40,3 +40,5 @@ export const customStyles: StylesConfig = {
       fontWeight: "500",
     }),
   };
+
+  export const mainColor = "#f05454"

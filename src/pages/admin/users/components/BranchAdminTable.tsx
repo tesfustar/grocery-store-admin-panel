@@ -23,13 +23,13 @@ interface Props {
 const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
   const navigate = useNavigate()
   const columns: GridColDef[] = [
-    { field: "index", headerName: "ID", width: 70 },
+    { field: "index", headerName: "ID", width: 60 },
     {
       field: "profile",
       headerName: "profile",
       sortable: false,
       filterable: false,
-      width: 100,
+      width: 70,
       renderCell: (params: GridCellParams) => {
         return (
           <img
@@ -53,7 +53,7 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
       headerName: "last Name",
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 120,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -69,7 +69,7 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
       headerName: "email",
       sortable: false,
       filterable: false,
-      width: 170,
+      width: 160,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -97,16 +97,23 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 130,
+      width: 300,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
             <button
               onClick={() => navigate(`/branch-admin/${params.row._id}`)}
               className="bg-blue-bg rounded-sm hover:opacity-80
-                    text-center px-10 p-1 font-medium text-sm text-white"
+                    text-center px-5 p-1 font-medium text-sm text-white"
             >
-              Details
+              Hide Account
+            </button>
+            <button
+              onClick={() => navigate(`/branch-admin/${params.row._id}`)}
+              className="bg-red-bg rounded-sm hover:opacity-80
+                    text-center px-5 p-1 font-medium text-sm text-white"
+            >
+              Delete Account
             </button>
           </div>
         );

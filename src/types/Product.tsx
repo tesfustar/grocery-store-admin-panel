@@ -41,3 +41,18 @@ export interface IBranchAddProductForm {
   quantity:number | undefined;
   product:string;
 }
+
+export interface IBranchProduct{
+  product:{
+    category: ICategory;
+  name: string;
+  nameAm: string;
+  description: string;
+  descriptionAm: string;
+  image:string[];
+  wholeSalePrice:number;
+  availableQuantity:number;
+  hasSpecialOffer:boolean;
+  },
+  availableQuantity:number
+}

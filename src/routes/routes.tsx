@@ -10,7 +10,9 @@ const AddProduct = React.lazy(
 );
 const Product = React.lazy(() => import("../pages/admin/product/Product"));
 const Customers = React.lazy(() => import("../pages/admin/users/Customers"));
-const BranchAdmin = React.lazy(() => import("../pages/admin/users/BranchAdmin"));
+const BranchAdmin = React.lazy(
+  () => import("../pages/admin/users/BranchAdmin")
+);
 const Delivery = React.lazy(() => import("../pages/admin/delivery/Delivery"));
 const CustomerDetail = React.lazy(
   () => import("../pages/admin/users/CustomerDetail")
@@ -20,14 +22,18 @@ const Notification = React.lazy(
 );
 const Banner = React.lazy(() => import("../pages/admin/banner/Banner"));
 const Branch = React.lazy(() => import("../pages/admin/branche/Branch"));
+const BranchDetail = React.lazy(
+  () => import("../pages/admin/branche/BranchDetail")
+);
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
-
 
 //manager routes
 const Store_Dashboard = React.lazy(
   () => import("../pages/manager/home/Dashboard")
 );
-const Store_Product = React.lazy(() => import("../pages/manager/product/Product"));
+const Store_Product = React.lazy(
+  () => import("../pages/manager/product/Product")
+);
 export const AdminRoute = () => {
   const { user } = useAuth();
   function AdminComp() {
@@ -47,6 +53,9 @@ export const AdminRoute = () => {
         <Route path="/coupons" element={<Coupon />} />
         <Route path="/branches" element={<Branch />} />
         <Route path="/notifications" element={<Notification />} />
+
+        {/* //detail routes BranchDetail */}
+        <Route path="/branches/detail/:id" element={<BranchDetail />} />
       </Routes>
     );
   }

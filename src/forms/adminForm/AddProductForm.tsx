@@ -20,9 +20,11 @@ import upload from "../../assets/upload.jpg";
 import { useNavigate } from "react-router-dom";
 import { customStyles } from "../../styles/Style";
 import { IProductFormProps } from "../../types/Product";
+import { useHome } from "../../context/HomeContext";
 
 const AddProductForm = () => {
   const navigate = useNavigate();
+  const {setMessageType} = useHome()
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<IProductFormProps>();
@@ -150,7 +152,7 @@ const AddProductForm = () => {
         {
           onSuccess: (res: any) => {
             navigate("/products");
-            console.log(res);
+            setMessageType({ message: "Product Created Successfully!", type: "SUCCESS" });
           },
           onError: (err) => {},
         }

@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
-
 import { useHome } from "../../../context/HomeContext";
 import { IDashboard } from "../../../types/Dashboard";
 import { Link } from "react-router-dom";
@@ -128,7 +127,7 @@ cursor-pointer bg-[#121212]  p-1"
             </div>
 
             <Link
-              to="/deliveries"
+              to="/branch-admin"
               className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
 cursor-pointer bg-blue-bg  p-1"
             >

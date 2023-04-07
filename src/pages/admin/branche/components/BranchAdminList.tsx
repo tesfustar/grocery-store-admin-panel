@@ -13,15 +13,16 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { IUser } from "../../../../types/User";
+import { useNavigate } from "react-router-dom";
+import { IBranchAdmin } from "../../../../types/BranchAdmin";
 
 interface Props {
-  deliveries: IUser[];
-  setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
+  branchAdmins: IBranchAdmin[];
 }
-const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
+const BranchAdminList = ({ branchAdmins }: Props) => {
+  const navigate = useNavigate();
   const columns: GridColDef[] = [
-    { field: "index", headerName: "ID", width: 70 },
+    { field: "index", headerName: "ID", width: 60 },
     {
       field: "profile",
       headerName: "profile",
@@ -41,7 +42,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
     {
       field: "firstName",
       headerName: "first Name",
-      width: 120,
+      width: 150,
       sortable: false,
       filterable: false,
       headerClassName: "super-app-theme--header",
@@ -51,7 +52,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
       headerName: "last Name",
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 150,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -59,7 +60,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
       headerName: "phone",
       sortable: false,
       filterable: false,
-      width: 130,
+      width: 150,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -67,7 +68,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
       headerName: "email",
       sortable: false,
       filterable: false,
-      width: 170,
+      width: 220,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -75,36 +76,8 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
       headerName: "address",
       sortable: false,
       filterable: false,
-      width: 170,
+      width: 190,
       headerClassName: "super-app-theme--header",
-    },
-
-    {
-      field: "action",
-      headerName: "action",
-      sortable: false,
-      filterable: false,
-      width: 340,
-      renderCell: (params: GridCellParams) => {
-        return (
-          <div className="flex items-center space-x-3">
-            <button
-              // onClick={() => navigate(`/branch-admin/${params.row._id}`)}
-              className="bg-blue-bg rounded-sm hover:opacity-80
-                    text-center px-5 p-1 font-medium text-sm text-white"
-            >
-              Hide Account
-            </button>
-            <button
-              // onClick={() => navigate(`/branch-admin/${params.row._id}`)}
-              className="bg-red-bg rounded-sm hover:opacity-80
-                    text-center px-5 p-1 font-medium text-sm text-white"
-            >
-              Delete Account
-            </button>
-          </div>
-        );
-      },
     },
   ];
 
@@ -127,41 +100,10 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
     );
   }
 
-  //delete confirmation
-  const handleDelete = (id: string) => {
-    if (window.confirm("are you sure")) {
-      deleteCategoryMutationHandler(id);
-    }
-    return;
-  };
-  const categoryDeleteMutation = useMutation(
-    async (id) =>
-      await axios.delete(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }category/find/remove/${id}`
-      ),
-    {
-      retry: false,
-    }
-  );
-  const deleteCategoryMutationHandler = async (id: any) => {
-    try {
-      categoryDeleteMutation.mutate(id, {
-        onSuccess: (responseData) => {
-          setStateChange((prev) => !prev);
-        },
-        onError: (err) => {},
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
-    <div style={{ height: 530 }}>
+    <div style={{ height: 330 }} className="w-full">
       <DataGrid
-        rows={deliveries}
+        rows={branchAdmins}
         columns={columns}
         getRowId={(row) => row._id}
         pagination
@@ -177,4 +119,4 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
   );
 };
 
-export default DeliveryTable;
+export default BranchAdminList;

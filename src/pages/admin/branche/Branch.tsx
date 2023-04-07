@@ -13,6 +13,7 @@ import BranchTable from "./components/BranchTable";
 import AddBranchModal from "./components/AddBranchModal";
 
 const Branch = () => {
+
   const { token } = useAuth();
   const { isAmh } = useHome();
   const [stateChange, setStateChange] = useState<boolean>(false);
