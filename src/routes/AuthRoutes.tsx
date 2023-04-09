@@ -6,6 +6,7 @@ import { useHome } from "../context/HomeContext";
 import SmallSidebar from "../components/SmallSidebar";
 import { AdminRoute } from "./routes";
 import Logo from "../assets/Logo.png";
+import { GiGamepadCross } from "react-icons/gi";
 const AuthRoutes = () => {
   const { sideBar, role } = useAuth();
   const {
@@ -20,20 +21,16 @@ const AuthRoutes = () => {
     <div className="flex relative min-h-screen w-full">
       {!isSmallScreen ? (
         <div
-          className={`bg-[#121212]  h-screen pt-5 duration-300 
-    ${isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"} p-5 fixed overflow-y-scroll scrollbar-hide overflow-x-hidden `}
+          className={`bg-[#141423]  h-screen  duration-300 
+    ${
+      isOpen ? "w-0 hidden" : isSideBarOpen ? "w-64" : "w-20"
+    }  fixed overflow-y-scroll scrollbar-hide overflow-x-hidden `}
         >
-          <BsFillArrowLeftCircleFill
-            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
-            className={`z-50 text-main-color absolute duration-500 -right-3 top-9 text-3xl ${
-              !isSideBarOpen && "rotate-180"
-            }`}
-          />
-          <div className=" flex items-center space-x-2">
-            <BsFillArrowLeftCircleFill className="text-main-color text-4xl" />
+          <div className=" flex items-center justify-center space-x-2 p-3">
+            <GiGamepadCross className="text-main-color text-4xl" />
             {isSideBarOpen && (
-              <h1 className="origin-left text-white duration-500 font-bold text-xl">
-                e-shope
+              <h1 className=" text-white duration-500 font-bold text-xl">
+                GROCERY STORE
               </h1>
             )}
           </div>
@@ -54,11 +51,12 @@ const AuthRoutes = () => {
         className={` duration-300 overflow-x-hidden ${
           !isSmallScreen &&
           (isOpen ? "ml-0" : isSideBarOpen ? "ml-64" : " ml-20")
-        }  w-full  p-3  `}
+        }  w-full  `}
       >
         <NavBar />
-
-        <AdminRoute />
+        <div className="w-full p-3">
+          <AdminRoute />
+        </div>
       </div>
     </div>
   );

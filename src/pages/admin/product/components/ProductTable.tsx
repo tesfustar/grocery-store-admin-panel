@@ -41,12 +41,15 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "wholeSalePrice",
+      field: "price",
       headerName: "price",
       sortable: false,
       filterable: false,
       width: 130,
       headerClassName: "super-app-theme--header",
+      renderCell: (params: GridCellParams) => {
+        return <h3>{params.row.price + " " + "ETB/" + params.row.priceType}</h3>;
+      },
     },
     {
       field: "category",

@@ -3,12 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
-import { buttonStyle } from "../../../styles/Style";
+import { buttonStyle, mainColor } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../../../types/User";
 import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import AddCouponModal from "./components/AddCouponModal";
+import { ICoupon } from "../../../types/Coupon";
+import CouponTable from "./components/CouponTable";
 
 const Coupon = () => {
   const { isAmh } = useHome();
@@ -16,18 +17,19 @@ const Coupon = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [coupons, setCoupons] = useState<IUser[]>([]);
+  const [editCouponId, setEditCouponId] = useState<string | null>(null);
+  const [coupons, setCoupons] = useState<ICoupon[]>([]);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
   };
-  //fetch deliveries
+  //fetch coupons
   const couponsData = useQuery(
     ["couponsData", stateChange],
     async () =>
       await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/deliveries`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}coupon`,
         {
           headers,
         }
@@ -58,6 +60,33 @@ const Coupon = () => {
           {isAmh ? "ኩፖን ጨምር" : "Add Coupon"}
         </button>
       </div>
+
+      {/*  */}
+      {couponsData.isFetched && couponsData.isSuccess ? (
+        <div className="flex items-center justify-center w-full">
+          {couponsData?.data?.data?.data?.length > 0 ? (
+            <CouponTable
+              coupons={coupons}
+              setStateChange={setStateChange}
+              setEditCouponId={setEditCouponId}
+              setIsModalOpen={setIsModalOpen}
+            />
+          ) : (
+            <h1 className="text-blue-color text-xl capitalize font-semibold">
+              {isAmh ? "" : "No Categories found !"}
+            </h1>
+          )}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={mainColor}
+            height={"60px"}
+            width={"60px"}
+          />
+        </div>
+      )}
     </div>
   );
 };

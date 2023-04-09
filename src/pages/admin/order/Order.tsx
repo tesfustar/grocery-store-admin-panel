@@ -5,27 +5,28 @@ import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
 import { buttonStyle, mainColor } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../../../types/User";
-import CustomerTable from "./components/CustomerTable";
 import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
-const Customers: FC = () => {
+import { ICoupon } from "../../../types/Coupon";
+import TotalOrderTable from "./components/TotalOrderTable";
+
+const Order = () => {
   const { isAmh } = useHome();
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [customers, setCustomers] = useState<IUser[]>([]);
+  const [orders, setOrders] = useState([]);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
   };
-  //fetch customers
-  const customersData = useQuery(
-    ["customersData", stateChange],
+  //fetch orders
+  const ordersData = useQuery(
+    ["totalOrdersData", stateChange],
     async () =>
       await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/customers`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/admin`,
         {
           headers,
         }
@@ -36,7 +37,7 @@ const Customers: FC = () => {
       retry: false,
       enabled: !!token,
       onSuccess: (res) => {
-        setCustomers(
+        setOrders(
           res?.data?.data?.map((data: object, index: number) => ({
             ...data,
             index: index + 1,
@@ -50,20 +51,18 @@ const Customers: FC = () => {
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-dark-gray">
-          {isAmh ? "ደንበኞች" : "Customers"}
+          {isAmh ? "ትዕዛዞች" : "Orders"}
         </h1>
       </div>
+
       {/*  */}
-      {customersData.isFetched && customersData.isSuccess ? (
-        <div>
-          {customersData?.data?.data?.data?.length > 0 ? (
-            <CustomerTable
-              customers={customers}
-              setStateChange={setStateChange}
-            />
+      {ordersData.isFetched && ordersData.isSuccess ? (
+        <div className="flex items-center justify-center w-full">
+          {ordersData?.data?.data?.data?.length > 0 ? (
+            <TotalOrderTable orders={orders} setStateChange={setStateChange} />
           ) : (
-            <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
-              {isAmh ? "" : "There are No customers !"}
+            <h1 className="text-blue-color text-xl capitalize font-semibold">
+              {isAmh ? "" : "No Categories found !"}
             </h1>
           )}
         </div>
@@ -81,4 +80,4 @@ const Customers: FC = () => {
   );
 };
 
-export default Customers;
+export default Order;

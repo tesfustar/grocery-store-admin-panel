@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
-import { buttonStyle } from "../../../styles/Style";
+import { buttonStyle, mainColor } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "../../../types/Product";
 import ProductTable from "./components/ProductTable";
@@ -64,7 +64,7 @@ const Product = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />

@@ -4,6 +4,7 @@ import AuthRoutes from "./routes/AuthRoutes";
 import ReactLoading from "react-loading";
 import { useAuth } from "./context/AuthContext";
 import ToastContainer from "./containers/ToastContainer";
+import { mainColor } from "./styles/Style";
 const App = () => {
   const { user, role, token, checked } = useAuth();
 
@@ -23,13 +24,13 @@ const App = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center min-h-screen">
-        <ReactLoading
-          type={"spinningBubbles"}
-          color={"#34d399"}
-          height={"60px"}
-          width={"60px"}
-        />
-      </div>
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={mainColor}
+            height={"60px"}
+            width={"60px"}
+          />
+        </div>
       )}
     </>
   );

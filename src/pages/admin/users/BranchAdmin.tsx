@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
-import { buttonStyle } from "../../../styles/Style";
+import { buttonStyle, mainColor } from "../../../styles/Style";
 import { useNavigate } from "react-router-dom";
 import CustomerTable from "./components/CustomerTable";
 import { useHome } from "../../../context/HomeContext";
@@ -77,7 +77,7 @@ const BranchAdmin: FC = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />

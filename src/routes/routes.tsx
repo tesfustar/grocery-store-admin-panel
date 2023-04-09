@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import ReactLoading from "react-loading";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { mainColor } from "../styles/Style";
 //admin routes
 const Category = React.lazy(() => import("../pages/admin/category/Category"));
 const Dashboard = React.lazy(() => import("../pages/admin/home/Dashboard"));
@@ -26,6 +27,8 @@ const BranchDetail = React.lazy(
   () => import("../pages/admin/branche/BranchDetail")
 );
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
+const AddCoupon = React.lazy(() => import("../pages/admin/coupons/AddCoupon"));
+const Order = React.lazy(() => import("../pages/admin/order/Order"));
 
 //manager routes
 const Store_Dashboard = React.lazy(
@@ -51,8 +54,10 @@ export const AdminRoute = () => {
         <Route path="/add-product/:id" element={<AddProduct />} />
         <Route path="/banners" element={<Banner />} />
         <Route path="/coupons" element={<Coupon />} />
+        <Route path="/coupons/add" element={<AddCoupon />} />
         <Route path="/branches" element={<Branch />} />
         <Route path="/notifications" element={<Notification />} />
+        <Route path="/orders" element={<Order />} />
 
         {/* //detail routes BranchDetail */}
         <Route path="/branches/detail/:id" element={<BranchDetail />} />
@@ -75,7 +80,7 @@ export const AdminRoute = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />

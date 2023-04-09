@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { useHome } from "../../../context/HomeContext";
-import { buttonStyle } from "../../../styles/Style";
+import { buttonStyle, mainColor } from "../../../styles/Style";
 import { IBanner } from "../../../types/Banner";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import BannerTable from "./components/BannerTable";
@@ -76,7 +76,7 @@ const Banner = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />

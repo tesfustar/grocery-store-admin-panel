@@ -16,6 +16,7 @@ import { BiCategory } from "react-icons/bi";
 import { RiAdminFill, RiStoreFill } from "react-icons/ri";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import Chart from "./components/Chart";
+import { mainColor } from "../../../styles/Style";
 
 const Dashboard = () => {
   const { isAmh } = useHome();
@@ -250,7 +251,7 @@ cursor-pointer bg-red-bg  p-1"
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />

@@ -57,8 +57,8 @@ const AddProductForm = () => {
 
 
   const priceOptions = [
-    { value: "/piece", label: "per piece" },
-    { value: "/kg", label: "per kilogram" },
+    { value: "piece", label: "per piece" },
+    { value: "kg", label: "per kilogram" },
   ];
   //fetch categories
   const headers = {
@@ -147,7 +147,8 @@ const AddProductForm = () => {
           image: imageUrls,
           description: formValues?.description,
           descriptionAm: formValues?.descriptionAm,
-          wholeSalePrice: formValues?.price?.toString().concat(formValues?.priceType),
+          price: formValues?.price,
+          priceType:formValues?.priceType
         },
         {
           onSuccess: (res: any) => {
