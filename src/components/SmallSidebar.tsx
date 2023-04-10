@@ -44,7 +44,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
                <NavLink
                  key={item.name}
                  to={`/${item.link}`}
-                 // onClick={handleCloseSideBar}
+                 onClick={handleCloseSideBar}
                  className={({ isActive }) =>
                    isActive ? activeLink : normalLink
                  }
@@ -81,6 +81,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
                      <NavLink
                        key={item.name}
                        to={`/${item.link}`}
+                       onClick={handleCloseSideBar}
                        className={({ isActive }) =>
                          isActive ? activeMenuLink : normalMenuLink
                        }
