@@ -28,18 +28,18 @@ const Navbar = () => {
 
   function DropDown() {
     return (
-      <div className="flex items-end justify-end z-50">
+      <div className=" flex items-end justify-end z-40">
         <Menu as="div" className="relative inline-block text-left z-40">
           <div>
             <Menu.Button className="inline-flex w-full justify-center ">
               <div className="flex items-center space-x-1 z-20">
-                <img src={user.profile} alt="" className="h-14 rounded-full " />
                 <div>
-                  <h4 className="text-dark-color text-sm font-medium">
+                  <p className="text-dark-color text-sm font-medium">
                     {user.firstName + user.lastName}
-                  </h4>
-                  <p className="text-dark-color text-sm">{user.phone}</p>
+                  </p>
+                  <span className="text-dark-color text-sm">{user.phone}</span>
                 </div>
+                <img src={user.profile} alt="" className="h-14 rounded-full " />
               </div>
             </Menu.Button>
           </div>
@@ -111,7 +111,7 @@ const Navbar = () => {
     );
   }
   return (
-    <div className=" p-3 flex items-center justify-between">
+    <div className="bg-white p-3 flex items-center justify-between md:px-5">
       <div>
         {isSmallScreen && !isOpen && (
           <FaBars

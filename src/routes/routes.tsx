@@ -29,6 +29,7 @@ const BranchDetail = React.lazy(
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
 const AddCoupon = React.lazy(() => import("../pages/admin/coupons/AddCoupon"));
 const Order = React.lazy(() => import("../pages/admin/order/Order"));
+const OrderDetails = React.lazy(() => import("../pages/admin/order/OrderDetails"));
 
 //manager routes
 const Store_Dashboard = React.lazy(
@@ -58,7 +59,7 @@ export const AdminRoute = () => {
         <Route path="/branches" element={<Branch />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/orders" element={<Order />} />
-
+        <Route path="/orders/detail/:id" element={<OrderDetails />} />
         {/* //detail routes BranchDetail */}
         <Route path="/branches/detail/:id" element={<BranchDetail />} />
       </Routes>

@@ -14,12 +14,13 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";
 import { Switch } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 interface Props {
   orders: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const TotalOrderTable = ({ orders, setStateChange }: Props) => {
-  const [test, setTest] = useState<boolean>(false);
+  const navigate = useNavigate()
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -78,7 +79,7 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() =>navigate(`/orders/detail/${params.row._id}`)}
             >
               Details
             </button>

@@ -14,7 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useHome } from "../../../../context/HomeContext";
 import ConfirmModal from "../../../../utils/ConfirmModal";
-
+import { Switch } from "@headlessui/react";
 interface Props {
   products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,7 +48,9 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       width: 130,
       headerClassName: "super-app-theme--header",
       renderCell: (params: GridCellParams) => {
-        return <h3>{params.row.price + " " + "ETB/" + params.row.priceType}</h3>;
+        return (
+          <h3>{params.row.price + " " + "ETB/" + params.row.priceType}</h3>
+        );
       },
     },
     {
@@ -83,12 +85,12 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 180,
+      width: 250,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
             <button
-              className="bg-blue-bg rounded-sm hover:opacity-80
+              className="bg-main-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
               onClick={() => {
                 setConfirmModalOpen(true);
@@ -101,11 +103,26 @@ const ProductTable = ({ products, setStateChange }: Props) => {
             <button
               disabled={productDeleteMutation.isLoading}
               onClick={() => {}}
-              className="bg-red-bg rounded-sm hover:opacity-80
+              className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
               Edit
             </button>
+            <Switch
+              checked={params.row.isOutOfStock}
+              // onChange={() => setTest(!test)}
+              className={`${
+                params.row.isOutOfStock ? "bg-red-bg" : "bg-gray-300"
+              } relative inline-flex h-6 w-14 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+            >
+              <span
+                aria-hidden="true"
+                className={`${
+                  params.row.isOutOfStock ? "translate-x-8" : "translate-x-0"
+                }
+      inline-block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+              />
+            </Switch>
           </div>
         );
       },
@@ -134,9 +151,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
   const productDeleteMutation = useMutation(
     async (id) =>
       await axios.delete(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }product/find/remove/${id}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}product/find/remove/${id}`
       ),
     {
       retry: false,
@@ -151,16 +166,16 @@ const ProductTable = ({ products, setStateChange }: Props) => {
             message: "Product Delete Successfully!",
             type: "SUCCESS",
           });
-          setConfirmModalOpen(false)
-          setSelectedId(null)
+          setConfirmModalOpen(false);
+          setSelectedId(null);
         },
         onError: (err: any) => {
           setMessageType({
             message: err?.response?.data?.message,
             type: "ERROR",
           });
-          setConfirmModalOpen(false)
-          setSelectedId(null)
+          setConfirmModalOpen(false);
+          setSelectedId(null);
         },
       });
     } catch (err) {

@@ -54,197 +54,113 @@ const Dashboard = () => {
   return (
     <div>
       <BreedCrumb />
+
       {dashboardData.isFetched && dashboardData.isSuccess ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 my-2">
           {/* customers */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ደንበኞች" : "Customers"}
-                </h1>
-
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.customers}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <FaUserAlt size={80} className="text-main-color" />
-              </div>
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-main-bg/30 p-3 rounded-full">
+              <FaUserAlt size={20} className="text-main-color" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "ደንበኞች" : "Customers"}
+              </h1>
 
-            <Link
-              to="/customers"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-main-bg  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.customers}
+              </h4>
+            </div>
           </div>
-          {/* deliveries */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "መላኪያ ሰው" : "Deliveries"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.deliveries}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <MdDeliveryDining size={80} className="text-[#121212]" />
-              </div>
+          {/* delivery */}
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-[#121212]/30 p-3 rounded-full">
+              <MdDeliveryDining size={20} className="text-[#121212]" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "መላኪያ ሰው" : "Deliveries"}
+              </h1>
 
-            <Link
-              to="/deliveries"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-[#121212]  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.customers}
+              </h4>
+            </div>
           </div>
           {/* branch admins */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "የቅርንጫፍ አስተዳዳሪዎች" : "Branch Admins"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.branchAdmins}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <RiAdminFill size={80} className="text-blue-color" />
-              </div>
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-blue-bg/30 p-3 rounded-full">
+              <RiAdminFill size={20} className="text-blue-color" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "የቅርንጫፍ አስተዳዳሪዎች" : "Branch Admins"}
+              </h1>
 
-            <Link
-              to="/branch-admin"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-blue-bg  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.branchAdmins}
+              </h4>
+            </div>
           </div>
           {/* branches */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ቅርንጫፎች" : "Branches"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.branches}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <FaCodeBranch size={80} className="text-[#0891b2]" />
-              </div>
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-[#0891b2]/20 p-3 rounded-full">
+              <FaCodeBranch size={20} className="text-[#0891b2]" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "ቅርንጫፎች" : "Branches"}
+              </h1>
 
-            <Link
-              to="/branches"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-[#0891b2]  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.branches}
+              </h4>
+            </div>
           </div>
-          {/*  products*/}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ጠቅላላ ምርቶች" : "Products"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.products}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <RiStoreFill size={80} className="text-[#457eac]" />
-              </div>
+          {/* products */}
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-[#457eac]/20 p-3 rounded-full">
+              <RiStoreFill size={20} className="text-[#457eac]" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "ጠቅላላ ምርቶች" : "Products"}
+              </h1>
 
-            <Link
-              to="/Products"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-[#457eac]  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.branches}
+              </h4>
+            </div>
           </div>
           {/* category */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ምድቦች" : "Categories"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.categories}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <BiCategory size={80} className="text-blue-color" />
-              </div>
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-blue-bg/20 p-3 rounded-full">
+              <RiStoreFill size={20} className="text-blue-color" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "ምድቦች" : "Categories"}
+              </h1>
 
-            <Link
-              to="/categories"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-blue-bg  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.categories}
+              </h4>
+            </div>
           </div>
-          {/* orders */}
-          <div className="relative flex flex-col bg-white shadow-lg  rounded-lg">
-            <div className="flex items-center justify-between p-5 pb-10">
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-                  {isAmh ? "ጠቅላላ ትዕዛዞች" : "Orders"}
-                </h1>
-                <h4 className="text-xl text-blue-color font-semibold">
-                  {dashboardCounts?.orders}
-                </h4>
-              </div>
-              <div className="h-24 w-24">
-                <BsFillCartCheckFill size={80} className="text-red-color" />
-              </div>
+          {/* total orders */}
+          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+            <div className="bg-red-bg/20 p-3 rounded-full">
+              <BsFillCartCheckFill size={20} className="text-red-color" />
             </div>
+            <div className="flex flex-col items-start ">
+              <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+                {isAmh ? "ጠቅላላ ትዕዛዞች" : "Total Orders"}
+              </h1>
 
-            <Link
-              to="/orders"
-              className="absolute hover:opacity-80 bottom-0 w-full flex items-center justify-center space-x-2 rounded-b-md
-cursor-pointer bg-red-bg  p-1"
-            >
-              <span className="font-normal capitalize text-white">
-                {isAmh ? "ተጨማሪ ይመልከቱ" : "see more"}
-              </span>
-              <BsFillArrowRightSquareFill size={20} className="text-white" />
-            </Link>
+              <h4 className="text-xl text-blue-color font-semibold">
+                {dashboardCounts?.orders}
+              </h4>
+            </div>
           </div>
         </div>
       ) : (
@@ -265,6 +181,6 @@ cursor-pointer bg-red-bg  p-1"
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

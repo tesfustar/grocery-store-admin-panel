@@ -210,38 +210,60 @@ export const AdminSideBar = [
 //STORE MANAGER LINKS\
 export const StoreManagerSideBar = [
   {
-    title: "Dashboard",
-    titleAm: "ዳሽቦርድ",
-    links: [
-      {
-        name: "dashboard",
-        nameAm: "ዳሽቦርድ",
-        link: "dashboard",
-        icon: <MdDashboard size={22} className=" text-[#bdcadf]" />,
-      },
-    ],
+    id: 1,
+    hasSubMenu: false,
+    title: "dashboard",
+    name: "dashboard",
+    nameAm: "ዳሽቦርድ",
+    link: "dashboard",
+    icon: <MdOutlineDashboardCustomize size={18} className=" text-[#bdcadf]" />,
   },
   {
+    id: 2,
+    hasSubMenu: true,
     title: "Product Management",
+    name: "products",
     titleAm: "የምርት አስተዳደር",
-    links: [
+    icon: <BiStoreAlt size={18} className=" text-[#bdcadf]" />,
+    iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
+    iconOpened: <RiArrowUpSFill size={18} className=" text-[#bdcadf]" />,
+    menus: [
       {
         name: "products",
         nameAm: "ምርቶች",
         link: "products",
-        icon: <RiStoreFill size={18} className=" text-[#bdcadf]" />,
+        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
+      },
+
+      {
+        name: "categories",
+        nameAm: "ምድቦች",
+        link: "categories",
+        icon: <BsDot size={19} className=" text-[#bdcadf]" />,
       },
     ],
   },
   {
+    id: 6,
+    hasSubMenu: true,
     title: "Order Management",
-    titleAm: "የትዕዛዝ አስተዳደር",
-    links: [
+    titleAm: "የተጠቃሚ አስተዳደር",
+    name: "Orders",
+    icon: <RiCoupon4Line size={18} className=" text-[#bdcadf]" />,
+    iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
+    iconOpened: <RiArrowUpSFill size={18} className=" text-[#bdcadf]" />,
+    menus: [
       {
-        name: "total orders",
-        nameAm: "ትዕዛዞች",
+        name: "total order",
+        nameAm: "ባነሮች",
         link: "orders",
-        icon: <MdLocalGroceryStore size={18} className=" text-[#bdcadf]" />,
+        icon: <BsCartPlus size={18} className=" text-[#bdcadf]" />,
+      },
+      {
+        name: "pending orders",
+        nameAm: "ኩፖኖች",
+        link: "coupons",
+        icon: <RiCoupon2Fill size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "canceled orders",
@@ -263,16 +285,21 @@ export const StoreManagerSideBar = [
       },
     ],
   },
-
   {
-    title: "request",
-    titleAm: "ጥያቄዎች",
-    links: [
+    id: 5,
+    hasSubMenu: true,
+    title: "store Management",
+    titleAm: "የተጠቃሚ አስተዳደር",
+    name: "store Management",
+    icon: <RiCoupon4Line size={18} className=" text-[#bdcadf]" />,
+    iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
+    iconOpened: <RiArrowUpSFill size={18} className=" text-[#bdcadf]" />,
+    menus: [
       {
-        name: "Product request(store)",
-        nameAm: "የምርት ጥያቄ(ሱቅ)",
+        name: "banners",
+        nameAm: "ባነሮች",
         link: "banners",
-        icon: <FaStoreAlt size={18} className=" text-[#bdcadf]" />,
+        icon: <FaBuysellads size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "coupons",
@@ -280,12 +307,24 @@ export const StoreManagerSideBar = [
         link: "coupons",
         icon: <RiCoupon2Fill size={18} className=" text-[#bdcadf]" />,
       },
+      {
+        name: "add coupons",
+        nameAm: "ኩፖኖች",
+        link: "coupons/add",
+        icon: <RiCoupon2Fill size={18} className=" text-[#bdcadf]" />,
+      },
     ],
   },
   {
+    id: 7,
+    hasSubMenu: true,
+    name: "Notifications",
+    icon: <MdNotifications size={18} className=" text-[#bdcadf]" />,
+    iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
+    iconOpened: <RiArrowUpSFill size={18} className=" text-[#bdcadf]" />,
     title: "Notifications",
     titleAm: "ማሳወቂያዎች",
-    links: [
+    menus: [
       {
         link: "notifications",
         nameAm: "ማሳወቂያዎች",
