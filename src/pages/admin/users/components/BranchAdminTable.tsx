@@ -271,7 +271,7 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
   function DeleteAccountMessage() {
     return (
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-medium text-dark-color capitalize  text-md">
+        <h1 className="font-medium text-dark-color capitalize text-center text-md">
           {isAmh
             ? "እርግጠኛ ነዎት ይህን መለያ መሰረዝ ይፈልጋሉ ?"
             : "are u sure you want to delete this account."}
@@ -287,7 +287,7 @@ const BranchAdminTable = ({ branchAdmin, setStateChange }: Props) => {
   function ActivationAccountMessage() {
     return (
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-medium text-dark-color capitalize  text-md">
+        <h1 className="font-medium text-dark-color capitalize text-center text-md">
           {accountType !== "ACTIVATE"
             ? isAmh
               ? "እርግጠኛ ነዎት ይህን መለያ ማቦዘን ይፈልጋሉ ?"

@@ -171,6 +171,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
         accountType !== "ACTIVATE"
           ? `${import.meta.env.VITE_REACT_APP_BACKEND_URL}user/deactivate/${id}`
           : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}user/activate/${id}`,
+          {},
         { headers }
       ),
     {
@@ -225,7 +226,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
       <ConfirmModal>
         <div className="flex flex-col items-center space-y-2">
           <div className="flex flex-col items-center justify-center pb-3">
-            <h1 className="font-medium text-dark-color capitalize  text-md">
+            <h1 className="font-medium text-dark-color capitalize text-center text-md">
               {accountType !== "ACTIVATE"
                 ? isAmh
                   ? "እርግጠኛ ነዎት ይህን መለያ ማቦዘን ይፈልጋሉ ?"
@@ -234,7 +235,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
                 ? "እርግጠኛ ነዎት ይህን መለያ ማግበር ይፈልጋሉ ?"
                 : "are u sure you want to activate this account ?"}
             </h1>
-            <p className="font-medium text-dark-color capitalize">
+            <p className="font-medium text-dark-color capitalize text-center">
               {accountType === "ACTIVATE"
                 ? isAmh
                   ? "ይህ ተጠቃሚው የማድረስ ሰው መተግበሪያን እንዲጠቀም ያስችለዋል::"
