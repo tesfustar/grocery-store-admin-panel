@@ -40,7 +40,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ children }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-lg transition-all">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-lg transition-all">
                   {children}
                 </Dialog.Panel>
               </Transition.Child>

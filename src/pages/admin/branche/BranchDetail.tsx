@@ -61,43 +61,52 @@ const BranchDetail = () => {
       },
     }
   );
-
+  console.log(branchProducts)
   function CountData() {
     return (
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="bg-white p-4 flex  items-center justify-between shadow-md">
-          <RiStoreFill size={80} className="text-[#457eac]" />
-          <div className="flex flex-col items-center">
-            <h2 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-              {isAmh ? "" : "Products"}
-            </h2>
-            <h2 className="text-xl font-semibold text-blue-color">
+        <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+          <div className="bg-[#457eac]/20 p-3 rounded-full">
+            <RiStoreFill size={20} className="text-[#457eac]" />
+          </div>
+          <div className="flex flex-col items-start ">
+            <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+              {isAmh ? "ምርቶች" : "Products"}
+            </h1>
+
+            <h4 className="text-xl text-blue-color font-semibold">
               {branchDetailData?.data?.data?.data?.counts?.products}
-            </h2>
+            </h4>
           </div>
         </div>
         {/* order */}
-        <div className="bg-white p-4 flex  items-center justify-between shadow-md">
-          <BsFillCartCheckFill size={80} className="text-main-color" />
-          <div className="flex flex-col items-center">
-            <h2 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-              {isAmh ? "ትዕዛዞች" : "Orders"}
-            </h2>
-            <h2 className="text-xl font-semibold text-blue-color">
+        <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+          <div className="bg-red-bg/20 p-3 rounded-full">
+            <BsFillCartCheckFill size={20} className="text-red-color" />
+          </div>
+          <div className="flex flex-col items-start ">
+            <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+              {isAmh ? "ጠቅላላ ትዕዛዞች" : "Total Orders"}
+            </h1>
+
+            <h4 className="text-xl text-blue-color font-semibold">
               {branchDetailData?.data?.data?.data?.counts?.orders}
-            </h2>
+            </h4>
           </div>
         </div>
         {/* admins */}
-        <div className="bg-white p-4 flex  items-center justify-between shadow-md">
-          <FaUserAlt size={80} className="text-[#121212]" />
-          <div className="flex flex-col items-center">
-            <h2 className="text-[#8aa1ad] font-semibold capitalize dark:text-white ">
-              {isAmh ? "አስተዳዳሪዎች" : "Admins"}
-            </h2>
-            <h2 className="text-xl font-semibold text-blue-color">
+        <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+          <div className="bg-[#7c3aed]/30 p-3 rounded-full">
+            <RiAdminFill size={20} className="text-[#7c3aed]" />
+          </div>
+          <div className="flex flex-col items-start ">
+            <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
+              {isAmh ? "የቅርንጫፍ አስተዳዳሪዎች" : "Admistrators"}
+            </h1>
+
+            <h4 className="text-xl text-blue-color font-semibold">
               {branchDetailData?.data?.data?.data?.counts?.branchAdmins}
-            </h2>
+            </h4>
           </div>
         </div>
       </div>
@@ -110,30 +119,35 @@ const BranchDetail = () => {
         <div className="flex flex-col items-start space-y-5 w-full">
           <CountData />
           {/* product list */}
-          <div className="w-full flex flex-col items-start space-y-2">
-            <h2 className="text-[#8aa1ad] font-semibold capitalize dark:text-white text-xl pb-1">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+
+          <div className="bg-white p-2 w-full flex flex-col items-start space-y-2">
+            <h2 className="text-[#8aa1ad] font-medium capitalize  pb-1">
               {isAmh ? "ምርቶች" : "Products"}
             </h2>
-            {branchProducts.length > 0 ? (
+            {branchDetailData?.data?.data?.data?.lists?.productList?.length > 0 ? (
               <BranchProductsTable branchProducts={branchProducts} />
             ) : (
-              <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white text-xl py-5 text-center w-full">
+              <h1 className="text-[#8aa1ad] font-medium capitalize text-xl py-5 text-center w-full">
                 {isAmh ? "ምንም የሚታዩ ምርቶች የሉም" : "No Products To Show!"}
               </h1>
             )}
           </div>
           {/* admin list */}
-          <div className="w-full flex flex-col items-start space-y-2">
-            <h2 className="text-[#8aa1ad] font-semibold capitalize dark:text-white text-xl pb-1">
+          <div className="bg-white p-2 w-full flex flex-col items-start space-y-2">
+            <h2 className="text-[#8aa1ad] font-medium capitalize pb-1">
               {isAmh ? "የቅርንጫፍ አስተዳዳሪዎች" : " Branch Admins"}
             </h2>
-            {branchAdmins.length > 0 ? (
+            {branchDetailData?.data?.data?.data?.lists?.productList?.length > 0 ? (
               <BranchAdminList branchAdmins={branchAdmins} />
             ) : (
-              <h1 className="text-[#8aa1ad] font-semibold capitalize dark:text-white text-xl py-5 text-center w-full">
-                {isAmh ? "ምንም የቅርንጫፍ አስተዳዳሪዎች አልተገኙም።" : "No Branch Admins Found!"}
+              <h1 className="text-[#8aa1ad] font-medium capitalize py-5 text-center w-full">
+                {isAmh
+                  ? "ምንም የቅርንጫፍ አስተዳዳሪዎች አልተገኙም።"
+                  : "No Branch Admins Found!"}
               </h1>
             )}
+          </div>
           </div>
         </div>
       ) : (

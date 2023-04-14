@@ -73,7 +73,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
                          {item.name}
                        </span>
                    </div>
-                   {isMenuOpened ? item.iconOpened : item.iconClosed}
+                   {(isMenuOpened && selectedMenu == item.id ) ? item.iconOpened : item.iconClosed}
                  </div>
                  {isMenuOpened &&
                    selectedMenu == item.id &&

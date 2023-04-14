@@ -22,11 +22,11 @@ const BranchProductsTable = ({ branchProducts }: Props) => {
   const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const columns: GridColDef[] = [
-    { field: "index", headerName: "ID", width: 70 },
+    { field: "index", headerName: "ID", width: 40 },
     {
       field: "name",
       headerName: "Name",
-      width: 190,
+      width: 100,
       sortable: false,
       filterable: false,
       headerClassName: "super-app-theme--header",
@@ -35,25 +35,14 @@ const BranchProductsTable = ({ branchProducts }: Props) => {
       },
     },
     {
-      field: "nameAm",
-      headerName: "amharic name",
-      sortable: false,
-      filterable: false,
-      width: 190,
-      headerClassName: "super-app-theme--header",
-      renderCell: (params: GridCellParams) => {
-        return <h1>{params?.row?.product?.nameAm}</h1>;
-      },
-    },
-    {
-      field: "wholeSalePrice",
+      field: "price",
       headerName: "price",
       sortable: false,
       filterable: false,
       width: 130,
       headerClassName: "super-app-theme--header",
       renderCell: (params: GridCellParams) => {
-        return <h1>{params?.row?.product?.wholeSalePrice}</h1>;
+        return <h1 className="text-main-color font-semibold">{params?.row?.product?.price} / {params?.row?.product?.priceType}</h1>;
       },
     },
 
@@ -62,7 +51,7 @@ const BranchProductsTable = ({ branchProducts }: Props) => {
       headerName: "Image",
       sortable: false,
       filterable: false,
-      width: 130,
+      width: 100,
       renderCell: (params: GridCellParams) => {
         return (
           <img

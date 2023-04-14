@@ -12,26 +12,26 @@ const Sidebar: React.FC = () => {
     !isSideBarOpen && "justify-center"
   } bg-white/10 gap-1 text-white font-light p-2 w-full px-4`;
 
-  const normalLink = `flex items-center  duration-500 gap-1 ${
+  const normalLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-4" : "justify-center "
   } py-2 text-[#96a0af] dark:text-gray-200 
       hover:bg-white/10  w-full font-light `;
 
-  const activeMenuLink = `flex items-center  duration-500 gap-1 ${
+  const activeMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
   } py-2 text-[#96a0af] dark:text-gray-200 
           bg-white/10  w-full font-light `;
-  const normalMenuLink = `flex items-center  duration-500 gap-1 ${
+  const normalMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
   } py-2 text-[#96a0af] dark:text-gray-200 
           hover:bg-white/5  w-full font-light `;
   return (
     <div className="flex flex-col items-start  w-full">
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full  ">
         {sideBarLinks.map((item: any) => (
           <div className="flex flex-col items-start w-full space-y-2">
             <h1
-              className={`font-normal duration-300 text-gray-300 capitalize p-2 ${
+              className={`font-normal  text-gray-300 capitalize p-2 ${
                 isSideBarOpen ? "flex" : "hidden"
               }  text-xs`}
             >
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
               </NavLink>
             )}
             {item.hasSubMenu && (
-              <div className="duration-300 flex flex-col items-start w-full">
+              <div className="duration-1000 transition ease-in-out flex flex-col items-start w-full">
                 <div
                   onClick={() =>
                     selectedMenu && selectedMenu == item.id
@@ -74,7 +74,7 @@ const Sidebar: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  {isMenuOpened ? item.iconOpened : item.iconClosed}
+                  {(isMenuOpened && selectedMenu == item.id ) ? item.iconOpened : item.iconClosed}
                 </div>
                 {isMenuOpened &&
                   selectedMenu == item.id &&

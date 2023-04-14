@@ -63,17 +63,15 @@ const AddBranchAdminForm: React.FC<Props> = ({
     lastName: Yup.string().required("lastName is required"),
     email: Yup.string().email().required("email is required"),
     password: Yup.string().required("password is required"),
-    address: Yup.string().required("address is required"),
     branch: Yup.string().required("branch is required"),
   });
 
   const initialValues: IBranchAdmin = {
-    phone:null,
+    phone:"",
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    address: "",
     branch: "",
   };
 
@@ -113,6 +111,8 @@ const AddBranchAdminForm: React.FC<Props> = ({
               message: "Branch Admin added Successfully!",
               type: "SUCCESS",
             });
+            setStateChange((prev)=>!prev);
+            setIsModalOpen(false)
           },
           onError: (err: any) => {
             setMessageType({

@@ -6,38 +6,25 @@ import { mainColor } from "../styles/Style";
 //admin routes
 const Category = React.lazy(() => import("../pages/admin/category/Category"));
 const Dashboard = React.lazy(() => import("../pages/admin/home/Dashboard"));
-const AddProduct = React.lazy(
-  () => import("../pages/admin/product/AddProduct")
-);
+const AddProduct = React.lazy(() => import("../pages/admin/product/AddProduct"));
 const Product = React.lazy(() => import("../pages/admin/product/Product"));
 const Customers = React.lazy(() => import("../pages/admin/users/Customers"));
-const BranchAdmin = React.lazy(
-  () => import("../pages/admin/users/BranchAdmin")
-);
+const BranchAdmin = React.lazy(() => import("../pages/admin/users/BranchAdmin"));
 const Delivery = React.lazy(() => import("../pages/admin/delivery/Delivery"));
-const CustomerDetail = React.lazy(
-  () => import("../pages/admin/users/CustomerDetail")
-);
-const Notification = React.lazy(
-  () => import("../pages/notifications/Notification")
-);
+const CustomerDetail = React.lazy(() => import("../pages/admin/users/CustomerDetail"));
+const Notification = React.lazy(() => import("../pages/notifications/Notification"));
 const Banner = React.lazy(() => import("../pages/admin/banner/Banner"));
 const Branch = React.lazy(() => import("../pages/admin/branche/Branch"));
-const BranchDetail = React.lazy(
-  () => import("../pages/admin/branche/BranchDetail")
-);
+const BranchDetail = React.lazy(() => import("../pages/admin/branche/BranchDetail"));
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
 const AddCoupon = React.lazy(() => import("../pages/admin/coupons/AddCoupon"));
 const Order = React.lazy(() => import("../pages/admin/order/Order"));
 const OrderDetails = React.lazy(() => import("../pages/admin/order/OrderDetails"));
 
 //manager routes
-const Store_Dashboard = React.lazy(
-  () => import("../pages/manager/home/Dashboard")
-);
-const Store_Product = React.lazy(
-  () => import("../pages/manager/product/Product")
-);
+const Store_Dashboard = React.lazy(() => import("../pages/manager/home/Dashboard"));
+const Store_Product = React.lazy(() => import("../pages/manager/product/Product"));
+
 export const AdminRoute = () => {
   const { user } = useAuth();
   function AdminComp() {

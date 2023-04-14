@@ -34,12 +34,12 @@ const Navbar = () => {
             <Menu.Button className="inline-flex w-full justify-center ">
               <div className="flex items-center space-x-1 z-20">
                 <div>
-                  <p className="text-dark-color text-sm font-medium">
-                    {user.firstName + user.lastName}
+                  <p className="text-gray-500 text-sm font-medium">
+                    {user.firstName + " " +  user.lastName}
                   </p>
-                  <span className="text-dark-color text-sm">{user.phone}</span>
+                  <span className="text-gray-500 text-sm">{user.phone}</span>
                 </div>
-                <img src={user.profile} alt="" className="h-14 rounded-full " />
+                <img src={user.profile} alt="" className="h-12 rounded-full " />
               </div>
             </Menu.Button>
           </div>
@@ -63,7 +63,7 @@ const Navbar = () => {
                 <Menu.Item>
                   <span
                     onClick={() => setIsAmh(false)}
-                    className={`capitalize font-medium w-full ${isAmh ? "" : "text-main-color"}  cursor-pointer`}
+                    className={`capitalize font-medium w-full text-sm ${isAmh ? "text-gray-500" : "text-main-color"}  cursor-pointer`}
                   >
                     English
                   </span>
@@ -71,7 +71,7 @@ const Navbar = () => {
                 <Menu.Item>
                   <span
                     onClick={() => setIsAmh(true)}
-                    className={`capitalize font-medium w-full ${isAmh ? "text-main-color" : ""}  cursor-pointer`}
+                    className={`capitalize font-medium w-full text-sm  ${isAmh ? "text-main-color" : "text-gray-500"}  cursor-pointer`}
                   >
                     አማርኛ
                   </span>
@@ -83,9 +83,9 @@ const Navbar = () => {
               <div className="pt-1 flex flex-col items-start space-y-1 w-full">
                 <Menu.Item>
                   <div className="flex items-center space-x-2 p-2 pl-3 w-full hover:bg-main-bg/10  cursor-pointer">
-                    <FaUserAlt className="text-main-color" />
+                    <FaUserAlt size={13} className="text-main-color" />
                     <span
-                      className={`capitalize font-medium text-sm`}
+                      className={`capitalize font-medium text-sm text-gray-500`}
                       onClick={logout}
                     >
                       {isAmh ? "መገለጫ" : "Profile"}
@@ -94,9 +94,9 @@ const Navbar = () => {
                 </Menu.Item>
                 <Menu.Item>
                   <div className="flex items-center space-x-2 p-2 pl-3 w-full hover:bg-main-bg/10  cursor-pointer">
-                    <FiLogOut className="text-main-color" />
+                    <FiLogOut size={13} className="text-main-color" />
                     <span
-                      className={`capitalize font-medium text-sm`}
+                      className={`capitalize font-medium text-sm text-gray-500`}
                       onClick={logout}
                     >
                       {isAmh ? "ውጣ" :'Log Out'}

@@ -59,8 +59,8 @@ const Dashboard = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 my-2">
           {/* customers */}
           <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
-            <div className="bg-main-bg/30 p-3 rounded-full">
-              <FaUserAlt size={20} className="text-main-color" />
+            <div className="bg-[#eab308]/30 p-3 rounded-full">
+              <FaUserAlt size={20} className="text-[#eab308]" />
             </div>
             <div className="flex flex-col items-start ">
               <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
@@ -74,8 +74,8 @@ const Dashboard = () => {
           </div>
           {/* delivery */}
           <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
-            <div className="bg-[#121212]/30 p-3 rounded-full">
-              <MdDeliveryDining size={20} className="text-[#121212]" />
+            <div className="bg-[#c026d3]/30 p-3 rounded-full">
+              <MdDeliveryDining size={20} className="text-[#c026d3]" />
             </div>
             <div className="flex flex-col items-start ">
               <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
@@ -89,8 +89,8 @@ const Dashboard = () => {
           </div>
           {/* branch admins */}
           <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
-            <div className="bg-blue-bg/30 p-3 rounded-full">
-              <RiAdminFill size={20} className="text-blue-color" />
+            <div className="bg-[#7c3aed]/30 p-3 rounded-full">
+              <RiAdminFill size={20} className="text-[#7c3aed]" />
             </div>
             <div className="flex flex-col items-start ">
               <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">
@@ -134,8 +134,8 @@ const Dashboard = () => {
           </div>
           {/* category */}
           <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
-            <div className="bg-blue-bg/20 p-3 rounded-full">
-              <RiStoreFill size={20} className="text-blue-color" />
+            <div className="bg-[#f97316]/20 p-3 rounded-full">
+              <BiCategory size={20} className="text-[#f97316]" />
             </div>
             <div className="flex flex-col items-start ">
               <h1 className="text-[#8aa1ad] font-medium text-sm capitalize dark:text-white ">

@@ -1,10 +1,10 @@
 export interface IBranchAdmin {
-  phone: number | null;
+  phone: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  address:string;
+  address?:string;
   branch:string
   // location
 }

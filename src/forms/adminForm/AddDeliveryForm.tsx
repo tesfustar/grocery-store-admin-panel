@@ -84,6 +84,8 @@ const AddDeliveryForm: React.FC<Props> = ({
               message: "Delivery Man added Successfully!",
               type: "SUCCESS",
             });
+            setStateChange((prev)=>!prev);
+            setIsModalOpen(false)
           },
           onError: (err: any) => {
             setMessageType({

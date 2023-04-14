@@ -101,7 +101,7 @@ const BranchAdminList = ({ branchAdmins }: Props) => {
   }
 
   return (
-    <div style={{ height: 330 }} className="w-full">
+    <div style={{ height: 530 }} className="w-full">
       <DataGrid
         rows={branchAdmins}
         columns={columns}

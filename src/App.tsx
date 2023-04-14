@@ -18,7 +18,7 @@ const App = () => {
   return (
     <>
       {checked ? (
-        <div className="h-full w-full bg-[#fbfcfd]">
+        <div className="h-full w-full bg-[#f6fbff]">
           <ToastContainer />
           <DetermineRoute />
         </div>

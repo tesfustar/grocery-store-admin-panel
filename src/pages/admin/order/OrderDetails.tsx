@@ -41,24 +41,27 @@ const OrderDetails = () => {
 
   function ProductDetail() {
     return (
-      <div className="w-full flex flex-col space-y-2 flex-shrink-0 overflow-x-scroll scrollbar-hide">
+      <div className=" w-full flex flex-col space-y-2 flex-shrink-0 overflow-x-scroll scrollbar-hide">
         <h1 className="font-semibold text-dark-gray">
           {isAmh ? "ምርቶች " : "Products"}
         </h1>
-        <table className="border-collapse border border-gray-200 w-full ">
+        <table className="border-collapse flex-shrink-0 border border-gray-200 w-full ">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2 w-24 text-blue-color text-sm">
+              <th className="border border-gray-200 p-2 w-24 text-blue-color text-sm">
                 Image
               </th>
-              <th className="border border-gray-300 p-2 min-w-44 text-blue-color text-sm text-left">
+              <th className="border border-gray-200 p-2 min-w-44 text-blue-color text-sm text-left">
                 title
               </th>
-              <th className="border border-gray-300 p-2 w-28 text-blue-color text-sm">
+              <th className="border border-gray-200 p-2 w-28 text-blue-color text-sm">
                 price
               </th>
-              <th className="border border-gray-300 p-2 w-24 text-blue-color text-sm">
+              <th className="border border-gray-200 p-2 w-24 text-blue-color text-sm">
                 quantity
+              </th>
+              <th className="border border-gray-200 p-2 w-24 text-blue-color text-sm">
+                Total
               </th>
             </tr>
           </thead>
@@ -82,6 +85,9 @@ const OrderDetails = () => {
                 <td className="border border-gray-300 p-3 font-medium text-blue-color">
                   {item?.quantity}
                 </td>
+                <td className="border border-gray-300 p-3 font-medium text-blue-color">
+                  {item?.quantity * item?.product?.price}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -92,11 +98,28 @@ const OrderDetails = () => {
 
   function TotalPrice() {
     return (
-      <div className="max-w-xs ml-auto w-full">
-        <div className="divide-y divide-blue-200 space-y-2 flex flex-col items-center w-full">
-          <div className="">01</div>
-          <div className="">02</div>
-          <div className="">03</div>
+      <div className="max-w-xs flex flex-col items-end justify-end w-full self-end">
+        <div className="w-full grid grid-cols-1  divide-y divide-blue-color/20 items-center justify-center">
+          <div className="flex items-center justify-between p-3">
+            <h3 className="font-semibold text-sm text-blue-color">Sub Total: </h3>
+            <p className="font-medium text-sm text-blue-color">$47.500</p>
+          </div>
+          <div className="flex items-center justify-between p-3">
+            <h3 className="font-semibold text-sm text-blue-color">Tax : </h3>
+            <p className="font-medium text-sm text-blue-color">$47.500</p>
+          </div>
+          <div className="flex items-center justify-between p-3">
+            <h3 className="font-semibold text-sm text-blue-color">Shipping : </h3>
+            <p className="font-medium text-sm text-blue-color">$47.500</p>
+          </div>
+          <div className="flex items-center justify-between p-3">
+            <h3 className="font-semibold text-sm text-blue-color">Coupon : </h3>
+            <p className="font-medium text-sm text-blue-color">$47.500</p>
+          </div>
+          <div className="flex items-center justify-between p-3">
+            <h3 className="font-semibold text-sm text-blue-color">Total price : </h3>
+            <p className="font-bold text-lg text-blue-color">$47.500</p>
+          </div>
         </div>
       </div>
     );
@@ -106,7 +129,7 @@ const OrderDetails = () => {
       <BreedCrumb />
       {orderDetailData.isFetched && orderDetailData.isSuccess ? (
         <div className="flex  flex-col space-y-3 w-full">
-          <h1 className="border-b w-full border-gray-300 font-semibold text-blue-color text-lg pb-1">
+          <h1 className="border-b w-full border-gray-200 font-semibold text-blue-color text-lg pb-1">
             {isAmh ? "የትዕዛዝ ዝርዝሮች" : "Order Details"}
           </h1>
           <div>
@@ -114,8 +137,10 @@ const OrderDetails = () => {
               Assign Delivery Boy
             </button>
           </div>
-          <ProductDetail />
-          <TotalPrice />
+          <div className="grid grid-cols-1  lg:grid-cols-12 gap-3">
+          </div>
+            <ProductDetail />
+            <TotalPrice />
         </div>
       ) : (
         <div className="flex items-center justify-center">
