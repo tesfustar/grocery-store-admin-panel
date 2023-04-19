@@ -173,8 +173,8 @@ const Dashboard = () => {
           />
         </div>
       )}
-      <div className="flex flex-col items-start space-y-2 w-full pt-4">
-        <h1 className="text-blue-color text-xl font-semibold capitalize dark:text-white ">
+      <div className="bg-white flex flex-col items-start space-y-2 w-full p-2">
+        <h1 className="text-blue-color font-medium capitalize ">
           {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
         </h1>
         <Chart />

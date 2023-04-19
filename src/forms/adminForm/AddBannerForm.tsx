@@ -71,7 +71,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
   return (
     <div className="flex flex-col items-center space-y-2">
       <h1 className="font-semibold text-xl text-dark-gray">
-        {editBannerId ? "Edit Category" : "Add Category"}
+        {editBannerId ? "Edit Ads banner" : "Add Ads banner"}
       </h1>
 
       <Formik

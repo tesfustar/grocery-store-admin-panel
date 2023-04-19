@@ -51,11 +51,17 @@ const AuthRoutes = () => {
   const {
     setIsSideBarOpen,
     isSideBarOpen,
-    setIsOpen,
+    screenSize,
     isOpen,
     isSmallScreen,
     activeMenu,
+    setActiveMenu,
   } = useHome();
+  const handleCloseSideBar = () => {
+    if (activeMenu == true && screenSize <= 900) {
+      setActiveMenu(false);
+    }
+  };
   return (
     <div className="flex relative min-h-screen w-full">
       {!isSmallScreen ? (
@@ -76,14 +82,28 @@ const AuthRoutes = () => {
           {!isSmallScreen && <Sidebar />}
         </div>
       ) : (
-        <div
-          className={`overflow-y-scroll scrollbar-hide  ${
-            activeMenu
-              ? "transition ease-out max-w-[260px] z-50"
-              : "transition ease-out max-w-0"
-          } w-full  h-screen bg-stone-900 fixed`}
-        >
-          <SmallSidebar />
+        <div className="w-ful z-50">
+          {activeMenu && (
+            <div
+              onClick={handleCloseSideBar}
+              className="absolute inset-0 bg-black/20"
+            />
+          )}
+          <div
+            className={`overflow-y-scroll scrollbar-hide  ${
+              activeMenu
+                ? "transition ease-out max-w-[260px] z-50"
+                : "transition ease-out max-w-0"
+            } w-full  h-screen bg-[#141423] fixed`}
+          >
+            <div className=" flex items-center justify-center space-x-2 p-3">
+              <GiGamepadCross className="text-main-color text-4xl" />
+              <h1 className=" text-white duration-500 font-bold text-xl">
+                GROCERY STORE
+              </h1>
+            </div>
+            <SmallSidebar />
+          </div>
         </div>
       )}
       <div

@@ -15,13 +15,29 @@ import axios from "axios";
 import moment from "moment";
 import { Switch } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-import { OrderStatus, PaymentMethod, ShippingType } from "../../../../types/Order";
+import {
+  OrderStatus,
+  PaymentMethod,
+  ShippingType,
+} from "../../../../types/Order";
+import { useHome } from "../../../../context/HomeContext";
+import ConfirmModal from "../../../../utils/ConfirmModal";
+import { buttonStyle } from "../../../../styles/Style";
+import { useAuth } from "../../../../context/AuthContext";
 interface Props {
   orders: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const TotalOrderTable = ({ orders, setStateChange }: Props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { token } = useAuth();
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -32,7 +48,9 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       filterable: false,
       headerClassName: "super-app-theme--header",
       renderCell: (params: GridCellParams) => {
-        return <h2>{params.row.user.firstName + " " + params.row.user.firstName}</h2>;
+        return (
+          <h2>{params.row.user?.firstName + " " + params.row.user?.firstName}</h2>
+        );
       },
     },
     {
@@ -49,9 +67,13 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       sortable: false,
       filterable: false,
       width: 100,
-      align:"center",
+      align: "center",
       renderCell: (params: GridCellParams) => {
-        return <h2 className="text-blue-color font-semibold">ETB {" "}{params.row.totalPrice}</h2>;
+        return (
+          <h2 className="text-blue-color font-semibold">
+            ETB {params.row?.totalPrice}
+          </h2>
+        );
       },
     },
     {
@@ -60,9 +82,13 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       sortable: false,
       filterable: false,
       width: 100,
-      align:"center",
+      align: "center",
       renderCell: (params: GridCellParams) => {
-        return <h2 className="text-main-color font-semibold">{params.row.products?.length} product</h2>;
+        return (
+          <h2 className="text-main-color font-semibold">
+            {params.row.products?.length} product
+          </h2>
+        );
       },
     },
     {
@@ -72,12 +98,24 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       filterable: false,
       width: 100,
       renderCell: (params: GridCellParams) => {
-        return <h2 
-        className={`text-xs font-medium p-1 rounded-md
-        ${params.row.status === OrderStatus.PENDING ? "bg-[#f97316]/30 text-[#f97316]" : 
-          params.row.status === OrderStatus.ONGOING ? "bg-blue-bg/30 text-blue-color" : 
-          params.row.status === OrderStatus.DELIVERED ? "bg-red-bg text-red-color" : 
-          params.row.status === OrderStatus.CANCELED ? "bg-main-bg/30 text-main-color" : "" }`}>{params.row.status}</h2>;
+        return (
+          <h2
+            className={`text-xs font-medium p-1 rounded-md
+        ${
+          params.row.status === OrderStatus.PENDING
+            ? "bg-[#f97316]/30 text-[#f97316]"
+            : params.row.status === OrderStatus.ONGOING
+            ? "bg-blue-bg/30 text-blue-color"
+            : params.row.status === OrderStatus.DELIVERED
+            ? "bg-red-bg text-red-color"
+            : params.row.status === OrderStatus.CANCELED
+            ? "bg-main-bg/30 text-main-color"
+            : ""
+        }`}
+          >
+            {params.row.status}
+          </h2>
+        );
       },
     },
     {
@@ -86,14 +124,26 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       sortable: false,
       filterable: false,
       width: 150,
-      align:"center",
+      align: "center",
       renderCell: (params: GridCellParams) => {
-        return <h2 
-        className={`text-xs font-medium p-1 rounded-md
-        ${params.row.paymentMethod === PaymentMethod.CASH ? "bg-main-bg/30 text-main-color" : 
-          params.row.status === OrderStatus.ONGOING ? "bg-[#0891b2]/30 text-[#0891b2]" : 
-          params.row.status === OrderStatus.DELIVERED ? "bg-red-bg text-red-color" : 
-          params.row.status === OrderStatus.CANCELED ? "bg-main-bg/30 text-main-color" : "" }`}>{params.row.paymentMethod}</h2>;
+        return (
+          <h2
+            className={`text-xs font-medium p-1 rounded-md
+        ${
+          params.row.paymentMethod === PaymentMethod.CASH
+            ? "bg-main-bg/30 text-main-color"
+            : params.row.status === OrderStatus.ONGOING
+            ? "bg-[#0891b2]/30 text-[#0891b2]"
+            : params.row.status === OrderStatus.DELIVERED
+            ? "bg-red-bg text-red-color"
+            : params.row.status === OrderStatus.CANCELED
+            ? "bg-main-bg/30 text-main-color"
+            : ""
+        }`}
+          >
+            {params.row.paymentMethod}
+          </h2>
+        );
       },
     },
     {
@@ -102,13 +152,24 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       sortable: false,
       filterable: false,
       width: 130,
-      align:"center",
+      align: "center",
       renderCell: (params: GridCellParams) => {
-        return <h2 
-        className={`text-xs font-medium p-1 rounded-md
-        ${params.row.shippingType === ShippingType.FLAT ? "bg-[#eab308]/30 text-[#eab308]" : 
-          params.row.shippingType === ShippingType.FREE ? "bg-[#7c3aed]/30 text-[#7c3aed]" : 
-          params.row.shippingType === ShippingType.EXPRESS ? "bg-red-bg text-red-color" :  "" }`}>{params.row.shippingType}</h2>;
+        return (
+          <h2
+            className={`text-xs font-medium p-1 rounded-md
+        ${
+          params.row.shippingType === ShippingType.FLAT
+            ? "bg-[#eab308]/30 text-[#eab308]"
+            : params.row.shippingType === ShippingType.FREE
+            ? "bg-[#7c3aed]/30 text-[#7c3aed]"
+            : params.row.shippingType === ShippingType.EXPRESS
+            ? "bg-red-bg text-red-color"
+            : ""
+        }`}
+          >
+            {params.row.shippingType}
+          </h2>
+        );
       },
     },
     {
@@ -116,16 +177,25 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 200,
+      width: 220,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() =>navigate(`/orders/detail/${params.row._id}`)}
+              onClick={() => navigate(`/orders/detail/${params.row._id}`)}
             >
               Details
+            </button>
+            <button
+              onClick={() => {
+                setSelectedId(params.row._id);
+                setConfirmModalOpen(true);
+              }}
+              className="bg-main-bg px-5 p-1 font-medium text-sm text-white"
+            >
+              Delete
             </button>
           </div>
         );
@@ -152,31 +222,39 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
     );
   }
 
-  //delete confirmation
-  const handleDelete = (id: string) => {
-    if (window.confirm("are you sure")) {
-      deleteCategoryMutationHandler(id);
-    }
-    return;
-  };
-  const categoryDeleteMutation = useMutation(
+  const orderDeleteMutation = useMutation(
     async (id) =>
       await axios.delete(
         `${
           import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }category/find/remove/${id}`
+        }order/admin/remove/${id}`,
+        { headers }
       ),
     {
       retry: false,
     }
   );
-  const deleteCategoryMutationHandler = async (id: any) => {
+
+  const deleteOrderMutationHandler = async (id: any) => {
     try {
-      categoryDeleteMutation.mutate(id, {
+      orderDeleteMutation.mutate(id, {
         onSuccess: (responseData) => {
           setStateChange((prev) => !prev);
+          setMessageType({
+            message: "order Deleted Successfully!",
+            type: "SUCCESS",
+          });
+          setSelectedId(null);
+          setConfirmModalOpen(false);
         },
-        onError: (err) => {},
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
       });
     } catch (err) {
       console.log(err);
@@ -197,6 +275,43 @@ const TotalOrderTable = ({ orders, setStateChange }: Props) => {
         disableColumnMenu={true}
         disableColumnSelector
       />
+      <ConfirmModal>
+        <div>
+          {" "}
+          <h1 className="font-medium text-dark-color capitalize text-center  pb-2">
+            {isAmh
+              ? "እርግጠኛ ነዎት ይህን ትዕዛዝ መሰረዝ ይፈልጋሉ "
+              : "are you sure you want to delete this order ? "}
+          </h1>
+          {/* <p className="font-medium text-dark-color capitalize text-center">
+            {" "}
+            {isAmh
+              ? "ይህንን ካረጋገጡ ደንበኞች ሊያዩት አይችሉም። እና ይህን ምርት ማዘዝ አይችሉም !"
+              : "If you check this, customers won't be able to see it. And they can not order this product!"}
+          </p> */}
+        </div>
+        <div className="flex  items-center justify-center space-x-5">
+          <button
+            disabled={orderDeleteMutation.isLoading}
+            onClick={() => {
+              deleteOrderMutationHandler(selectedId);
+            }}
+            className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
+          >
+            {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+          </button>
+          <button
+            disabled={orderDeleteMutation.isLoading}
+            onClick={() => {
+              setConfirmModalOpen(false);
+              setSelectedId(null);
+            }}
+            className={"px-14 " + buttonStyle}
+          >
+            {isAmh ? "አይ" : "No"}
+          </button>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

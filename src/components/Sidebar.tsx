@@ -10,20 +10,20 @@ const Sidebar: React.FC = () => {
   const { isOpen, isSideBarOpen, isAmh } = useHome();
   const activeLink = `flex items-center ${
     !isSideBarOpen && "justify-center"
-  } bg-white/10 gap-1 text-white font-light p-2 w-full px-4`;
+  } bg-white/10 gap-1 text-gray-400  p-2 w-full px-4`;
 
   const normalLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-4" : "justify-center "
-  } py-2 text-[#96a0af] dark:text-gray-200 
+  } py-2 text-gray-300
       hover:bg-white/10  w-full font-light `;
 
   const activeMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
-  } py-2 text-[#96a0af] dark:text-gray-200 
+  } py-2 dark:text-gray-200  text-gray-300
           bg-white/10  w-full font-light `;
   const normalMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
-  } py-2 text-[#96a0af] dark:text-gray-200 
+  } py-2 text-gray-400 dark:text-gray-200 
           hover:bg-white/5  w-full font-light `;
   return (
     <div className="flex flex-col items-start  w-full">
@@ -31,7 +31,7 @@ const Sidebar: React.FC = () => {
         {sideBarLinks.map((item: any) => (
           <div className="flex flex-col items-start w-full space-y-2">
             <h1
-              className={`font-normal  text-gray-300 capitalize p-2 ${
+              className={`font-normal  text-gray-400 capitalize p-2 ${
                 isSideBarOpen ? "flex" : "hidden"
               }  text-xs`}
             >
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
                 <span
                   className={`${
                     isSideBarOpen ? "flex" : "hidden"
-                  } capitalize font-medium text-sm text-gray-300`}
+                  } capitalize font-normal text-sm text-gray-400 duration-500 ease-out`}
                 >
                   {isAmh ? item.nameAm : item.name}
                 </span>
@@ -69,7 +69,7 @@ const Sidebar: React.FC = () => {
                   <div className="flex items-center space-x-2 ">
                     {item.icon}
                     {isSideBarOpen && (
-                      <span className="text-gray-300 font-medium text-sm">
+                      <span className="text-gray-400 font-normal text-sm">
                         {item.name}
                       </span>
                     )}

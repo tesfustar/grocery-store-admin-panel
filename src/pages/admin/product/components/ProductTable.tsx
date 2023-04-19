@@ -130,6 +130,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
               Edit
             </button>
             <Switch
+              title={params.row.isOutOfStock ? "out of stock" :"in stock"}
               checked={params.row.isOutOfStock}
               onChange={() => {
                 setActionType(ActionType.CheckStock);
@@ -213,7 +214,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
         onSuccess: (responseData) => {
           setStateChange((prev) => !prev);
           setMessageType({
-            message: "Product Delete Successfully!",
+            message: "Product Deleted Successfully!",
             type: "SUCCESS",
           });
           setConfirmModalOpen(false);
@@ -281,7 +282,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
                 ? "ይህ ምርት በአሁኑ ጊዜ ሊገኝ የሚችል መሆኑን እርግጠኛ ነዎት?"
                 : "You are sure that this product is currently available ?"}
             </h1>
-            <p className="font-medium text-dark-color capitalize text-center">
+            <p className="font-normal text-sm text-dark-color capitalize text-center">
               {" "}
               {isAmh
                 ? "ይህንን ካረጋገጡ፣ ይህ ምርት ለደንበኞች ይህንን ካረጋገጡ፣ ይህ ምርት ለደንበኞች ይገኛል። እና ይህን ምርት ማዘዝ ይችላል !"
@@ -291,12 +292,12 @@ const ProductTable = ({ products, setStateChange }: Props) => {
         ) : (
           <div>
             {" "}
-            <h1 className="font-medium text-dark-color capitalize text-center text-lg">
+            <h1 className="font-medium text-dark-color capitalize text-center ">
               {isAmh
                 ? "ይህ ምርት በአሁኑ ጊዜ እንደማይገኝ እርግጠኛ ነዎት ? "
                 : "You are sure that this product is currently unavailable ? "}
             </h1>
-            <p className="font-medium text-dark-color capitalize text-center">
+            <p className="font-normal text-sm text-dark-color capitalize text-center">
               {" "}
               {isAmh
                 ? "ይህንን ካረጋገጡ ደንበኞች ሊያዩት አይችሉም። እና ይህን ምርት ማዘዝ አይችሉም !"

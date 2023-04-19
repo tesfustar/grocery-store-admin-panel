@@ -64,7 +64,7 @@ const BranchDetail = () => {
   console.log(branchProducts)
   function CountData() {
     return (
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
         <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
           <div className="bg-[#457eac]/20 p-3 rounded-full">
             <RiStoreFill size={20} className="text-[#457eac]" />

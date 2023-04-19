@@ -1,18 +1,18 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { HiMenuAlt1 } from "react-icons/hi";
 import { useAuth } from "../context/AuthContext";
 import { useHome } from "../context/HomeContext";
 import { IoMdNotifications } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import {BsFillPatchCheckFill} from 'react-icons/bs'
+import { BsFillPatchCheckFill } from "react-icons/bs";
 const Navbar = () => {
   const { logout, user } = useAuth();
   const {
-    activeMenu,
+    setIsSideBarOpen,
     setActiveMenu,
-    screenSize,
+    isSideBarOpen,
     isOpen,
     setIsOpen,
     isSmallScreen,
@@ -29,13 +29,13 @@ const Navbar = () => {
   function DropDown() {
     return (
       <div className=" flex items-end justify-end z-40">
-        <Menu as="div" className="relative inline-block text-left z-40">
+        <Menu as="div" className="relative inline-block text-left z-30">
           <div>
             <Menu.Button className="inline-flex w-full justify-center ">
               <div className="flex items-center space-x-1 z-20">
                 <div>
                   <p className="text-gray-500 text-sm font-medium">
-                    {user.firstName + " " +  user.lastName}
+                    {user.firstName + " " + user.lastName}
                   </p>
                   <span className="text-gray-500 text-sm">{user.phone}</span>
                 </div>
@@ -63,7 +63,9 @@ const Navbar = () => {
                 <Menu.Item>
                   <span
                     onClick={() => setIsAmh(false)}
-                    className={`capitalize font-medium w-full text-sm ${isAmh ? "text-gray-500" : "text-main-color"}  cursor-pointer`}
+                    className={`capitalize font-medium w-full text-sm ${
+                      isAmh ? "text-gray-500" : "text-main-color"
+                    }  cursor-pointer`}
                   >
                     English
                   </span>
@@ -71,7 +73,9 @@ const Navbar = () => {
                 <Menu.Item>
                   <span
                     onClick={() => setIsAmh(true)}
-                    className={`capitalize font-medium w-full text-sm  ${isAmh ? "text-main-color" : "text-gray-500"}  cursor-pointer`}
+                    className={`capitalize font-medium w-full text-sm  ${
+                      isAmh ? "text-main-color" : "text-gray-500"
+                    }  cursor-pointer`}
                   >
                     አማርኛ
                   </span>
@@ -99,7 +103,7 @@ const Navbar = () => {
                       className={`capitalize font-medium text-sm text-gray-500`}
                       onClick={logout}
                     >
-                      {isAmh ? "ውጣ" :'Log Out'}
+                      {isAmh ? "ውጣ" : "Log Out"}
                     </span>
                   </div>
                 </Menu.Item>
@@ -111,13 +115,19 @@ const Navbar = () => {
     );
   }
   return (
-    <div className="bg-white p-3 flex items-center justify-between md:px-5">
+    <div className="bg-white shadow-md w-full  p-3 flex items-center justify-between md:px-5">
       <div>
-        {isSmallScreen && !isOpen && (
-          <FaBars
+        {isSmallScreen && !isOpen ? (
+          <HiMenuAlt1
             size={18}
             className="dark:text-white text-dark-gray cursor-pointer"
             onClick={isSmallScreen ? toggleActiveMenu : handleNav}
+          />
+        ) : (
+          <HiMenuAlt1
+            size={18}
+            className="dark:text-white text-dark-gray cursor-pointer"
+            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
           />
         )}
       </div>
