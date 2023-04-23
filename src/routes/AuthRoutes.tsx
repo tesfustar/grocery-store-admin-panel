@@ -39,6 +39,13 @@ const OrderDetails = React.lazy(
   () => import("../pages/admin/order/OrderDetails")
 );
 
+const ProductRequest = React.lazy(
+  () => import("../pages/admin/productRequest/ProductRequest")
+);
+const RequestDetail = React.lazy(
+  () => import("../pages/admin/productRequest/RequestDetail")
+);
+
 //manager routes
 const Store_Dashboard = React.lazy(
   () => import("../pages/manager/home/Dashboard")
@@ -144,8 +151,10 @@ const AuthRoutes = () => {
                 <Route path="/branches" element={<Branch />} />
                 <Route path="/notifications" element={<Notification />} />
                 <Route path="/orders" element={<Order />} />
+                <Route path="/product/request" element={<ProductRequest />} />
+                {/* //detail routes */}
                 <Route path="/orders/detail/:id" element={<OrderDetails />} />
-                {/* //detail routes BranchDetail */}
+                <Route path="/request/detail/:id" element={<RequestDetail />} />
                 <Route path="/branches/detail/:id" element={<BranchDetail />} />
               </Routes>
             ) : user.role === "STORE_ADMIN" ? (

@@ -1,40 +1,41 @@
 import React, { useState } from "react";
-import AddCategoryModal from "./components/AddCategoryModal";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import CategoryTable from "./components/CategoryTable";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
 import { buttonStyle, mainColor } from "../../../styles/Style";
-import { ICategory } from "../../../types/Category";
 import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
-const Category: React.FC = () => {
+import RequestTable from "./components/RequestTable";
+import { IProductRequest } from "../../../types/Request";
+
+const ProductRequest = () => {
   const { token } = useAuth();
   const { isAmh } = useHome();
   const [stateChange, setStateChange] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Array<ICategory>>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [editCategoryId, setEditCategoryId] = useState<string | null>(null);
+  const [requests, setRequests] = useState<Array<IProductRequest>>([]);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
   };
-  //fetch categories
-  const categoryData = useQuery(
-    ["categoryData", stateChange],
+  //product request
+  const requestData = useQuery(
+    ["requestData", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}category/admin`, {
-        headers,
-      }),
+      await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}productRequest/all`,
+        {
+          headers,
+        }
+      ),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!token,
       onSuccess: (res) => {
-        setCategories(
+        setRequests(
           res?.data?.data?.map((data: object, index: number) => ({
             ...data,
             index: index + 1,
@@ -47,25 +48,18 @@ const Category: React.FC = () => {
     }
   );
   return (
-    <div className="p-3 bg-white">
+    <div className="bg-white p-3">
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-blue-color">
-          {isAmh ? "ምድቦች" : "Categories"}
+          {isAmh ? "የምርት ጥያቄዎች" : "Product Requests"}
         </h1>
-        <button onClick={() => setIsModalOpen(true)} className={buttonStyle}>
-          {isAmh ? "ምድብ ጨምር" : "Add Category"}
-        </button>
       </div>
-      {categoryData.isFetched && categoryData.isSuccess ? (
+
+      {requestData.isFetched && requestData.isSuccess ? (
         <div className="flex items-center justify-center w-full">
-          {categoryData?.data?.data?.data?.length > 0 ? (
-            <CategoryTable
-              categories={categories}
-              setStateChange={setStateChange}
-              setEditCategoryId={setEditCategoryId}
-              setIsModalOpen={setIsModalOpen}
-            />
+          {requestData?.data?.data?.data?.length > 0 ? (
+            <RequestTable requests={requests} setStateChange={setStateChange} />
           ) : (
             <h1 className="text-blue-color text-xl capitalize font-semibold">
               {isAmh ? "" : "No Categories found !"}
@@ -82,15 +76,8 @@ const Category: React.FC = () => {
           />
         </div>
       )}
-      <AddCategoryModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        setEditCategoryId={setEditCategoryId}
-        editCategoryId={editCategoryId}
-        setStateChange={setStateChange}
-      />
     </div>
   );
 };
 
-export default Category;
+export default ProductRequest;

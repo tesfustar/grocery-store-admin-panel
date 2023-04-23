@@ -202,6 +202,30 @@ export const AdminSideBar = [
   {
     id: 7,
     hasSubMenu: true,
+    title: "Request Management",
+    titleAm: "የተጠቃሚ አስተዳደር",
+    name: "Product request",
+    icon: <RiCoupon4Line size={15} className=" text-[#bdcadf]" />,
+    iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
+    iconOpened: <RiArrowUpSFill size={18} className=" text-[#bdcadf]" />,
+    menus: [
+      {
+        name: "Product Request",
+        nameAm: "ባነሮች",
+        link: "product/request",
+        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
+      },
+      {
+        name: "pending orders",
+        nameAm: "ኩፖኖች",
+        link: "coupons",
+        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
+      },
+    ],
+  },
+  {
+    id: 8,
+    hasSubMenu: true,
     name: "Notifications",
     icon: <MdNotifications size={15} className=" text-[#bdcadf]" />,
     iconClosed: <RiArrowDownSFill size={18} className=" text-[#bdcadf]" />,
@@ -275,7 +299,7 @@ export const StoreManagerSideBar = [
         name: "pending orders",
         nameAm: "ኩፖኖች",
         link: "coupons",
-        icon:<BsDot size={18} className=" text-[#bdcadf]" />,
+        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "canceled orders",
@@ -293,7 +317,7 @@ export const StoreManagerSideBar = [
         name: "completed orders",
         nameAm: "የተጠናቀቁ ትዕዛዞች",
         link: "canceled-orders",
-        icon:<BsDot size={18} className=" text-[#bdcadf]" />,
+        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
     ],
   },

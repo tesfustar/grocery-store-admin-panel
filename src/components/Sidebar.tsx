@@ -8,23 +8,23 @@ const Sidebar: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState<number | null>(null);
   const { sideBarLinks, logout } = useAuth();
   const { isOpen, isSideBarOpen, isAmh } = useHome();
-  const activeLink = `flex items-center ${
+  const activeLink = `flex items-center font-medium ${
     !isSideBarOpen && "justify-center"
   } bg-white/10 gap-1 text-gray-400  p-2 w-full px-4`;
 
   const normalLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-4" : "justify-center "
   } py-2 text-gray-300
-      hover:bg-white/10  w-full font-light `;
+      hover:bg-white/10  w-full font-medium `;
 
   const activeMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
   } py-2 dark:text-gray-200  text-gray-300
-          bg-white/10  w-full font-light `;
+          bg-white/10  w-full font-medium `;
   const normalMenuLink = `flex items-center   gap-1 ${
     isSideBarOpen ? "px-8 " : "justify-center "
   } py-2 text-gray-400 dark:text-gray-200 
-          hover:bg-white/5  w-full font-light `;
+          hover:bg-white/5  w-full font-medium `;
   return (
     <div className="flex flex-col items-start  w-full">
       <div className="flex flex-col w-full  ">
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
                 <span
                   className={`${
                     isSideBarOpen ? "flex" : "hidden"
-                  } capitalize font-normal text-sm text-gray-400 duration-500 ease-out`}
+                  } capitalize font-medium text-sm text-gray-400 duration-500 ease-out`}
                 >
                   {isAmh ? item.nameAm : item.name}
                 </span>
@@ -69,7 +69,7 @@ const Sidebar: React.FC = () => {
                   <div className="flex items-center space-x-2 ">
                     {item.icon}
                     {isSideBarOpen && (
-                      <span className="text-gray-400 font-normal text-sm">
+                      <span className="text-gray-400 font-medium text-sm">
                         {item.name}
                       </span>
                     )}

@@ -50,7 +50,7 @@ const Order = () => {
     <div className="bg-white p-3">
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
-        <h1 className="font-semibold text-dark-gray">
+        <h1 className="font-semibold text-blue-color">
           {isAmh ? "ትዕዛዞች" : "Orders"}
         </h1>
       </div>

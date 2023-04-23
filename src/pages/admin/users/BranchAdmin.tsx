@@ -49,7 +49,7 @@ const BranchAdmin: FC = () => {
     }
   );
   return (
-    <div className="p-3">
+    <div className="p-3 bg-white">
       <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-dark-gray">

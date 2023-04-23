@@ -34,9 +34,7 @@ const SmallSidebar: React.FC<Props> = ({ isOpen, isSideBarOpen }) => {
          {sideBarLinks.map((item: any) => (
            <div className="flex flex-col items-start w-full space-y-2">
              <h1
-               className={`font-normal duration-300 text-gray-300 capitalize p-2 ${
-                 isSideBarOpen ? "flex" : "hidden"
-               }  text-xs`}
+               className={`font-normal duration-300 text-gray-300 capitalize p-2  text-xs`}
              >
                {isAmh ? item.titleAm : item.title}
              </h1>

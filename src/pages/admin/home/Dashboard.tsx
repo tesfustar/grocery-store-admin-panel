@@ -164,7 +164,7 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center">
+        <div className="w-full bg-white p-5 flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
             color={mainColor}
@@ -173,7 +173,7 @@ const Dashboard = () => {
           />
         </div>
       )}
-      <div className="bg-white flex flex-col items-start space-y-2 w-full p-2">
+      <div className="bg-white flex flex-col items-start space-y-2 w-full p-2 mt-3">
         <h1 className="text-blue-color font-medium capitalize ">
           {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
         </h1>
