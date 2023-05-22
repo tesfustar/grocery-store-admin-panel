@@ -35,6 +35,8 @@ const BranchDetail = React.lazy(
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
 const AddCoupon = React.lazy(() => import("../pages/admin/coupons/AddCoupon"));
 const Order = React.lazy(() => import("../pages/admin/order/Order"));
+const DeliveredOrder = React.lazy(() => import("../pages/admin/order/DeliveredOrder"));
+
 const OrderDetails = React.lazy(
   () => import("../pages/admin/order/OrderDetails")
 );
@@ -53,6 +55,12 @@ const Store_Dashboard = React.lazy(
 const Store_Product = React.lazy(
   () => import("../pages/manager/product/Product")
 );
+
+const Product_Request = React.lazy(
+  () => import("../pages/manager/productRequest/ProductRequest")
+);
+
+
 const AuthRoutes = () => {
   const { sideBar, role, user } = useAuth();
   const {
@@ -151,6 +159,7 @@ const AuthRoutes = () => {
                 <Route path="/branches" element={<Branch />} />
                 <Route path="/notifications" element={<Notification />} />
                 <Route path="/orders" element={<Order />} />
+                <Route path="/delivered-orders" element={<DeliveredOrder />} />
                 <Route path="/product/request" element={<ProductRequest />} />
                 {/* //detail routes */}
                 <Route path="/orders/detail/:id" element={<OrderDetails />} />
@@ -162,6 +171,7 @@ const AuthRoutes = () => {
                 <Route path="*" element={<Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={<Store_Dashboard />} />
                 <Route path="/products" element={<Store_Product />} />
+                <Route path="/product/request" element={<Product_Request />} />
               </Routes>
             ) : (
               <h1>You have No Role to use this system !</h1>

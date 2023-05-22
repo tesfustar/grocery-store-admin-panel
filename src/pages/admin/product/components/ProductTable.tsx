@@ -39,7 +39,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
-  };
+  }
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {

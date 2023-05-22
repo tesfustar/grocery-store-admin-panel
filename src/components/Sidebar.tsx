@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
     <div className="flex flex-col items-start  w-full">
       <div className="flex flex-col w-full  ">
         {sideBarLinks.map((item: any) => (
-          <div className="flex flex-col items-start w-full space-y-2">
+          <div className="flex flex-col items-start w-full space-y-2 ">
             <h1
               className={`font-normal  text-gray-400 capitalize p-2 ${
                 isSideBarOpen ? "flex" : "hidden"

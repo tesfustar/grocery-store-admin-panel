@@ -182,19 +182,13 @@ export const AdminSideBar = [
       {
         name: "pending orders",
         nameAm: "ኩፖኖች",
-        link: "coupons",
+        link: "pending-orders",
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
       {
         name: "delivered order",
         nameAm: "ባነሮች",
-        link: "orders",
-        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
-      },
-      {
-        name: "pending orders",
-        nameAm: "ኩፖኖች",
-        link: "coupons",
+        link: "delivered-orders",
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
     ],
@@ -211,7 +205,7 @@ export const AdminSideBar = [
     menus: [
       {
         name: "Product Request",
-        nameAm: "ባነሮች",
+        nameAm: "የምርት ጥያቄዎች",
         link: "product/request",
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
@@ -270,13 +264,6 @@ export const StoreManagerSideBar = [
         link: "products",
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
-
-      {
-        name: "categories",
-        nameAm: "ምድቦች",
-        link: "categories",
-        icon: <BsDot size={19} className=" text-[#bdcadf]" />,
-      },
     ],
   },
   {
@@ -334,7 +321,7 @@ export const StoreManagerSideBar = [
       {
         name: "product request",
         nameAm: "የምርት ጥያቄ",
-        link: "banners",
+        link: "product/request",
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
     ],

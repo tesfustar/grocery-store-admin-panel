@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -13,7 +13,10 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-
+import { useAuth } from "../../../../context/AuthContext";
+import { useHome } from "../../../../context/HomeContext";
+import { buttonStyle } from "../../../../styles/Style";
+import ConfirmModal from "../../../../utils/ConfirmModal";
 interface Props {
   products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +29,14 @@ const ProductTable = ({
   setIsModalOpen,
   setEditProductId,
 }: Props) => {
+  const { token } = useAuth();
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -55,10 +66,14 @@ const ProductTable = ({
       headerName: "price",
       sortable: false,
       filterable: false,
-      width: 80,
+      width: 140,
       headerClassName: "super-app-theme--header",
       renderCell: (params: GridCellParams) => {
-        return <h3>{params.row.product.wholeSalePrice}</h3>;
+        return (
+          <h3 className="text-main-color font-semibold">
+            ETB {params.row.product.price}/{params.row.product.priceType}{" "}
+          </h3>
+        );
       },
     },
     {
@@ -102,7 +117,10 @@ const ProductTable = ({
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => {
+                setConfirmModalOpen(true);
+                setSelectedId(params.row._id);
+              }}
             >
               Delete
             </button>
@@ -141,31 +159,37 @@ const ProductTable = ({
     );
   }
 
-  //delete confirmation
-  const handleDelete = (id: string) => {
-    if (window.confirm("are you sure")) {
-      deleteCategoryMutationHandler(id);
-    }
-    return;
-  };
-  const categoryDeleteMutation = useMutation(
+  const productDeleteMutation = useMutation(
     async (id) =>
       await axios.delete(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_URL
-        }category/find/remove/${id}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}store/remove/${id}`,
+        { headers }
       ),
     {
       retry: false,
     }
   );
-  const deleteCategoryMutationHandler = async (id: any) => {
+
+  const deleteProductMutationHandler = async (id: any) => {
     try {
-      categoryDeleteMutation.mutate(id, {
+      productDeleteMutation.mutate(id, {
         onSuccess: (responseData) => {
           setStateChange((prev) => !prev);
+          setMessageType({
+            message: "Product Deleted Successfully!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
         },
-        onError: (err) => {},
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
       });
     } catch (err) {
       console.log(err);
@@ -188,6 +212,37 @@ const ProductTable = ({
         disableColumnMenu={true}
         disableColumnSelector
       />
+      {/* //delete confirmation modal */}
+      <ConfirmModal>
+        <div className="flex flex-col items-center space-y-2">
+          <h1 className="font-medium text-dark-color capitalize py-4 text-lg">
+            {isAmh
+              ? "እርግጠኛ ነዎት ይህን ምርት መሰረዝ ይፈልጋሉ?"
+              : "are u sure you want to delete this product"}
+          </h1>
+          <div className="flex  items-center justify-center space-x-5">
+            <button
+              disabled={productDeleteMutation.isLoading}
+              onClick={() => {
+                deleteProductMutationHandler(selectedId);
+              }}
+              className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
+            >
+              {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+            </button>
+            <button
+              disabled={productDeleteMutation.isLoading}
+              onClick={() => {
+                setConfirmModalOpen(false);
+                setSelectedId(null);
+              }}
+              className={"px-14 " + buttonStyle}
+            >
+              {isAmh ? "አይ" : "No"}
+            </button>
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

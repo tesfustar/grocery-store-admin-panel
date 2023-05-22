@@ -1,19 +1,21 @@
 import React, { useState, FC } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useAuth } from "../../../context/AuthContext";
-import { buttonStyle, mainColor } from "../../../styles/Style";
+import { buttonStyle, customStyles, mainColor } from "../../../styles/Style";
 import { useNavigate, useParams } from "react-router-dom";
 import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
-
+import Select from "react-select";
 const OrderDetails = () => {
   const { id } = useParams();
-  const { isAmh } = useHome();
+  const { isAmh, setMessageType } = useHome();
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
+  const [isAssigning, setIsAssigning] = useState<boolean>(false);
+  const [selectedDriver, setSelectedDriver] = useState<string | null>(null);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -37,8 +39,66 @@ const OrderDetails = () => {
       onSuccess: (res) => {},
     }
   );
-  console.log(orderDetailData?.data?.data?.data);
+  const deliveriesData = useQuery(
+    [`totalOrdersData${id}`],
+    async () =>
+      await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/deliveries`,
+        {
+          headers,
+        }
+      ),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: true,
+      retry: false,
+      enabled: !!token,
+      onSuccess: (res) => {},
+    }
+  );
 
+  //assign driver post request
+  const assignDeliveryMutation = useMutation(
+    async (newData: any) =>
+      await axios.put(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/admin/assign/${id}`,
+        newData,
+        {
+          headers,
+        }
+      ),
+    {
+      retry: false,
+    }
+  );
+
+  const assignDeliveryMutationHandler = async () => {
+    try {
+      assignDeliveryMutation.mutate(
+        {
+          deliveryId: selectedDriver,
+        },
+        {
+          onSuccess: (responseData: any) => {
+            setMessageType({
+              message: "Driver Assigned Successfully!",
+              type: "SUCCESS",
+            });
+            setStateChange((prev) => !prev);
+            setIsAssigning(false);
+          },
+          onError: (err: any) => {
+            setMessageType({
+              message: err?.response?.data?.message,
+              type: "ERROR",
+            });
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   function ProductDetail() {
     return (
       <div className=" w-full flex flex-col space-y-2 flex-shrink-0 overflow-x-scroll scrollbar-hide">
@@ -101,7 +161,9 @@ const OrderDetails = () => {
       <div className="max-w-xs flex flex-col items-end justify-end w-full self-end">
         <div className="w-full grid grid-cols-1  divide-y divide-blue-color/20 items-center justify-center">
           <div className="flex items-center justify-between p-3">
-            <h3 className="font-semibold text-sm text-blue-color">Sub Total: </h3>
+            <h3 className="font-semibold text-sm text-blue-color">
+              Sub Total:{" "}
+            </h3>
             <p className="font-medium text-sm text-blue-color">$47.500</p>
           </div>
           <div className="flex items-center justify-between p-3">
@@ -109,7 +171,9 @@ const OrderDetails = () => {
             <p className="font-medium text-sm text-blue-color">$47.500</p>
           </div>
           <div className="flex items-center justify-between p-3">
-            <h3 className="font-semibold text-sm text-blue-color">Shipping : </h3>
+            <h3 className="font-semibold text-sm text-blue-color">
+              Shipping :{" "}
+            </h3>
             <p className="font-medium text-sm text-blue-color">$47.500</p>
           </div>
           <div className="flex items-center justify-between p-3">
@@ -117,13 +181,16 @@ const OrderDetails = () => {
             <p className="font-medium text-sm text-blue-color">$47.500</p>
           </div>
           <div className="flex items-center justify-between p-3">
-            <h3 className="font-semibold text-sm text-blue-color">Total price : </h3>
+            <h3 className="font-semibold text-sm text-blue-color">
+              Total price :{" "}
+            </h3>
             <p className="font-bold text-lg text-blue-color">$47.500</p>
           </div>
         </div>
       </div>
     );
   }
+  console.log(deliveriesData?.data?.data?.data);
   return (
     <div className="bg-white">
       <BreedCrumb />
@@ -133,14 +200,52 @@ const OrderDetails = () => {
             {isAmh ? "የትዕዛዝ ዝርዝሮች" : "Order Details"}
           </h1>
           <div>
-            <button className="bg-main-bg p-2 text-white font-medium rounded-sm text-[15px] hover:bg-main-bg/70">
-              Assign Delivery Boy
-            </button>
+            {isAssigning ? (
+              <div className="flex items-center space-x-2  ">
+                <Select
+                  options={deliveriesData?.data?.data?.data}
+                  isSearchable={true}
+                  styles={customStyles}
+                  placeholder={"select product"}
+                  onChange={(selectedOption: any) => {
+                    // setFieldValue("amenities", selectedOption);
+                    setSelectedDriver(selectedOption._id);
+                  }}
+                  getOptionLabel={(delivery: any) =>
+                    delivery.firstName + " " + delivery.lastName
+                  }
+                  getOptionValue={(delivery: any) => delivery._id}
+                  className="w-80 font-semibold"
+                  isLoading={false}
+                  noOptionsMessage={() => "deliveries appears here!"}
+                />
+                <button
+                  disabled={!selectedDriver || assignDeliveryMutation.isLoading}
+                  onClick={() => assignDeliveryMutationHandler()}
+                  className="bg-green-500 px-5 p-2 text-white font-medium rounded-sm text-[15px] hover:bg-main-bg/70"
+                >
+                  {assignDeliveryMutation.isLoading ? "Assigning.." : "Assign"}
+                </button>
+                <button
+                  disabled={assignDeliveryMutation.isLoading}
+                  onClick={() => setIsAssigning(false)}
+                  className="bg-main-bg px-5 p-2 text-white font-medium rounded-sm text-[15px] hover:bg-main-bg/70"
+                >
+                  cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsAssigning(true)}
+                className="bg-main-bg p-2 text-white font-medium rounded-sm text-[15px] hover:bg-main-bg/70"
+              >
+                Assign Delivery Boy
+              </button>
+            )}
           </div>
-          <div className="grid grid-cols-1  lg:grid-cols-12 gap-3">
-          </div>
-            <ProductDetail />
-            <TotalPrice />
+          <div className="grid grid-cols-1  lg:grid-cols-12 gap-3"></div>
+          <ProductDetail />
+          <TotalPrice />
         </div>
       ) : (
         <div className="flex items-center justify-center">

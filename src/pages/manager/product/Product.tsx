@@ -9,8 +9,10 @@ import ProductTable from "./components/ProductTable";
 import { useHome } from "../../../context/HomeContext";
 import { IBranchProduct } from "../../../types/Product";
 import AddProductModal from "./components/AddProductModal";
+import { mainColor } from "../../../styles/Style";
+import BreedCrumb from "../../../utils/BreedCrumb";
 const Product = () => {
-  const { token,user } = useAuth();
+  const { token, user } = useAuth();
   const { isAmh } = useHome();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
@@ -26,9 +28,14 @@ const Product = () => {
   const branchProductData = useQuery(
     ["BranchProductsData", stateChange],
     async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}branch-admin/products/${user.branch}`, {
-        headers,
-      }),
+      await axios.get(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}branch-admin/products/${
+          user.branch
+        }`,
+        {
+          headers,
+        }
+      ),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: true,
@@ -45,15 +52,13 @@ const Product = () => {
     }
   );
   return (
-    <div className="p-3">
+    <div className="p-3 bg-white">
+      <BreedCrumb />
       <div className="flex items-center justify-between pb-4">
         <h1 className="font-semibold text-dark-gray">
           {isAmh ? "ምርቶች " : "Products"}
         </h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className={buttonStyle}
-        >
+        <button onClick={() => setIsModalOpen(true)} className={buttonStyle}>
           {isAmh ? "ፕሮዳክት ጨምር" : "Add Product"}
         </button>
       </div>
@@ -61,11 +66,11 @@ const Product = () => {
       {branchProductData.isFetched && branchProductData.isSuccess ? (
         <div>
           {branchProductData?.data?.data?.data?.length > 0 ? (
-            <ProductTable 
-            products={products} 
-            setStateChange={setStateChange}
-            setEditProductId={setEditProductId}
-        setIsModalOpen={setIsModalOpen}
+            <ProductTable
+              products={products}
+              setStateChange={setStateChange}
+              setEditProductId={setEditProductId}
+              setIsModalOpen={setIsModalOpen}
             />
           ) : (
             <h1 className="text-blue-color text-xl capitalize font-semibold text-center">
@@ -77,13 +82,13 @@ const Product = () => {
         <div className="flex items-center justify-center">
           <ReactLoading
             type={"spinningBubbles"}
-            color={"#34d399"}
+            color={mainColor}
             height={"60px"}
             width={"60px"}
           />
         </div>
       )}
-        <AddProductModal
+      <AddProductModal
         setEditProductId={setEditProductId}
         setIsModalOpen={setIsModalOpen}
         editProductId={editProductId}
