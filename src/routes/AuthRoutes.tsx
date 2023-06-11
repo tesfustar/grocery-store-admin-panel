@@ -24,8 +24,8 @@ const Delivery = React.lazy(() => import("../pages/admin/delivery/Delivery"));
 const CustomerDetail = React.lazy(
   () => import("../pages/admin/users/CustomerDetail")
 );
-const Notification = React.lazy(
-  () => import("../pages/notifications/Notification")
+const AdminNotification = React.lazy(
+  () => import("../pages/admin/notifications/Notification")
 );
 const Banner = React.lazy(() => import("../pages/admin/banner/Banner"));
 const Branch = React.lazy(() => import("../pages/admin/branche/Branch"));
@@ -35,7 +35,6 @@ const BranchDetail = React.lazy(
 const Coupon = React.lazy(() => import("../pages/admin/coupons/Coupon"));
 const AddCoupon = React.lazy(() => import("../pages/admin/coupons/AddCoupon"));
 const Order = React.lazy(() => import("../pages/admin/order/Order"));
-const DeliveredOrder = React.lazy(() => import("../pages/admin/order/DeliveredOrder"));
 
 const OrderDetails = React.lazy(
   () => import("../pages/admin/order/OrderDetails")
@@ -59,8 +58,14 @@ const Store_Product = React.lazy(
 const Product_Request = React.lazy(
   () => import("../pages/manager/productRequest/ProductRequest")
 );
+const BranchNotification = React.lazy(
+  () => import("../pages/manager/notifications/Notification")
+);
+const BranchOrder = React.lazy(() => import("../pages/manager/order/Order"));
 
-
+const BranchOrderDetails = React.lazy(
+  () => import("../pages/manager/order/OrderDetails")
+);
 const AuthRoutes = () => {
   const { sideBar, role, user } = useAuth();
   const {
@@ -152,14 +157,13 @@ const AuthRoutes = () => {
                 <Route path="/customers/:id" element={<CustomerDetail />} />
                 <Route path="/deliveries" element={<Delivery />} />
                 <Route path="/products/add-product" element={<AddProduct />} />
-                <Route path="/add-product/:id" element={<AddProduct />} />
+                <Route path="/products/edit-product/:id" element={<AddProduct />} />
                 <Route path="/banners" element={<Banner />} />
                 <Route path="/coupons" element={<Coupon />} />
                 <Route path="/coupons/add" element={<AddCoupon />} />
                 <Route path="/branches" element={<Branch />} />
-                <Route path="/notifications" element={<Notification />} />
+                <Route path="/notifications" element={<AdminNotification />} />
                 <Route path="/orders" element={<Order />} />
-                <Route path="/delivered-orders" element={<DeliveredOrder />} />
                 <Route path="/product/request" element={<ProductRequest />} />
                 {/* //detail routes */}
                 <Route path="/orders/detail/:id" element={<OrderDetails />} />
@@ -172,6 +176,9 @@ const AuthRoutes = () => {
                 <Route path="/dashboard" element={<Store_Dashboard />} />
                 <Route path="/products" element={<Store_Product />} />
                 <Route path="/product/request" element={<Product_Request />} />
+                <Route path="/orders" element={<BranchOrder />} />
+                <Route path="/orders/detail/:id" element={<BranchOrderDetails />} />
+                <Route path="/notifications" element={<BranchNotification />} />
               </Routes>
             ) : (
               <h1>You have No Role to use this system !</h1>

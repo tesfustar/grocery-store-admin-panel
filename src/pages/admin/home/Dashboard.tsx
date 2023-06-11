@@ -50,7 +50,6 @@ const Dashboard = () => {
       },
     }
   );
-  console.log(dashboardCounts);
   return (
     <div>
       <BreedCrumb />

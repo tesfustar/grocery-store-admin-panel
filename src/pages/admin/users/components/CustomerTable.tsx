@@ -73,15 +73,6 @@ const CustomerTable = ({ customers, setStateChange }: Props) => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "address",
-      headerName: "address",
-      sortable: false,
-      filterable: false,
-      width: 170,
-      headerClassName: "super-app-theme--header",
-    },
-
-    {
       field: "action",
       headerName: "action",
       sortable: false,

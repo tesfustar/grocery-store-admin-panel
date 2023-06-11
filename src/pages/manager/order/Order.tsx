@@ -13,7 +13,7 @@ import { OrderStatus } from "../../../types/Order";
 
 const Order = () => {
   const { isAmh } = useHome();
-  const { token } = useAuth();
+  const { user,token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -25,14 +25,14 @@ const Order = () => {
   };
   //fetch orders
   const ordersData = useQuery(
-    ["totalOrdersData", stateChange, status],
+    ["totalBranchOrdersData", stateChange, status],
     async () =>
       await axios.get(
         status
           ? `${
               import.meta.env.VITE_REACT_APP_BACKEND_URL
             }order/admin?status=${status}`
-          : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/admin`,
+          : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/branch/${user.branch}`,
         {
           headers,
         }

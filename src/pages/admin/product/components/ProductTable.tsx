@@ -17,6 +17,7 @@ import ConfirmModal from "../../../../utils/ConfirmModal";
 import { Switch } from "@headlessui/react";
 import { buttonStyle } from "../../../../styles/Style";
 import { useAuth } from "../../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 interface Props {
   products: Array<object>;
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +32,7 @@ enum StockType {
 }
 const ProductTable = ({ products, setStateChange }: Props) => {
   const { token } = useAuth();
+  const navigate = useNavigate();
   const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [actionType, setActionType] = useState<ActionType | null>(null);
@@ -123,7 +125,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
             </button>
             <button
               disabled={productDeleteMutation.isLoading}
-              onClick={() => {}}
+              onClick={() => navigate(`/products/edit-product/${params.row._id}`)}
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >

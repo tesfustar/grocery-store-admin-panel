@@ -27,7 +27,7 @@ const OrderDetails = () => {
     [`totalOrdersData${id}`, stateChange, id],
     async () =>
       await axios.get(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/admin/detail/${id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}order/branch/detail/${id}`,
         {
           headers,
         }

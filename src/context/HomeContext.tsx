@@ -18,6 +18,8 @@ export default function HomeProvider({
 }: {
   children: React.ReactNode;
 }) {
+  //for notification
+  const [notificationStatus, setNotificationStatus] = useState<boolean>(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(true);
   const [activeMenu, setActiveMenu] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -66,6 +68,7 @@ export default function HomeProvider({
         setIsAmh,
         confirmModalOpen,
         setConfirmModalOpen,
+        notificationStatus, setNotificationStatus
       }}
     >
       {children}

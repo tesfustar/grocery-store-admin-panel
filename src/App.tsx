@@ -8,7 +8,7 @@ import { mainColor } from "./styles/Style";
 const App = () => {
   const { user, role, token, checked } = useAuth();
 
-  function DetermineRoute() {
+  function DetermineRoute() {    
     if (user && token && role) {
       return <AuthRoutes />;
     } else {
