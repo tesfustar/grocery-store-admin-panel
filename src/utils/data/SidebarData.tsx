@@ -72,12 +72,6 @@ export const AdminSideBar = [
         icon: <BsDot size={18} className=" text-[#bdcadf]" />,
       },
       {
-        name: "top-deals",
-        nameAm: "ከፍተኛ ቅናሾች",
-        link: "top-deals",
-        icon: <BsDot size={18} className=" text-[#bdcadf]" />,
-      },
-      {
         name: "categories",
         nameAm: "ምድቦች",
         link: "categories",

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
   DataGrid,
   GridColDef,
@@ -13,6 +13,9 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { buttonStyle } from "../../../../styles/Style";
+import ConfirmModal from "../../../../utils/ConfirmModal";
+import { useHome } from "../../../../context/HomeContext";
 
 interface Props {
   categories: Array<object>;
@@ -26,6 +29,8 @@ const CategoryTable = ({
   setEditCategoryId,
   setIsModalOpen,
 }: Props) => {
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 110 },
     {
@@ -72,7 +77,7 @@ const CategoryTable = ({
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => {setSelectedId(params.row._id);setConfirmModalOpen(true)}}
             >
               Delete
             </button>
@@ -111,13 +116,7 @@ const CategoryTable = ({
     );
   }
 
-  //delete confirmation
-  const handleDelete = (id: string) => {
-    if (window.confirm("are you sure")) {
-      deleteCategoryMutationHandler(id);
-    }
-    return;
-  };
+
   const categoryDeleteMutation = useMutation(
     async (id) =>
       await axios.delete(
@@ -134,8 +133,22 @@ const CategoryTable = ({
       categoryDeleteMutation.mutate(id, {
         onSuccess: (responseData) => {
           setStateChange((prev) => !prev);
+          setMessageType({
+            message: "Category Deleted Successfully!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+ 
         },
-        onError: (err) => {},
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
       });
     } catch (err) {
       console.log(err);
@@ -156,6 +169,34 @@ const CategoryTable = ({
         disableColumnMenu={true}
         disableColumnSelector
       />
+      {/* delete category confirmation */}
+      <ConfirmModal>
+        <div className="flex flex-col items-center space-y-2">
+          <p>{isAmh ? ""  : "are u sure you want to delete this category"}</p>
+          <div className="flex  items-center justify-center space-x-5">
+            <button
+              disabled={categoryDeleteMutation.isLoading
+              }
+              onClick={() => {deleteCategoryMutationHandler(selectedId)}}
+              // updateFeaturedMutationHandler
+              className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
+            >
+              {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+            </button>
+            <button
+              disabled={categoryDeleteMutation.isLoading
+              }
+              onClick={() => {
+                setConfirmModalOpen(false);
+                setSelectedId(null);
+              }}
+              className={"px-14 " + buttonStyle}
+            >
+              {isAmh ? "አይ" : "No"}
+            </button>
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

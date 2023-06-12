@@ -12,7 +12,7 @@ export interface IBranchAdmin {
 
 export interface IBranch{
   name:string;
-  location:number[];
+  address:string;
   lat:number | undefined;
   lng:number | undefined
 }

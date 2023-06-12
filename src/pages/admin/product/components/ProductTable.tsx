@@ -25,10 +25,15 @@ interface Props {
 enum ActionType {
   DeleteProduct = "DELETE_PRODUCT",
   CheckStock = "CHECK_STOCK",
+  Featured = "Featured",
 }
 enum StockType {
   InStock = "InStock",
   OutOfStock = "OutOfStock",
+}
+enum FeaturedType {
+  Featured = "Featured",
+  Normal = "Normal",
 }
 const ProductTable = ({ products, setStateChange }: Props) => {
   const { token } = useAuth();
@@ -37,11 +42,12 @@ const ProductTable = ({ products, setStateChange }: Props) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [actionType, setActionType] = useState<ActionType | null>(null);
   const [stockType, setStockType] = useState<StockType | null>(null);
+  const [featuredType, setFeaturedType] = useState<FeaturedType | null>(null);
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization: `Bearer ${token}`,
-  }
+  };
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -87,6 +93,17 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       },
     },
     {
+      field: "isTodaysPick",
+      headerName: "is Featured",
+      sortable: false,
+      filterable: false,
+      width: 130,
+      align:"center",
+      renderCell: (params: GridCellParams) => {
+        return <p className="bg-main-bg/30 text-main-color text-sm font-semibold p-1 rounded-md">{params.row.isTodaysPick && "Featured"}</p>;
+      },
+    },
+    {
       field: "image",
       headerName: "Image",
       sortable: false,
@@ -107,7 +124,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 250,
+      width: 370,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
@@ -125,14 +142,35 @@ const ProductTable = ({ products, setStateChange }: Props) => {
             </button>
             <button
               disabled={productDeleteMutation.isLoading}
-              onClick={() => navigate(`/products/edit-product/${params.row._id}`)}
+              onClick={() =>
+                navigate(`/products/edit-product/${params.row._id}`)
+              }
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
               Edit
             </button>
+
+            <button
+              disabled={productDeleteMutation.isLoading}
+              onClick={() => {
+                setFeaturedType(
+                  params.row.isTodaysPick
+                    ? FeaturedType.Normal
+                    : FeaturedType.Featured
+                );
+                setActionType(ActionType.Featured);
+                setConfirmModalOpen(true);
+                setSelectedId(params.row._id);
+              }}
+              className="bg-blue-bg rounded-sm hover:opacity-80
+                    text-center px-5 p-1 font-medium text-sm text-white"
+            >
+              {params.row.isTodaysPick ? "Remove" : "Featured"}
+            </button>
+
             <Switch
-              title={params.row.isOutOfStock ? "out of stock" :"in stock"}
+              title={params.row.isOutOfStock ? "out of stock" : "in stock"}
               checked={params.row.isOutOfStock}
               onChange={() => {
                 setActionType(ActionType.CheckStock);
@@ -210,6 +248,23 @@ const ProductTable = ({ products, setStateChange }: Props) => {
     }
   );
 
+  const updateFeaturedTypeMutation = useMutation(
+    async (id) =>
+      await axios.put(
+        featuredType === FeaturedType.Featured
+          ? `${
+              import.meta.env.VITE_REACT_APP_BACKEND_URL
+            }product/featured/${id}`
+          : `${
+              import.meta.env.VITE_REACT_APP_BACKEND_URL
+            }product/featured-remove/${id}`,
+        {}, // pass an empty object as the request body
+        { headers }
+      ),
+    {
+      retry: false,
+    }
+  );
   const deleteProductMutationHandler = async (id: any) => {
     try {
       productDeleteMutation.mutate(id, {
@@ -273,6 +328,40 @@ const ProductTable = ({ products, setStateChange }: Props) => {
       console.log(err);
     }
   };
+  //update featured type
+  const updateFeaturedMutationHandler = async (id: any) => {
+    try {
+      updateFeaturedTypeMutation.mutate(id, {
+        onSuccess: (responseData) => {
+          setStateChange((prev) => !prev);
+          setMessageType({
+            message:
+              featuredType === FeaturedType.Featured
+                ? "Product Featured successfully!"
+                : "Product removed From Featured List!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+          setActionType(null);
+          setStockType(null);
+          setFeaturedType(null);
+        },
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+          setActionType(null);
+          setStockType(null);
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   function StockConfirmationMessage() {
     return (
       <div>
@@ -305,6 +394,33 @@ const ProductTable = ({ products, setStateChange }: Props) => {
                 ? "ይህንን ካረጋገጡ ደንበኞች ሊያዩት አይችሉም። እና ይህን ምርት ማዘዝ አይችሉም !"
                 : "If you check this, customers won't be able to see it. And they can not order this product!"}
             </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  //product featured message
+  function FeaturedConfirmationMessage() {
+    return (
+      <div>
+        {featuredType === FeaturedType.Featured ? (
+          <div>
+            {" "}
+            <h1 className="font-medium text-dark-color capitalize text-center text-lg">
+              {isAmh
+                ? "ይህ ምርት በአሁኑ ጊዜ ሊገኝ የሚችል መሆኑን እርግጠኛ ነዎት?"
+                : "You are sure you want to make this product featured ?"}
+            </h1>
+          </div>
+        ) : (
+          <div>
+            {" "}
+            <h1 className="font-medium text-dark-color capitalize text-center ">
+              {isAmh
+                ? "ይህ ምርት በአሁኑ ጊዜ እንደማይገኝ እርግጠኛ ነዎት ? "
+                : "You are sure you want to remove this product from featured lists ? "}
+            </h1>
           </div>
         )}
       </div>
@@ -343,6 +459,8 @@ const ProductTable = ({ products, setStateChange }: Props) => {
         <div className="flex flex-col items-center space-y-2">
           {actionType === ActionType.DeleteProduct ? (
             <ProductDeleteMessage />
+          ) : actionType === ActionType.Featured ? (
+            <FeaturedConfirmationMessage />
           ) : (
             <StockConfirmationMessage />
           )}
@@ -355,8 +473,11 @@ const ProductTable = ({ products, setStateChange }: Props) => {
               onClick={() => {
                 actionType === ActionType.DeleteProduct
                   ? deleteProductMutationHandler(selectedId)
+                  : actionType === ActionType.Featured
+                  ? updateFeaturedMutationHandler(selectedId)
                   : updateStockMutationHandler(selectedId);
               }}
+              // updateFeaturedMutationHandler
               className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
             >
               {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
@@ -371,6 +492,7 @@ const ProductTable = ({ products, setStateChange }: Props) => {
                 setSelectedId(null);
                 setActionType(null);
                 setStockType(null);
+                setFeaturedType(null);
               }}
               className={"px-14 " + buttonStyle}
             >

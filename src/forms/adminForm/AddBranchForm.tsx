@@ -31,7 +31,7 @@ const AddBranchForm: React.FC<Props> = ({ setIsModalOpen, setStateChange }) => {
   //validation for the add branch form
   const branchValidationSchema = Yup.object().shape({
     name: Yup.string().required("name is required"),
-    location: Yup.array().required("location is required"),
+    address: Yup.string().required("address is required"),
     lat: Yup.number()
       .min(-90, "Latitude must be greater than or equal to -90")
       .max(90, "Latitude must be less than or equal to 90")
@@ -44,16 +44,53 @@ const AddBranchForm: React.FC<Props> = ({ setIsModalOpen, setStateChange }) => {
 
   const initialValues: IBranch = {
     name: "",
-    location: [],
+    address: "",
     lat: undefined,
     lng: undefined,
   };
 
-  function MapView(){
-    return(
-        <FaMapMarkerAlt size={30} className="text-main-color" />
-    )
+  function MapView() {
+    return <FaMapMarkerAlt size={30} className="text-main-color" />;
   }
+
+  const createBranchMutation = useMutation(
+    async (newData: any) =>
+      await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}branch/create`,
+        newData,
+        {
+          headers,
+        }
+      ),
+    {
+      retry: false,
+    }
+  );
+
+  //create category mutation post request
+  const createBranchMutationHandler = async (values: any) => {
+    try {
+      createBranchMutation.mutate(
+        {
+          name: values.name,
+          address: values.address,
+          location: {
+            type: "Point",
+            coordinates: [values.lat, values.lng],
+          },
+        },
+        {
+          onSuccess: (responseData) => {
+            setIsModalOpen(false);
+            setStateChange((prev) => !prev);
+          },
+          onError: (err) => {},
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex flex-col items-center space-y-2">
       <h1 className="font-semibold text-xl text-dark-gray">
@@ -63,7 +100,7 @@ const AddBranchForm: React.FC<Props> = ({ setIsModalOpen, setStateChange }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={branchValidationSchema}
-        onSubmit={(val) => console.log(val)}
+        onSubmit={createBranchMutationHandler}
       >
         {({
           values,
@@ -89,6 +126,22 @@ const AddBranchForm: React.FC<Props> = ({ setIsModalOpen, setStateChange }) => {
                 <p className="text-[13px] text-red-500">{errors.name}</p>
               ) : null}
             </div>
+            {/* address */}
+            <div className="w-full">
+              <Field
+                as="input"
+                name="address"
+                placeholder="address"
+                className={`rounded-sm w-full  focus:outline-none  p-2 text-dark-gray  ${
+                  errors.address && touched.address
+                    ? "border border-red-600"
+                    : "border border-gray-300  "
+                }`}
+              />
+              {errors.address && touched.address ? (
+                <p className="text-[13px] text-red-500">{errors.address}</p>
+              ) : null}
+            </div>
             {/* location */}
             <div className="h-72  w-full rounded-lg">
               <GoogleMapReact
@@ -105,34 +158,23 @@ const AddBranchForm: React.FC<Props> = ({ setIsModalOpen, setStateChange }) => {
                 margin={[50, 50, 50, 50]}
               >
                 {values.lat && values.lng && (
-                //   <div lat={values.lat} lng={values.lng}>
-                //     <FaMapMarkerAlt size={30} className="text-main-color" />
-                //   </div>
-                <MapView />
+                  //   <div lat={values.lat} lng={values.lng}>
+                  //     <FaMapMarkerAlt size={30} className="text-main-color" />
+                  //   </div>
+                  <MapView />
                 )}
               </GoogleMapReact>
             </div>
-              {errors.lat && touched.lat ? (
-                <p className="text-[13px] text-red-500">{errors.lat}</p>
-              ) : null}
+            {errors.lat && touched.lat ? (
+              <p className="text-[13px] text-red-500">{errors.lat}</p>
+            ) : null}
             <button
-              // disabled={
-              //   isUploading ||
-              //   createCategoryMutation.isLoading ||
-              //   editCategoryMutation.isLoading
-              // }
+              disabled={createBranchMutation.isLoading}
               type="submit"
               className="w-full bg-main-bg rounded-sm hover:bg-main-bg/70 flex items-center justify-center 
           text-white font-medium p-3 px-5"
             >
-              {/* {isUploading ||
-          createCategoryMutation.isLoading ||
-          editCategoryMutation.isLoading
-            ? "Loading..."
-            : editCategoryId
-            ? "Edit"
-            : "Create"} */}
-              Create
+              {createBranchMutation.isLoading ? "Loading..." : "Create"}
             </button>
           </Form>
         )}

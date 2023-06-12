@@ -17,6 +17,7 @@ import { RiAdminFill, RiStoreFill } from "react-icons/ri";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import Chart from "./components/Chart";
 import { mainColor } from "../../../styles/Style";
+import TopSellProducts from "./components/TopSellProducts";
 
 const Dashboard = () => {
   const { isAmh } = useHome();
@@ -172,11 +173,22 @@ const Dashboard = () => {
           />
         </div>
       )}
-      <div className="bg-white flex flex-col items-start space-y-2 w-full p-2 mt-3">
-        <h1 className="text-blue-color font-medium capitalize ">
-          {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
-        </h1>
-        <Chart />
+      <div className="bg-white  w-full p-2 mt-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full items-start">
+          <div className="flex flex-col items-start space-y-2">
+            <h1 className="text-blue-color font-medium capitalize ">
+              {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
+            </h1>
+            <Chart />
+          </div>
+          <div className="flex flex-col items-start space-y-2">
+            <h1 className="text-blue-color font-medium capitalize ">
+              {isAmh ? "የሽያጭ ትንተና" : "Top Sell Products"}
+            </h1>
+
+            <TopSellProducts />
+          </div>
+        </div>
       </div>
     </div>
   );
