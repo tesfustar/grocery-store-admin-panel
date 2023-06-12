@@ -8,9 +8,11 @@ import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import ProductRequestTable from "./components/ProductRequestTable";
 import { IProductRequest } from "../../../types/Request";
+import { useNavigate } from "react-router-dom";
 
 const ProductRequest = () => {
   const { user, token } = useAuth();
+  const navigate = useNavigate()
   const { isAmh } = useHome();
   const [stateChange, setStateChange] = useState<boolean>(false);
   const [requests, setRequests] = useState<Array<IProductRequest>>([]);
@@ -54,6 +56,9 @@ const ProductRequest = () => {
         <h1 className="font-semibold text-blue-color">
           {isAmh ? "የምርት ጥያቄዎች" : "Product Requests"}
         </h1>
+        <button onClick={() => navigate('/product/request/new')} className={buttonStyle}>
+          {isAmh ? "ፕሮዳክት ጨምር" : "Send New Request"}
+        </button>
       </div>
 
       {requestData.isFetched && requestData.isSuccess ? (

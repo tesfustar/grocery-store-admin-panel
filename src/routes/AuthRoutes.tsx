@@ -58,6 +58,10 @@ const Store_Product = React.lazy(
 const Product_Request = React.lazy(
   () => import("../pages/manager/productRequest/ProductRequest")
 );
+const NewRequest = React.lazy(
+  () => import("../pages/manager/productRequest/NewRequest")
+);
+
 const BranchNotification = React.lazy(
   () => import("../pages/manager/notifications/Notification")
 );
@@ -176,6 +180,7 @@ const AuthRoutes = () => {
                 <Route path="/dashboard" element={<Store_Dashboard />} />
                 <Route path="/products" element={<Store_Product />} />
                 <Route path="/product/request" element={<Product_Request />} />
+                <Route path="/product/request/new" element={<NewRequest />} />
                 <Route path="/orders" element={<BranchOrder />} />
                 <Route path="/orders/detail/:id" element={<BranchOrderDetails />} />
                 <Route path="/notifications" element={<BranchNotification />} />
