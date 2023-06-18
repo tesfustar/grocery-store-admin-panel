@@ -18,15 +18,17 @@ import { useHome } from "../../../../context/HomeContext";
 import ConfirmModal from "../../../../utils/ConfirmModal";
 import { buttonStyle } from "../../../../styles/Style";
 import { useAuth } from "../../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 interface Props {
   deliveries: IUser[];
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
-enum ActionType{
-  ACTIVATE="ACTIVATE",
-  DEACTIVATE="DEACTIVATE"
+enum ActionType {
+  ACTIVATE = "ACTIVATE",
+  DEACTIVATE = "DEACTIVATE",
 }
 const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
+  const navigate = useNavigate();
   const { token } = useAuth();
   const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -134,7 +136,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
               </button>
             )}
             <button
-              // onClick={() => navigate(`/branch-admin/${params.row._id}`)}
+              onClick={() => navigate(`/deliveries/detail/${params.row._id}`)}
               className="bg-red-bg rounded-sm hover:opacity-80
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
@@ -171,7 +173,7 @@ const DeliveryTable = ({ deliveries, setStateChange }: Props) => {
         accountType !== "ACTIVATE"
           ? `${import.meta.env.VITE_REACT_APP_BACKEND_URL}user/deactivate/${id}`
           : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}user/activate/${id}`,
-          {},
+        {},
         { headers }
       ),
     {

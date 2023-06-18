@@ -17,7 +17,7 @@ const Notification = () => {
     Authorization: `Bearer ${token}`,
   };
   const allNotifications = useQuery(
-    ["allNotificationDataApi"],
+    ["allNotificationDataApi",notificationStatus],
     async () =>
       await axios.get(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}notification/admin`,
@@ -26,7 +26,7 @@ const Notification = () => {
         }
       ),
     {
-      keepPreviousData: false,
+      keepPreviousData: true,
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!token,

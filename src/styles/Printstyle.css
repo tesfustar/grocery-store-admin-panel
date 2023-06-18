@@ -1,0 +1,10 @@
+.additional-content-hide {
+    display: none;
+  }
+  
+  @media print {
+    .additional-content-print {
+      display: block;
+    }
+  }
+  

@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useRef } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -9,14 +9,24 @@ import { useHome } from "../../../context/HomeContext";
 import BreedCrumb from "../../../utils/BreedCrumb";
 import Select from "react-select";
 import { OrderStatus } from "../../../types/Order";
+import { BsPrinter } from "react-icons/bs";
+import { useReactToPrint } from "react-to-print";
+import "../../../styles/Printstyle.css";
+import Logo from "../../../assets/Logo.png";
 const OrderDetails = () => {
   const { id } = useParams();
   const { isAmh, setMessageType } = useHome();
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stateChange, setStateChange] = useState<boolean>(false);
+  const [isPrinting, setIsPrinting] = useState<boolean>(false);
   const [isAssigning, setIsAssigning] = useState<boolean>(false);
   const [selectedDriver, setSelectedDriver] = useState<string | null>(null);
+  //print
+  const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -100,7 +110,7 @@ const OrderDetails = () => {
       console.log(err);
     }
   };
-  console.log(orderDetailData?.data?.data?.data?.status);
+  console.log(orderDetailData?.data?.data?.data);
   function ProductDetail() {
     return (
       <div className=" w-full flex flex-col space-y-2 flex-shrink-0 overflow-x-scroll scrollbar-hide">
@@ -164,35 +174,45 @@ const OrderDetails = () => {
         <div className="w-full grid grid-cols-1  divide-y divide-blue-color/20 items-center justify-center">
           <div className="flex items-center justify-between p-3">
             <h3 className="font-semibold text-sm text-blue-color">
-              Sub Total:{" "}
+              Shipping Type:{" "}
             </h3>
-            <p className="font-medium text-sm text-blue-color">$47.500</p>
-          </div>
-          <div className="flex items-center justify-between p-3">
-            <h3 className="font-semibold text-sm text-blue-color">Tax : </h3>
-            <p className="font-medium text-sm text-blue-color">$47.500</p>
+            <p className="font-medium text-sm text-blue-color">
+              {orderDetailData?.data?.data?.data?.shippingType}
+            </p>
           </div>
           <div className="flex items-center justify-between p-3">
             <h3 className="font-semibold text-sm text-blue-color">
-              Shipping :{" "}
+              payment Method{" "}
             </h3>
-            <p className="font-medium text-sm text-blue-color">$47.500</p>
+            <p className="font-medium text-sm text-blue-color">
+              {orderDetailData?.data?.data?.data?.paymentMethod}
+            </p>
           </div>
           <div className="flex items-center justify-between p-3">
             <h3 className="font-semibold text-sm text-blue-color">Status : </h3>
-            <p className="font-medium text-sm text-main-color">{orderDetailData?.data?.data?.data?.status}</p>
+            <p className="font-medium text-sm text-main-color">
+              {orderDetailData?.data?.data?.data?.status}
+            </p>
           </div>
           <div className="flex items-center justify-between p-3">
             <h3 className="font-semibold text-sm text-blue-color">
               Total price :{" "}
             </h3>
-            <p className="font-bold text-lg text-blue-color">$47.500</p>
+            <p className="font-bold text-lg text-blue-color">
+              ETB {orderDetailData?.data?.data?.data?.totalPrice}
+            </p>
           </div>
         </div>
       </div>
     );
   }
-  console.log(deliveriesData?.data?.data?.data);
+
+  const printStyles = {
+    "@media print": {
+      padding: "20mm" /* Adjust the padding value as per your requirements */,
+    },
+  } as React.CSSProperties;
+
   return (
     <div className="bg-white">
       <BreedCrumb />
@@ -251,9 +271,75 @@ const OrderDetails = () => {
               )}
             </div>
           )}
-          <div className="grid grid-cols-1  lg:grid-cols-12 gap-3"></div>
-          <ProductDetail />
-          <TotalPrice />
+          <div ref={componentRef}>
+            {/* header to be printed */}
+            <div className="additional-content-hide  p-3  bg-gray-400/20">
+              <div className="flex  items-center justify-between w-full pb-3">
+                <img src={Logo} alt="" className="h-16" />
+                <h3 className="font-bold  text-blue-colo text-5xl">INVOICE</h3>
+              </div>
+              <div className="flex  items-center justify-between  w-full">
+                <div className="flex flex-col items-start space-y-2">
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    Phone : Main Office number
+                  </h3>
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    email : Main Office email
+                  </h3>
+                </div>
+                <div className="flex flex-col items-start space-y-2">
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    order Id : #{id}
+                  </h3>
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    deliveryTime :{" "}
+                    {orderDetailData?.data?.data?.data?.deliveryTime}
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col p-3" style={printStyles}>
+              {/* header */}
+              {/* info */}
+              <div className="flex flex-col items-start space-y-2 py-10">
+                <div className="flex items-center  space-x-2">
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    Phone
+                  </h3>
+                  <p className="font-medium text-sm text-blue-color">
+                    {orderDetailData?.data?.data?.data?.phoneNo}
+                  </p>
+                </div>
+                <div className="flex items-center  space-x-5 ">
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    Address
+                  </h3>
+                  <p className="font-medium text-sm text-blue-color">
+                    {orderDetailData?.data?.data?.data?.address?.address}
+                  </p>
+                </div>
+                <div className="flex items-center  space-x-5 ">
+                  <h3 className="font-semibold text-sm text-blue-color">
+                    deliveryTime
+                  </h3>
+                  <p className="font-medium text-sm text-blue-color">
+                    {orderDetailData?.data?.data?.data?.deliveryTime}
+                  </p>
+                </div>
+              </div>
+              <ProductDetail />
+              <TotalPrice />
+            </div>
+          </div>
+          <div
+            className="flex items-end justify-end p-5 md:p-10"
+            onClick={handlePrint}
+          >
+            <BsPrinter
+              size={40}
+              className="bg-main-bg/40 p-2 rounded-md cursor-pointer"
+            />
+          </div>
         </div>
       ) : (
         <div className="flex items-center justify-center">

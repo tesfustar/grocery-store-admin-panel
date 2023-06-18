@@ -21,6 +21,8 @@ const BranchAdmin = React.lazy(
   () => import("../pages/admin/users/BranchAdmin")
 );
 const Delivery = React.lazy(() => import("../pages/admin/delivery/Delivery"));
+const DeliveryDetail = React.lazy(() => import("../pages/admin/delivery/DeliveryDetail"));
+
 const CustomerDetail = React.lazy(
   () => import("../pages/admin/users/CustomerDetail")
 );
@@ -160,6 +162,7 @@ const AuthRoutes = () => {
                 <Route path="/branch-admin" element={<BranchAdmin />} />
                 <Route path="/customers/:id" element={<CustomerDetail />} />
                 <Route path="/deliveries" element={<Delivery />} />
+                <Route path="/deliveries/detail/:id" element={<DeliveryDetail />} />
                 <Route path="/products/add-product" element={<AddProduct />} />
                 <Route path="/products/edit-product/:id" element={<AddProduct />} />
                 <Route path="/banners" element={<Banner />} />

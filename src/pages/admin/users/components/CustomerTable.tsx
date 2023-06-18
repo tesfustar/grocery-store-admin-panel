@@ -72,26 +72,26 @@ const CustomerTable = ({ customers, setStateChange }: Props) => {
       width: 170,
       headerClassName: "super-app-theme--header",
     },
-    {
-      field: "action",
-      headerName: "action",
-      sortable: false,
-      filterable: false,
-      width: 130,
-      renderCell: (params: GridCellParams) => {
-        return (
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => navigate(`/customers/${params.row._id}`)}
-              className="bg-blue-bg rounded-sm hover:opacity-80
-                    text-center px-10 p-1 font-medium text-sm text-white"
-            >
-              Details
-            </button>
-          </div>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "action",
+    //   sortable: false,
+    //   filterable: false,
+    //   width: 130,
+    //   renderCell: (params: GridCellParams) => {
+    //     return (
+    //       <div className="flex items-center space-x-3">
+    //         <button
+    //           onClick={() => navigate(`/customers/${params.row._id}`)}
+    //           className="bg-blue-bg rounded-sm hover:opacity-80
+    //                 text-center px-10 p-1 font-medium text-sm text-white"
+    //         >
+    //           Details
+    //         </button>
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   function CustomPagination() {

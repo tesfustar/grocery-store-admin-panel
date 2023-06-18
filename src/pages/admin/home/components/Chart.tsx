@@ -40,7 +40,7 @@ const Chart = () => {
         console.log(res.data.data);
         const updatedStatus = res.data.data.map((item: any) => ({
           name: MONTHS[item._id - 1],
-          "Total Order": item.total,
+          "TotalOrder": item.total,
         }));
         SetStatus(updatedStatus);
       },
@@ -66,14 +66,21 @@ const Chart = () => {
     ],
     []
   );
+  console.log({status})
+  const test=[
+    {name: 'May', TotalOrder: 3},
+    {name: 'Sep', TotalOrder: 3},
+    {name: 'Sep', TotalOrder: 3},
+    {name: 'Dec', TotalOrder: 3}
+  ]
   return (
     <div className="w-full ">
-      {orderStatData.isFetched && orderStatData.isSuccess ? (
+      {orderStatData.isFetched && orderStatData.isSuccess && status.length > 0 ? (
         <ResponsiveContainer width="100%" height={"100%"}>
           <AreaChart
             width={730}
             height={250}
-            data={status}
+            data={test}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -90,7 +97,7 @@ const Chart = () => {
             <Tooltip />
             <Area
               type="monotone"
-              dataKey="Total Order"
+              dataKey="TotalOrder"
               stroke="#8884d8"
               fillOpacity={1}
               fill="url(#total)"

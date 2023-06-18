@@ -7,8 +7,18 @@ import { IoMdNotifications } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { BsFillPatchCheckFill } from "react-icons/bs";
+import { MdNotifications } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
-  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+  const { logout, user, token } = useAuth();
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const {
     setIsSideBarOpen,
     setActiveMenu,
@@ -18,6 +28,7 @@ const Navbar = () => {
     isSmallScreen,
     isAmh,
     setIsAmh,
+    notificationStatus
   } = useHome();
   const handleNav = () => {
     setIsOpen(!isOpen);
@@ -26,6 +37,25 @@ const Navbar = () => {
     setActiveMenu((prevActiveMenu: boolean) => !prevActiveMenu);
   };
 
+  // notification data
+  const adminNotifications = useQuery(
+    ["notificationDataApi",notificationStatus],
+    async () =>
+      await axios.get(
+        user.role === "ADMIN" ? 
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}notification/admin` :
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}notification/branch/${user.branch}`,
+        {
+          headers,
+        }
+      ),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!token,
+    }
+  );
   function DropDown() {
     return (
       <div className=" flex items-end justify-end z-40">
@@ -131,7 +161,25 @@ const Navbar = () => {
           />
         )}
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 pr-5">
+        <div
+          className="relative cursor-pointer "
+          onClick={() => navigate("/notifications")}
+        >
+          <MdNotifications
+            size={25}
+            className="text-dark-gray dark:text-white"
+          />
+          {adminNotifications?.data?.data?.count > 0 && (
+            <span
+              className="absolute -top-2 -right-1 text-[13px] font-medium border-2 border-[#edf2f6] dark:border-[#111114]
+             text-white w-[20px] h-[20px] rounded-full bg-red-500 
+             flex items-center justify-center text-center"
+            >
+              {adminNotifications?.data?.data?.count}
+            </span>
+          )}
+        </div>
         <DropDown />
       </div>
     </div>
