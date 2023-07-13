@@ -58,7 +58,7 @@ const Dashboard = () => {
       {dashboardData.isFetched && dashboardData.isSuccess ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* branch admins */}
-          <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
+          {/* <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
             <div className="bg-[#7c3aed]/30 p-3 rounded-full">
               <RiAdminFill size={20} className="text-[#7c3aed]" />
             </div>
@@ -71,7 +71,7 @@ const Dashboard = () => {
                 {dashboardCounts?.branchAdmins}
               </h4>
             </div>
-          </div>
+          </div> */}
           {/*  products*/}
           <div className="bg-white rounded-sm shadow-md flex items-center space-x-3 p-5 ">
             <div className="bg-[#457eac]/20 p-3 rounded-full">
@@ -113,12 +113,12 @@ const Dashboard = () => {
           />
         </div>
       )}
-      <div className="flex flex-col items-start space-y-2 w-full pt-4">
+      {/* <div className="flex flex-col items-start space-y-2 w-full pt-4">
         <h1 className="text-blue-color text-xl font-semibold capitalize dark:text-white ">
           {isAmh ? "የሽያጭ ትንተና" : "Sells analysis"}
         </h1>
         <p>ff</p>
-      </div>
+      </div> */}
     </div>
   );
 };

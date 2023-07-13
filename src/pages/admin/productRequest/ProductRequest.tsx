@@ -62,7 +62,7 @@ const ProductRequest = () => {
             <RequestTable requests={requests} setStateChange={setStateChange} />
           ) : (
             <h1 className="text-blue-color text-xl capitalize font-semibold">
-              {isAmh ? "" : "No Categories found !"}
+              {isAmh ? "" : "No Request found !"}
             </h1>
           )}
         </div>

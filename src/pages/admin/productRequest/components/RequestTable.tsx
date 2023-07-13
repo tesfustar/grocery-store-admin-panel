@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -17,6 +17,12 @@ import {
   IProductRequest,
   ProductRequestStatus,
 } from "../../../../types/Request";
+import { useAuth } from "../../../../context/AuthContext";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import ConfirmModal from "../../../../utils/ConfirmModal";
+import { buttonStyle } from "../../../../styles/Style";
+import { useHome } from "../../../../context/HomeContext";
 
 interface Props {
   requests: IProductRequest[];
@@ -24,6 +30,14 @@ interface Props {
 }
 const RequestTable = ({ requests, setStateChange }: Props) => {
   const navigate = useNavigate();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const { token } = useAuth();
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -42,7 +56,7 @@ const RequestTable = ({ requests, setStateChange }: Props) => {
       headerName: "product",
       sortable: false,
       filterable: false,
-      width: 200,
+      width: 120,
       headerClassName: "super-app-theme--header",
       renderCell: (params: GridCellParams) => {
         return (
@@ -99,7 +113,7 @@ const RequestTable = ({ requests, setStateChange }: Props) => {
       headerName: "action",
       sortable: false,
       filterable: false,
-      width: 200,
+      width: 250,
       renderCell: (params: GridCellParams) => {
         return (
           <div className="flex items-center space-x-3">
@@ -109,6 +123,16 @@ const RequestTable = ({ requests, setStateChange }: Props) => {
               onClick={() => navigate(`/request/detail/${params.row._id}`)}
             >
               Details
+            </button>
+            <button
+              className="bg-sky-500 rounded-sm hover:opacity-80
+                    text-center px-7 p-1 font-medium text-sm text-white"
+              onClick={() => {
+                setSelectedId(params.row._id);
+                setConfirmModalOpen(true);
+              }}
+            >
+              Approve
             </button>
           </div>
         );
@@ -135,6 +159,46 @@ const RequestTable = ({ requests, setStateChange }: Props) => {
     );
   }
 
+  //accept request
+  const requestMutation = useMutation(
+    async (id) =>
+      await axios.put(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_URL
+        }productRequest/accept/${id}`,
+        {},
+        { headers }
+      ),
+    {
+      retry: false,
+    }
+  );
+  const requestMutationHandler = async (id: any) => {
+    try {
+      requestMutation.mutate(id, {
+        onSuccess: (responseData) => {
+          setStateChange((prev) => !prev);
+          setMessageType({
+            message: "Account Activated Successfully!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div style={{ height: 530 }} className="w-full">
       <DataGrid
@@ -150,6 +214,40 @@ const RequestTable = ({ requests, setStateChange }: Props) => {
         disableColumnMenu={true}
         disableColumnSelector
       />
+      {/* confirmation modal */}
+      <ConfirmModal>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-col items-center justify-center pb-3">
+            <h1 className="font-medium text-dark-color capitalize text-center text-md">
+              {isAmh
+                ? "እርግጠኛ ነዎት ይህን መለያ ማግበር ይፈልጋሉ ?"
+                : "are u sure you want to accept this request ?"}
+            </h1>
+          </div>
+          <div
+            // onClick={() => deleteProductMutationHandler(selectedId)}
+            className="flex  items-center justify-center space-x-5"
+          >
+            <button
+              disabled={requestMutation.isLoading}
+              onClick={() => requestMutationHandler(selectedId)}
+              className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
+            >
+              {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+            </button>
+            <button
+              disabled={requestMutation.isLoading}
+              onClick={() => {
+                setConfirmModalOpen(false);
+                setSelectedId(null);
+              }}
+              className={"px-14 " + buttonStyle}
+            >
+              {isAmh ? "አይ" : "No"}
+            </button>
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

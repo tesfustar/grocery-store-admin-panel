@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -17,6 +17,12 @@ import {
   IProductRequest,
   ProductRequestStatus,
 } from "../../../../types/Request";
+import { useHome } from "../../../../context/HomeContext";
+import { useAuth } from "../../../../context/AuthContext";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import ConfirmModal from "../../../../utils/ConfirmModal";
+import { buttonStyle } from "../../../../styles/Style";
 
 interface Props {
   requests: IProductRequest[];
@@ -24,6 +30,14 @@ interface Props {
 }
 const ProductRequestTable = ({ requests, setStateChange }: Props) => {
   const navigate = useNavigate();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { isAmh, setConfirmModalOpen, setMessageType } = useHome();
+  const { token } = useAuth();
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const columns: GridColDef[] = [
     { field: "index", headerName: "ID", width: 70 },
     {
@@ -74,7 +88,7 @@ const ProductRequestTable = ({ requests, setStateChange }: Props) => {
             : params.row.status === ProductRequestStatus.ONGOING
             ? "bg-blue-bg/30 text-blue-color"
             : params.row.status === ProductRequestStatus.DELIVERED
-            ? "bg-red-bg text-red-color"
+            ? "bg-red-bg/30 text-red-color"
             : ""
         }`}
           >
@@ -95,9 +109,12 @@ const ProductRequestTable = ({ requests, setStateChange }: Props) => {
             <button
               className="bg-blue-bg rounded-sm hover:opacity-80
                     text-center px-7 p-1 font-medium text-sm text-white"
-              onClick={() => navigate(`/request/detail/${params.row._id}`)}
+              onClick={() => {
+                setSelectedId(params.row._id);
+                setConfirmModalOpen(true);
+              }}
             >
-              Details
+              Mark as delivered
             </button>
           </div>
         );
@@ -105,6 +122,45 @@ const ProductRequestTable = ({ requests, setStateChange }: Props) => {
     },
   ];
 
+  //mark as delivered request
+  const requestMutation = useMutation(
+    async (id) =>
+      await axios.put(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_URL
+        }productRequest/delivered/${id}`,
+        {},
+        { headers }
+      ),
+    {
+      retry: false,
+    }
+  );
+  const requestMutationHandler = async (id: any) => {
+    try {
+      requestMutation.mutate(id, {
+        onSuccess: (responseData) => {
+          setStateChange((prev) => !prev);
+          setMessageType({
+            message: "Status Updated Successfully!",
+            type: "SUCCESS",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
+        onError: (err: any) => {
+          setMessageType({
+            message: err?.response?.data?.message,
+            type: "ERROR",
+          });
+          setConfirmModalOpen(false);
+          setSelectedId(null);
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   function CustomPagination() {
     const apiRef = useGridApiContext();
     const page = useGridSelector(apiRef, gridPageSelector);
@@ -139,6 +195,40 @@ const ProductRequestTable = ({ requests, setStateChange }: Props) => {
         disableColumnMenu={true}
         disableColumnSelector
       />
+      {/* confirmation modal */}
+      <ConfirmModal>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex flex-col items-center justify-center pb-3">
+            <h1 className="font-medium text-dark-color capitalize text-center text-md">
+              {isAmh
+                ? "እርግጠኛ ነዎት ይህን መለያ ማግበር ይፈልጋሉ ?"
+                : "is this request is delivered ?"}
+            </h1>
+          </div>
+          <div
+            // onClick={() => deleteProductMutationHandler(selectedId)}
+            className="flex  items-center justify-center space-x-5"
+          >
+            <button
+              disabled={requestMutation.isLoading}
+              onClick={() => requestMutationHandler(selectedId)}
+              className={"hover:bg-red-bg/80 bg-red-bg px-14 " + buttonStyle}
+            >
+              {isAmh ? "እርግጠኛ ነኝ" : "Yes"}
+            </button>
+            <button
+              disabled={requestMutation.isLoading}
+              onClick={() => {
+                setConfirmModalOpen(false);
+                setSelectedId(null);
+              }}
+              className={"px-14 " + buttonStyle}
+            >
+              {isAmh ? "አይ" : "No"}
+            </button>
+          </div>
+        </div>
+      </ConfirmModal>
     </div>
   );
 };

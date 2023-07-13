@@ -137,7 +137,7 @@ const Notification = () => {
                                 markAsReadNotificationMutationHandler(item._id);
                               } else if (item.productRequest) {
                                 navigate(
-                                  `/request/detail/${item.productRequest}`
+                                  `/product/request`
                                 );
                                 markAsReadNotificationMutationHandler(item._id);
                               }
