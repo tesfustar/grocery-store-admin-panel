@@ -1,19 +1,32 @@
 import { useMemo, useState } from "react";
 import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
   Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  Filler,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
 import ReactLoading from "react-loading";
 import { mainColor } from "../../../../styles/Style";
-
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
 const Chart = () => {
   const [status, SetStatus] = useState([]);
   const { token } = useAuth();
@@ -40,7 +53,7 @@ const Chart = () => {
         console.log(res.data.data);
         const updatedStatus = res.data.data.map((item: any) => ({
           name: MONTHS[item._id - 1],
-          "TotalOrder": item.total,
+          TotalOrder: item.total,
         }));
         SetStatus(updatedStatus);
       },
@@ -66,44 +79,42 @@ const Chart = () => {
     ],
     []
   );
-  console.log({status})
-  const test=[
-    {name: 'May', TotalOrder: 3},
-    {name: 'Sep', TotalOrder: 3},
-    {name: 'Sep', TotalOrder: 3},
-    {name: 'Dec', TotalOrder: 3}
-  ]
+  console.log({ status });
+  const test = [
+    { name: "May", TotalOrder: 3 },
+    { name: "Sep", TotalOrder: 3 },
+    { name: "Sep", TotalOrder: 3 },
+    { name: "Dec", TotalOrder: 3 },
+  ];
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+
+    },
+  };
+
+  const data = {
+    labels: status.map((item: any) => item.name),
+    datasets: [
+      {
+        fill: true,
+        label: "orders",
+        data: status.map((item: any) => item.TotalOrder),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
   return (
-    <div className="w-full ">
-      {orderStatData.isFetched && orderStatData.isSuccess && status.length > 0 ? (
-        <ResponsiveContainer width="100%" height={"100%"}>
-          <AreaChart
-            width={730}
-            height={250}
-            data={test}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22a6df" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis dataKey="name" stroke="gray" />
-            <CartesianGrid
-              strokeDasharray="3 3"
-              className="border border-gray-300"
-            />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="TotalOrder"
-              stroke="#8884d8"
-              fillOpacity={1}
-              fill="url(#total)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+    <div className="h-96 w-full ">
+      {orderStatData.isFetched &&
+      orderStatData.isSuccess &&
+      status.length > 0 ? (
+        <Line options={options} data={data} />
       ) : (
         <div className="w-full bg-white p-5 flex items-center justify-center">
           <ReactLoading
