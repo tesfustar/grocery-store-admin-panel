@@ -27,7 +27,7 @@ interface Props {
   setStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
+const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId ,setStateChange}) => {
   const [products, setProducts] = useState<Array<any>>([]);
   const { token } = useAuth();
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -40,7 +40,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
   const bannerValidationSchema = Yup.object().shape({
     name: Yup.string().required("name is required"),
     description: Yup.string().required("name is required"),
-    products: Yup.array(),
+    products: Yup.array().optional(),
     image: Yup.mixed().nullable().required("image is required"),
   });
 
@@ -51,23 +51,82 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
     image: null,
   };
 
-  //fetch products
-  const productData = useQuery(
-    ["productsData"],
-    async () =>
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}product`, {
-        headers,
-      }),
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: true,
-      retry: false,
-      enabled: !!token,
-      onSuccess: (res: any) => {
-        setProducts(res?.data?.data);
+  //firebase image upload
+  const uploadImage = (values: any) => {
+    setIsUploading(true);
+    const fileName = new Date().getTime() + values.image.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, values.image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+        }
       },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setIsUploading(false);
+          createBannerMutationHandler({
+            values,
+            image: downloadURL,
+          });
+        });
+      }
+    );
+  };
+  const createBannerMutation = useMutation(
+    async ({ name, nameAm, image }: any) =>
+      await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}banner/create`,
+        { name, nameAm, image },
+        {
+          headers,
+        }
+      ),
+    {
+      retry: false,
     }
   );
+  //create banner mutation post request
+  const createBannerMutationHandler = async ({
+    values,
+    image,
+  }: {
+    values: any;
+    image: any;
+  }) => {
+    try {
+      createBannerMutation.mutate(
+        {
+          name: values.name,
+          image,
+        },
+        {
+          onSuccess: (responseData) => {
+            setIsModalOpen(false);
+            setStateChange((prev) => !prev);
+          },
+          onError: (err) => {},
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex flex-col items-center space-y-2">
       <h1 className="font-semibold text-xl text-dark-gray">
@@ -77,7 +136,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={bannerValidationSchema}
-        onSubmit={(val) => console.log(val)}
+        onSubmit={(val) => uploadImage(val)}
       >
         {({
           values,
@@ -86,7 +145,9 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
           setFieldValue,
           setTouched,
           handleChange,
-        }) => (
+        }) => {
+           console.log(errors)
+          return(
           <Form className="w-full flex flex-col items-center space-y-2">
             <div className="w-full">
               <Field
@@ -104,7 +165,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
               ) : null}
             </div>
             {/* products */}
-            <div className="w-full">
+            {/* <div className="w-full">
               <Select
                 isMulti={true}
                 isSearchable={false}
@@ -125,7 +186,7 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
               {errors.products && touched.products ? (
                 <p className="text-[13px] text-red-500">{errors.products}</p>
               ) : null}
-            </div>
+            </div> */}
             <div className="w-full">
               <Field
                 as="input"
@@ -164,26 +225,21 @@ const AddBannerForm: React.FC<Props> = ({ setIsModalOpen, editBannerId }) => {
               ) : null}
             </div>
             <button
-              // disabled={
-              //   isUploading ||
-              //   createCategoryMutation.isLoading ||
-              //   editCategoryMutation.isLoading
-              // }
+              disabled={
+                isUploading ||
+                createBannerMutation.isLoading 
+              }
               type="submit"
               className="w-full bg-main-bg rounded-sm hover:bg-main-bg/70 flex items-center justify-center 
             text-white font-medium p-3 px-5"
             >
-              {/* {isUploading ||
-            createCategoryMutation.isLoading ||
-            editCategoryMutation.isLoading
+              {isUploading ||
+            createBannerMutation.isLoading
               ? "Loading..."
-              : editCategoryId
-              ? "Edit"
-              : "Create"} */}
-              Create
+              : "Create"}
             </button>
           </Form>
-        )}
+        )}}
       </Formik>
     </div>
   );

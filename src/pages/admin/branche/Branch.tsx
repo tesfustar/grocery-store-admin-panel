@@ -73,7 +73,7 @@ const Branch = () => {
             />
           ) : (
             <h1 className="text-blue-color text-xl capitalize font-semibold">
-              {isAmh ? "" : "No Categories found !"}
+              {isAmh ? "" : "No Branches found !"}
             </h1>
           )}
         </div>

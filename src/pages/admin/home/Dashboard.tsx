@@ -30,7 +30,7 @@ const Dashboard = () => {
   };
   //fetch dashboard counts
   const dashboardData = useQuery(
-    ["dashboardData"],
+    ["dashboardDataApi"],
     async () =>
       await axios.get(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}admin/dashboard`,
@@ -128,7 +128,7 @@ const Dashboard = () => {
               </h1>
 
               <h4 className="text-xl text-blue-color font-semibold">
-                {dashboardCounts?.branches}
+                {dashboardCounts?.products}
               </h4>
             </div>
           </div>

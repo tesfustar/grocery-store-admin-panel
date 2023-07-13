@@ -51,16 +51,16 @@ const BannerTable = ({
         );
       },
     },
-    {
-      field: "products",
-      headerName: "products",
-      sortable: false,
-      filterable: false,
-      width: 150,
-      renderCell: (params: GridCellParams) => {
-        return <h1>{params.row.products?.length}</h1>;
-      },
-    },
+    // {
+    //   field: "products",
+    //   headerName: "products",
+    //   sortable: false,
+    //   filterable: false,
+    //   width: 150,
+    //   renderCell: (params: GridCellParams) => {
+    //     return <h1>{params.row.products?.length}</h1>;
+    //   },
+    // },
     {
       field: "action",
       headerName: "action",
@@ -77,7 +77,7 @@ const BannerTable = ({
             >
               Delete
             </button>
-            <button
+            {/* <button
               onClick={() => {
                 setEditBannerId(params.row._id);
                 setIsModalOpen(true);
@@ -86,7 +86,7 @@ const BannerTable = ({
                     text-center px-5 p-1 font-medium text-sm text-white"
             >
               Edit
-            </button>
+            </button> */}
           </div>
         );
       },
